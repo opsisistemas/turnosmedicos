@@ -10,7 +10,15 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::auth();
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('paises', 'PaisesController');
+Route::resource('provincias', 'ProvinciaController');
+Route::resource('localidades', 'LocalidadesController');
+
+//ajax
+Route::get('getProvincia', 'ProvinciaController@getProvincia');

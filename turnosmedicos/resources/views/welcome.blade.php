@@ -1,45 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.app')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
-
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
+@section('content')
+    <div class="panel panel-default"> 
+        <div class="panel-heading">
+            <img src="img\medicina.jpg" class="img-responsive center-block">
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h2>Contacto</h2>
+            </div>
+            <div class="panel-body">
+                <ul class="contact-details">
+                    <li><p><i class="fa fa-map-marker"></i> Calle 6 Esq. 529, La Plata, Buenos Aires</p></li>
+                    <li><p><i class="fa fa-phone"></i> (221) 421-0628</p></li>
+                    <li><p><i class="fa fa-envelope"></i> <a href=">openfg.soft@gmail.com">openfg.soft@gmail.com</a></p></li>
+                </ul>
             </div>
         </div>
-    </body>
-</html>
+    </footer>
+@endsection
