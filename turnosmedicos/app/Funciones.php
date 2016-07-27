@@ -26,4 +26,14 @@ class Funciones extends Model
 
         return $provincias_sel;
     }
+
+    public static function getObrasSocialesSel(){
+        $obras_sociales = DB::table('obras_sociales')->select('nombre', 'id')->orderBy('nombre')->get();                        
+        $obras_sociales_sel = array();
+        foreach($obras_sociales as $obra_social){
+            $obras_sociales_sel[$obra_social->id] = $obra_social->nombre;
+        }
+
+        return $obras_sociales_sel;
+    }
 }
