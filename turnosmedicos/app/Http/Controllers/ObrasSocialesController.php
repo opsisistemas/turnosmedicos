@@ -5,35 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pais;
-use App\Provincia;
-use App\Funciones;
+use App\ObraSocial;
 
 use Session;
 
-
-class ProvinciaController extends Controller
+class ObrasSocialesController extends Controller
 {
-    private function validarProvincia(Request $request){
+    private function validarObraSocial(Request $request){
         $this->validate($request, [
-             'nombre' => 'required',
-             'pais_id' => 'required'
+             'nombre' => 'required'
         ]);
     }
 
-    public function getProvincia(Request $request)
+    public function getObraSocial(Request $request)
     {
-        $provincia = Provincia::where('id', $request->get('id'))->get();
+        $obra_social = ObraSocial::where('id', $request->get('id'))->get();
         return response()->json(
-            $provincia->toArray()
-        );
-    }
-
-    public function provinciasPais(Request $request)
-    {
-        $provincias = Provincia::where('pais_id', '=', $request->get('id'))->get();
-        return response()->json(
-            $provincias->toArray()
+            $obra_social->toArray()
         );
     }
     /**
@@ -43,8 +31,8 @@ class ProvinciaController extends Controller
      */
     public function index()
     {
-        $provincias = Provincia::paginate(30);
-        return view('provincias.index', array('provincias' => $provincias, 'paises' => Funciones::getPaisesSel()));
+        $obras_sociales = ObraSocial::paginate(30);
+        return view('obras_sociales.index', array('obras_sociales' => $obras_sociales));
     }
 
     /**
@@ -65,15 +53,7 @@ class ProvinciaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validarProvincia($request);
-
-        $input = $request->all();
-
-        Provincia::create($input);
-
-        Session::flash('flash_message', 'Alta de Provincia exitosa!');
-
-        return redirect('/provincias');
+        //
     }
 
     /**
@@ -107,17 +87,7 @@ class ProvinciaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $provincia = Provincia::findOrFail($id);
-
-        $this->validarProvincia($request);
-
-        $input = $request->all();
-
-        $provincia->fill($input)->save();
-
-        Session::flash('flash_message', 'Provincia editada con éxito!');
-
-        return redirect('/provincias');
+        //
     }
 
     /**
@@ -128,8 +98,6 @@ class ProvinciaController extends Controller
      */
     public function destroy($id)
     {
-        $provincia = Provincia::findOrFail($id);
-        $provincia->delete();
-        return redirect('/provincias');
+        //
     }
 }

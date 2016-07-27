@@ -79,6 +79,7 @@
                                 <li><a href="{{ url('/paises') }}">Pa&iacute;ses</a></li>
                                 <li><a href="{{ url('/provincias') }}">Provincias</a></li>
                                 <li><a href="{{ url('/localidades') }}">Localidades</a></li>
+                                <li><a href="{{ url('/especialidades') }}">Especialidades</a></li>
                             </ul>
                         </li>
                         <li><a href="{{ url('/mensajes') }}" id=mensajes>Solicitud de Turnos</a></li>

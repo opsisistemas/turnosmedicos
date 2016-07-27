@@ -19,6 +19,15 @@ Route::get('/', function () {
 Route::resource('paises', 'PaisesController');
 Route::resource('provincias', 'ProvinciaController');
 Route::resource('localidades', 'LocalidadesController');
+Route::resource('especialidades', 'EspecialidadesController');
+Route::resource('obras_sociales', 'ObrasSocialesController');
 
-//ajax
+//ajax edit/create
+Route::get('getPais', 'PaisesController@getPais');
 Route::get('getProvincia', 'ProvinciaController@getProvincia');
+Route::get('getLocalidad', 'LocalidadesController@getLocalidad');
+Route::get('getEspecialidad', 'EspecialidadesController@getEspecialidad');
+Route::get('getObraSocial', 'ObrasSocialesController@getObraSocial');
+
+//ajax resto
+Route::get('provinciasPais', 'ProvinciaController@provinciasPais');

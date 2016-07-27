@@ -5,35 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Pais;
-use App\Provincia;
-use App\Funciones;
+use App\Especialidad;
 
 use Session;
 
-
-class ProvinciaController extends Controller
+class EspecialidadesController extends Controller
 {
-    private function validarProvincia(Request $request){
+    private function validarEspecialidad(Request $request){
         $this->validate($request, [
-             'nombre' => 'required',
-             'pais_id' => 'required'
+             'descripcion' => 'required'
         ]);
     }
 
-    public function getProvincia(Request $request)
+    public function getEspecialidad(Request $request)
     {
-        $provincia = Provincia::where('id', $request->get('id'))->get();
+        $especialidad = Especialidad::where('id', '=',  $request->get('id'))->get();
         return response()->json(
-            $provincia->toArray()
-        );
-    }
-
-    public function provinciasPais(Request $request)
-    {
-        $provincias = Provincia::where('pais_id', '=', $request->get('id'))->get();
-        return response()->json(
-            $provincias->toArray()
+            $especialidad->toArray()
         );
     }
     /**
@@ -43,8 +31,8 @@ class ProvinciaController extends Controller
      */
     public function index()
     {
-        $provincias = Provincia::paginate(30);
-        return view('provincias.index', array('provincias' => $provincias, 'paises' => Funciones::getPaisesSel()));
+        $especialidades = Especialidad::paginate(30);
+        return view('especialidades.index', array('especialidades' => $especialidades));
     }
 
     /**
@@ -65,15 +53,15 @@ class ProvinciaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validarProvincia($request);
+        $this->validarEspecialidad($request);
 
         $input = $request->all();
+        
+        Especialidad::create($input);
 
-        Provincia::create($input);
+        Session::flash('flash_message', 'Alta de Especialidad exitosa!');
 
-        Session::flash('flash_message', 'Alta de Provincia exitosa!');
-
-        return redirect('/provincias');
+        return redirect('/especialidades');
     }
 
     /**
@@ -107,17 +95,17 @@ class ProvinciaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $provincia = Provincia::findOrFail($id);
+        $especialidad = Especialidad::findOrFail($id);
 
-        $this->validarProvincia($request);
+        $this->validarEspecialidad($request);
 
         $input = $request->all();
 
-        $provincia->fill($input)->save();
+        $especialidad->fill($input)->save();
 
-        Session::flash('flash_message', 'Provincia editada con éxito!');
+        Session::flash('flash_message', 'Especialidad editada con éxito!');
 
-        return redirect('/provincias');
+        return redirect('/especialidades');
     }
 
     /**
@@ -128,8 +116,8 @@ class ProvinciaController extends Controller
      */
     public function destroy($id)
     {
-        $provincia = Provincia::findOrFail($id);
-        $provincia->delete();
-        return redirect('/provincias');
+        $especialidad = Especialidad::findOrFail($id);
+        $especialidad->delete();
+        return redirect('/especialidades');
     }
 }
