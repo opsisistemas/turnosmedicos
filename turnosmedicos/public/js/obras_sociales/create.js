@@ -1,4 +1,4 @@
-$(document).on("click", ".btn-create-especialidad", function () {
-	$("#descripcion_c").val("");
-	$("#descripcion_c").focus();
+$(document).on("click", ".btn-create-obra_social", function () {
+	$("#nombre_c").val("");
+	$("#nombre_c").focus();
 });

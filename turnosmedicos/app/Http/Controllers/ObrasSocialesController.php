@@ -53,7 +53,15 @@ class ObrasSocialesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validarObraSocial($request);
+
+        $input = $request->all();
+        
+        ObraSocial::create($input);
+
+        Session::flash('flash_message', 'Alta de Obra Social exitosa!');
+
+        return redirect('/obras_sociales');
     }
 
     /**
@@ -87,7 +95,17 @@ class ObrasSocialesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $obra_social = ObraSocial::findOrFail($id);
+
+        $this->validarObraSocial($request);
+
+        $input = $request->all();
+
+        $obra_social->fill($input)->save();
+
+        Session::flash('flash_message', 'Obra Social editado con éxito!');
+
+        return redirect('/obras_sociales');
     }
 
     /**
@@ -98,6 +116,8 @@ class ObrasSocialesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $obra_social = ObraSocial::findOrFail($id);
+        $obra_social->delete();
+        return redirect('/obras_sociales');
     }
 }
