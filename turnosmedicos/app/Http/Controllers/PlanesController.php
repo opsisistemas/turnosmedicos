@@ -27,7 +27,7 @@ class PlanesController extends Controller
         );
     }
 
-    public function planesPais(Request $request)
+    public function planesObraSocial(Request $request)
     {
         $planes = Plan::where('obra_social_id', '=', $request->get('id'))->get();
         return response()->json(

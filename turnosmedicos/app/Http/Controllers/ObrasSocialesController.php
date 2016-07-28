@@ -24,6 +24,14 @@ class ObrasSocialesController extends Controller
             $obra_social->toArray()
         );
     }
+
+    public function getObrasSociales(Request $request)
+    {
+        $obras_sociales = ObraSocial::all();
+        return response()->json(
+            $obras_sociales->toArray()
+        );
+    }
     /**
      * Display a listing of the resource.
      *

@@ -28,6 +28,14 @@ class LocalidadesController extends Controller
             $localidad->toArray()
         );
     }
+
+    public function localidadesProvincia(Request $request)
+    {
+        $localidades = Localidad::where('provincia_id', '=', $request->get('id'))->get();
+        return response()->json(
+            $localidades->toArray()
+        );
+    }
     /**
      * Display a listing of the resource.
      *

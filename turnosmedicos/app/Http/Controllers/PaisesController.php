@@ -25,6 +25,14 @@ class PaisesController extends Controller
         );
     }
 
+    public function getPaises(Request $request)
+    {
+        $paises = Pais::all();
+        return response()->json(
+            $paises->toArray()
+        );
+    }
+
     /**
      * Display a listing of the resource.
      *
