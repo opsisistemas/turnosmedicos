@@ -8,7 +8,7 @@
     <!-- MODAL CONTENT-->
         <div class="modal-content">
             <!-- MODAL HEADER-->
-            <div class="modal-header">
+            <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                  <h4 class="modal-title">Editar Localidad</h4>
             </div>

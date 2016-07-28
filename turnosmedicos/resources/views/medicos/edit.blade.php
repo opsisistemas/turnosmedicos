@@ -10,18 +10,18 @@
             <!-- MODAL HEADER-->
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Editar Paciente</h4>
+                 <h4 class="modal-title">Editar M&eacute;dico</h4>
             </div>
             <!-- MODAL BODY-->
             <div class="modal-body">
                 {!! Form::open([
                     'method' => 'PATCH',
                     'id' => 'formEdit',
-                    'route' => ['pacientes.update', 1]
+                    'route' => ['medicos.update', 1]
                 ]) !!}
 
                 <div class="form-group">
-                    {!! Form::hidden('idpaciente', null, ['class' => 'form-control', 'id' => 'paciente_id']) !!}
+                    {!! Form::hidden('idmedico', null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>
 
                 <div class="form-group">
@@ -60,34 +60,24 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('pais_id', 'Pa&iacute;s:', ['class' => 'control-label']) !!}
-                    {!! Form::select('pais_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'pais_e']) !!}
+                    {!! Form::label('email', 'Email:', ['class' => 'control-label']) !!}
+                    {!! Form::text('email', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'email_e']) !!}
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('provincia_id', 'Provincia:', ['class' => 'control-label']) !!}
-                    {!! Form::select('provincia_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'provincia_e']) !!}
+                    {!! Form::label('especialidad_id', 'Especialidad:', ['class' => 'control-label']) !!}
+                    {!! Form::select('especialidad_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'especialidad_e']) !!}
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('localidad_id', 'Localidad:', ['class' => 'control-label']) !!}
-                    {!! Form::select('localidad_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'localidad_e']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('obra_social_id', 'Obra Social:', ['class' => 'control-label']) !!}
-                    {!! Form::select('obra_social_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_e']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('plan_id', 'Plan:', ['class' => 'control-label']) !!}
-                    {!! Form::select('plan_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'plan_e']) !!}
+                    {!! Form::label('duracionTurno', 'Duraci&oacute;n del Turno:', ['class' => 'control-label']) !!}
+                    {!! Form::text('duracionTurno', '', ['id' => 'debe', 'class' => 'cantHoras form-control', 'id' => 'duracionTurno_e']) !!}                     
                 </div>
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
 
                 <div class="pull-right">
-                    <a href="{{ route('pacientes.index') }}" class="btn btn-danger"></i>Cancel</a>
+                    <a href="{{ route('medicos.index') }}" class="btn btn-danger"></i>Cancel</a>
                 </div>
 
                 {!! Form::close() !!} 

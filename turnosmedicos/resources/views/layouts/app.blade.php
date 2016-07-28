@@ -83,9 +83,10 @@
                                 <li><a href="{{ url('/obras_sociales') }}">Obras Sociales</a></li>
                                 <li><a href="{{ url('/planes') }}">Planes</a></li>
                                 <li><a href="{{ url('/pacientes') }}">Pacientes</a></li>
+                                <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{ url('/mensajes') }}" id=mensajes>Solicitud de Turnos</a></li>
+                        <li><a href="{{ url('/turnos') }}" id=mensajes>Solicitud de Turnos</a></li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

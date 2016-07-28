@@ -5,33 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Especialidad;
+use App\Medico;
 
 use Session;
+use Carbon\Carbon;
 
-class EspecialidadesController extends Controller
+class MedicosController extends Controller
 {
-    private function validarEspecialidad(Request $request){
+    private function validarMedico(Request $request){
         $this->validate($request, [
-             'descripcion' => 'required'
+            'apellido' => 'required',
+            'nombre' => 'required'
         ]);
     }
 
-    public function getEspecialidad(Request $request)
+    public function getMedico(Request $request)
     {
-        $especialidad = Especialidad::where('id', '=',  $request->get('id'))->get();
+        $medico = Medico::where('id', $request->get('id'))->get();
         return response()->json(
-            $especialidad->toArray()
+            $medico->toArray()
         );
-    }
-
-    public function getEspecialidades(Request $request)
-    {
-        $especialidades = Especialidad::all();
-        return response()->json(
-            $especialidades->toArray()
-        );
-    }
+    }    
     /**
      * Display a listing of the resource.
      *
@@ -39,8 +33,9 @@ class EspecialidadesController extends Controller
      */
     public function index()
     {
-        $especialidades = Especialidad::paginate(30);
-        return view('especialidades.index', array('especialidades' => $especialidades));
+        $medicos = Medico::paginate(30);
+
+        return view('medicos.index', array('medicos' => $medicos));
     }
 
     /**
@@ -61,15 +56,18 @@ class EspecialidadesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validarEspecialidad($request);
+        $this->validarMedico($request);
 
         $input = $request->all();
-        
-        Especialidad::create($input);
 
-        Session::flash('flash_message', 'Alta de Especialidad exitosa!');
+        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+        $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
-        return redirect('/especialidades');
+        Medico::create($input);
+
+        Session::flash('flash_message', 'Alta de Medico exitosa!');
+
+        return redirect('/medicos');
     }
 
     /**
@@ -103,17 +101,17 @@ class EspecialidadesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $especialidad = Especialidad::findOrFail($id);
+        $medico = Medico::findOrFail($id);
 
-        $this->validarEspecialidad($request);
+        $this->validarMedico($request);
 
         $input = $request->all();
 
-        $especialidad->fill($input)->save();
+        $medico->fill($input)->save();
 
-        Session::flash('flash_message', 'Especialidad editada con éxito!');
+        Session::flash('flash_message', 'Medico editado con éxito!');
 
-        return redirect('/especialidades');
+        return redirect('/medicos');
     }
 
     /**
@@ -124,8 +122,8 @@ class EspecialidadesController extends Controller
      */
     public function destroy($id)
     {
-        $especialidad = Especialidad::findOrFail($id);
-        $especialidad->delete();
-        return redirect('/especialidades');
+        $medico = Medico::findOrFail($id);
+        $medico->delete();
+        return redirect('/medicos');
     }
 }
