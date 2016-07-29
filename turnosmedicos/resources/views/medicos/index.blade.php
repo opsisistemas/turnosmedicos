@@ -44,6 +44,7 @@
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                         </thead>
                         <tbody>
                             @foreach ($medicos as $medico)
@@ -53,6 +54,12 @@
                                     <td class="table-text"><div>{{ $medico->telefono }}</div></td>
                                     <td class="table-text"><div>{{ $medico->email }}</div></td>
                                     <td class="table-text"><div>{{ $medico->especialidad->descripcion }}</div></td>
+                                    <td>
+                                        
+                                    <td>
+                                        <!-- TRIGGER THE MODAL WITH A BUTTON -->
+                                        {!! Form::button('Horarios <i class="fa fa-clock-o"></i>', ['class' => 'btn btn-info btn-create-horario', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#horariosModal_c']) !!}
+                                    </td>
                                     <td>
                                         <!-- TRIGGER THE MODAL WITH A BUTTON -->
                                         {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-medico', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
@@ -82,6 +89,7 @@
     </div>
     @include('medicos.create')
     @include('medicos.edit')
+    @include('medicos.horarios')
 @endsection
 
 @section('scripts')

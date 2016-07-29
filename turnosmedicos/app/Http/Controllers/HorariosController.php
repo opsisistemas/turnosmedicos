@@ -5,28 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Medico;
-use App\Dia;
 
-use Session;
-use Carbon\Carbon;
-
-class MedicosController extends Controller
+class HorariosController extends Controller
 {
-    private function validarMedico(Request $request){
-        $this->validate($request, [
-            'apellido' => 'required',
-            'nombre' => 'required'
-        ]);
-    }
-
-    public function getMedico(Request $request)
-    {
-        $medico = Medico::where('id', $request->get('id'))->get();
-        return response()->json(
-            $medico->toArray()
-        );
-    }    
     /**
      * Display a listing of the resource.
      *
@@ -34,10 +15,7 @@ class MedicosController extends Controller
      */
     public function index()
     {
-        $medicos = Medico::paginate(30);
-        $dias = Dia::all();
-
-        return view('medicos.index', array('medicos' => $medicos, 'dias' => $dias));
+        //
     }
 
     /**
@@ -58,18 +36,7 @@ class MedicosController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validarMedico($request);
-
-        $input = $request->all();
-
-        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
-        $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
-
-        Medico::create($input);
-
-        Session::flash('flash_message', 'Alta de Medico exitosa!');
-
-        return redirect('/medicos');
+        //
     }
 
     /**
@@ -103,17 +70,7 @@ class MedicosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $medico = Medico::findOrFail($id);
-
-        $this->validarMedico($request);
-
-        $input = $request->all();
-
-        $medico->fill($input)->save();
-
-        Session::flash('flash_message', 'Medico editado con éxito!');
-
-        return redirect('/medicos');
+        //
     }
 
     /**
@@ -124,8 +81,6 @@ class MedicosController extends Controller
      */
     public function destroy($id)
     {
-        $medico = Medico::findOrFail($id);
-        $medico->delete();
-        return redirect('/medicos');
+        //
     }
 }

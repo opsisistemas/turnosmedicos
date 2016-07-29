@@ -39,6 +39,7 @@ $(document).on("click", ".btn-edit-medico", function () {
 			$("#telefono_e").val(medico[0].telefono);
 			$("#fechaNacimiento_e").val(medico[0].fechaNacimiento.substring(8, 10)+medico[0].fechaNacimiento.substring(4, 8)+medico[0].fechaNacimiento.substring(0, 4));
 			$("#email_e").val(medico[0].email);
+			$("#especialidad_e").val(medico[0].especialidad_id);
 			$("#duracionTurno_e").val(medico[0].duracionTurno.substring(11, 16));
 			setEspecialidad(medico[0].especialidad_id);
 		}
