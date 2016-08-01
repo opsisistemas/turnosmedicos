@@ -86,7 +86,15 @@
                                 <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
                             </ul>
                         </li>
-                        <li><a href="{{ url('/turnos') }}" id=mensajes>Solicitud de Turnos</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Gesti&oacute;n de Turnos <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/turnos') }}">Turnos</a></li>
+                                <li><a href="{{ url('/turnos.create') }}">Nuevo Turno</a></li>
+                            </ul>
+                        </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

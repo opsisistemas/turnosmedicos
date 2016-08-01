@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Medico;
 use App\Dia;
+use App\Horario;
 
 use Session;
 use Carbon\Carbon;
@@ -27,6 +28,15 @@ class MedicosController extends Controller
             $medico->toArray()
         );
     }    
+
+    public function diasAtencion(Request $request)
+    {
+        $dias = Dia::join('horarios', 'dias.id', '=', 'horarios.dia')->where('horarios.medico_id', '=', $request->get('id'))->get();
+
+        return response()->json(
+            $dias->toArray()
+        );
+    }
     /**
      * Display a listing of the resource.
      *

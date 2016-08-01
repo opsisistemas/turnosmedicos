@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Especialidad;
+use App\Medico;
 
 use Session;
 
@@ -30,6 +31,14 @@ class EspecialidadesController extends Controller
         $especialidades = Especialidad::all();
         return response()->json(
             $especialidades->toArray()
+        );
+    }
+
+    public function medicosEspecialidad(Request $request)
+    {
+        $medicos = Medico::where('especialidad_id', '=',  $request->get('id'))->get();
+        return response()->json(
+            $medicos->toArray()
         );
     }
     /**

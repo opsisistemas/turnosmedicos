@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Horario;
+
 class Medico extends Model
 {
     protected $primaryKey = 'id';
@@ -30,4 +32,8 @@ class Medico extends Model
     {
         return array('created_at', 'updated_at', 'deleted_at', 'fechaNacimiento');
     }    
+
+    public function scopeDiasQueAtiende(){
+        return Horario::where('medico_id', '=', $this->id);
+    }
 }
