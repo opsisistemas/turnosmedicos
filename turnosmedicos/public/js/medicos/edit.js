@@ -28,25 +28,23 @@ $(document).on("click", ".btn-edit-medico", function () {
         data: 'id=' + idMedico,
 
 		success:  function (medico)
-		{
-			//medico es un arreglo con un sólo elemento (accedemos con [0])
+		{			
 			$("#formEdit").attr("action", "medicos/"+idMedico);
-			$("#apellido_e").val(medico[0].apellido);
-			$("#nombre_e").val(medico[0].nombre);
-			$("#tipoDocumento_e").val(medico[0].tipoDocumento);
-			$("#nroDocumento_e").val(medico[0].nroDocumento);
-			$("#sexo_e").val(medico[0].sexo);
-			$("#telefono_e").val(medico[0].telefono);
-			$("#fechaNacimiento_e").val(medico[0].fechaNacimiento.substring(8, 10)+medico[0].fechaNacimiento.substring(4, 8)+medico[0].fechaNacimiento.substring(0, 4));
-			$("#email_e").val(medico[0].email);
-			$("#especialidad_e").val(medico[0].especialidad_id);
-			$("#duracionTurno_e").val(medico[0].duracionTurno.substring(11, 16));
-			setEspecialidad(medico[0].especialidad_id);
+			$("#apellido_e").val(medico.apellido);
+			$("#nombre_e").val(medico.nombre);
+			$("#tipoDocumento_e").val(medico.tipoDocumento);
+			$("#nroDocumento_e").val(medico.nroDocumento);
+			$("#sexo_e").val(medico.sexo);
+			$("#telefono_e").val(medico.telefono);
+			$("#fechaNacimiento_e").val(medico.fechaNacimiento.substring(8, 10)+medico.fechaNacimiento.substring(4, 8)+medico.fechaNacimiento.substring(0, 4));
+			$("#email_e").val(medico.email);
+			$("#especialidad_e").val(medico.especialidad_id);
+			$("#duracionTurno_e").val(medico.duracionTurno.substring(11, 16));
+			$("#especialidad_id_e").val(medico.especialidad.id);
+			
+			//$("#apellido_e").focus();
+			
 		}
 	});
 
-	function setEspecialidad(id) {
-		$("#especialidad_id_e").val(id);
-		$("#apellido_e").focus();
-	}
 });

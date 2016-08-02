@@ -17,7 +17,7 @@ class MedicosController extends Controller
     private function validarMedico(Request $request){
         $this->validate($request, [
             'apellido' => 'required',
-            'nombre' => 'required'
+            'nombre' => 'required'            
         ]);
     }
 
@@ -77,10 +77,12 @@ class MedicosController extends Controller
 
     public function getMedico(Request $request)
     {
-        $medico = Medico::where('id', $request->get('id'))->get();
-        return response()->json(
-            $medico->toArray()
-        );
+        //$medico = Medico::where('id', $request->get('id'))->get();
+        $medico = Medico::findOrFail($request->get('id'));
+        //intento recuperar los días y horarios de atención
+        $medico->horarios;
+        $medico->especialidad;
+        return response()->json($medico);
     }    
 
     public function diasAtencion(Request $request)
@@ -132,7 +134,7 @@ class MedicosController extends Controller
 
         $medico=Medico::create($input); 
 
-        $this->altaHorarios($medico, $input);
+        $this->altaHorarios($medico, $input);        
         
         Session::flash('flash_message', 'Alta de Medico exitosa!');
 
@@ -171,10 +173,13 @@ class MedicosController extends Controller
     public function update(Request $request, $id)
     {
         $medico = Medico::findOrFail($id);
-
+        
         $this->validarMedico($request);
 
         $input = $request->all();
+
+        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+        $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
         $medico->fill($input)->save();
 
