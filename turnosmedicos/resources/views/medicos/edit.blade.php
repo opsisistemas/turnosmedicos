@@ -74,6 +74,38 @@
                     {!! Form::text('duracionTurno', '', ['id' => 'debe', 'class' => 'cantHoras form-control', 'id' => 'duracionTurno_e']) !!}                     
                 </div>
 
+                <div class="form-group">
+                <table class="table table-striped table-responsive task-table">
+                <thead>
+                        <th>D&iacute;a</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                    </thead>
+                    <tbody>
+                       @foreach ($dias as $dia)                       
+                            <tr>
+                                <td class="table-text">
+                                    <div>
+                                        {!! Form::checkbox(ucwords($dia->nombre), null, false) !!}
+                                        {!! Form::label('dia', ucwords($dia->nombre), ['class' => 'control-label']) !!}
+                                    </div>
+                                </td>
+                                <td class="table-text">
+                                    <div>
+                                        {!! Form::text(ucwords($dia->nombre).'desde', '08:00', ['id' => 'desde', 'class' => 'desdeHasta']) !!}
+                                    </div>
+                                </td>
+                                <td class="table-text">
+                                    <div>
+                                        {!! Form::text( ucwords($dia->nombre).'hasta', '14:00', ['id' => 'hasta', 'class' => 'desdeHasta']) !!} 
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                </div> 
+
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
 
                 <div class="pull-right">

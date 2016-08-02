@@ -28,6 +28,10 @@ class Medico extends Model
     	return $this->hasOne('App\Especialidad', 'id', 'especialidad_id');
     }
 
+    public function horarios(){
+        return $this->hasMany('App\Horario', 'medico_id', 'id');
+    }
+
     public function getDates()
     {
         return array('created_at', 'updated_at', 'deleted_at', 'fechaNacimiento');

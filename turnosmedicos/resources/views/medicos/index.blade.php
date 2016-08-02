@@ -92,8 +92,7 @@
     @include('medicos.horarios')
 @endsection
 
-@section('scripts')
-    {!! Html::script('js/funciones/focus.js') !!}
+@section('scripts')    
     {!! Html::script('js/medicos/edit.js') !!}
     {!! Html::script('js/medicos/create.js') !!}
     {!! Html::script('js/funciones/datepicker.js') !!}
