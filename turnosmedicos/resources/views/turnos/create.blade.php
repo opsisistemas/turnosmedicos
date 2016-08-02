@@ -19,8 +19,12 @@
                 {!! Form::open(['url' => 'turnos']) !!}
 
                 <div class="form-group">
+                    {!! Form::hidden('paciente_id', 3, ['class' => 'form-control']) !!}
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('especialidad_id', 'Especialidad:', ['class' => 'control-label']) !!}
-                    {!! Form::select('especialidad_id', ['0' => '--Seleccionar--'], null, ['class' => 'form-control enfocar', 'id' => 'especialidad_id']) !!}
+                    {!! Form::select('especialidad_id', ['0' => '--Seleccionar--'], null, ['class' => 'form-control', 'id' => 'especialidad_id']) !!}
                 </div>
 
                 <div class="form-group">
@@ -28,10 +32,19 @@
                     {!! Form::select('medico_id', ['0' => '--Seleccionar--'], null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>
 
-                <div class="form-group" id="dias">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group" id="calendario"></div>
+                            {!! Form::hidden('dia', '', ['class' => 'form-control', 'id' => 'fecha_dp']) !!}
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" id="horarios"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div id='buttons'>
+                <div id='buttons' class="hidden">
                     {!! Form::submit('Accept', ['class' => 'btn btn-success', 'id' => 'btn-submit']) !!}
 
                     <div class="pull-right">
@@ -48,4 +61,5 @@
 @section('scripts')
     {!!Html::script('js/turnos/create.js')!!}
     {!!Html::script('js/funciones/datepicker.js')!!}
+    {!!Html::script('js/funciones/toTitleCase.js')!!}
 @endsection

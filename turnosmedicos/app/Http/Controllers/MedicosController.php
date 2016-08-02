@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Medico;
 use App\Dia;
 use App\Horario;
+use App\Turno;
 
 use Session;
 use Carbon\Carbon;
