@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-xs-6">
                             <div class="form-group" id="calendario"></div>
-                            {!! Form::hidden('dia', '', ['class' => 'form-control', 'id' => 'fecha_dp']) !!}
+                            {!! Form::hidden('fecha', '', ['class' => 'form-control', 'id' => 'fecha_dp']) !!}
                         </div>
                         <div class="col-xs-6">
                             <div class="form-group" id="horarios"></div>

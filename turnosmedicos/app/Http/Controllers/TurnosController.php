@@ -21,7 +21,7 @@ class TurnosController extends Controller
             'paciente_id' => 'required',
             'especialidad_id' => 'required',
             'medico_id' => 'required',
-            'dia' => 'required',
+            'fecha' => 'required',
             'hora' => 'required'
         ]);
     }
@@ -59,6 +59,39 @@ class TurnosController extends Controller
         return $turno->isEmpty();
     }
 
+    public function turnosMedicoDia(Request $request)
+    {
+        $fecha = $request->get('dia');
+        $fecha = Carbon::createFromFormat('d-m-Y', $fecha);
+        $medico_id = $request->get('medico');
+
+        $turnos = Turno::whereDate('fecha', '=', $fecha->startOfDay())->where('medico_id', '=', $medico_id)->orderBy('hora')->get();
+
+        //ésto se hace para llamar, por cada objeto "turno", de la colección al paciente correspondiente
+        //si no se hace, el json viaja a la vista sin los pacientes
+        foreach($turnos as $turno){
+            $turno->paciente;
+        }
+
+        return response()->json(
+            $turnos->toArray()
+        );
+    }
+
+    public function listado()
+    {
+        $medicos=Medico::all();
+        $turnos=[];
+
+        return view('turnos.listado', array('medicos' => $medicos, 'turnos' => $turnos));
+    }
+
+    public function pdfPrueba()
+    {
+        $pdf = \PDF::loadView('welcome');
+        return $pdf->download('D:\backups\prueba.pdf');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -90,12 +123,14 @@ class TurnosController extends Controller
         $this->validarTurno($request);
 
         $input = $request->all();
+        $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha']);
+        $input['hora'] = Carbon::createFromFormat('H:i:s', $input['hora']);
         
         Turno::create($input);
 
         Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa');
 
-        return redirect('/turnos');
+        return redirect('/turnos.listado');
     }
 
     /**

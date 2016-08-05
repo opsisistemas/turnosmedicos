@@ -12,8 +12,11 @@ class Turno extends Model
         'paciente_id',
         'especialidad_id',
         'medico_id',
-        'horario'
+        'horario',
+        'fecha',
+        'hora'
     ];
+    protected $dates = ['fecha', 'hora'];
 
     public function paciente()
     {
