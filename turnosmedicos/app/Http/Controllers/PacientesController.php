@@ -107,6 +107,8 @@ class PacientesController extends Controller
 
         $input = $request->all();
 
+        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+
         $paciente->fill($input)->save();
 
         Session::flash('flash_message', 'Paciente editado con éxito!');

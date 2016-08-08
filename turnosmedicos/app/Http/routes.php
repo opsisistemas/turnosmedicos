@@ -47,6 +47,7 @@ Route::get('diasAtencion', 'MedicosController@diasAtencion');
 Route::get('getPaises', 'PaisesController@getPaises');
 Route::get('getObrasSociales', 'ObrasSocialesController@getObrasSociales');
 Route::get('getEspecialidades', 'EspecialidadesController@getEspecialidades');
+Route::get('getCategorias', 'CategoriasController@getCategorias');
 Route::get('diaDisponible', 'TurnosController@diaDisponible');
 Route::get('turnosMedicoDia', 'TurnosController@turnosMedicoDia');
 

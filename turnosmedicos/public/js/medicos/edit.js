@@ -21,6 +21,20 @@ $(document).on("click", ".btn-edit-medico", function () {
 		}
 	});
 
+    $.ajax({
+		url:  'getCategorias',
+        type: 'GET',
+
+		success:  function (categorias)
+		{
+			var opciones = "<option value=-1>--Seleccionar--</option>";
+			$.each(categorias, function(key,value) {
+				opciones = opciones + ("<option value="+value.id+">"+value.descripcion+"</option>");
+			});
+			$("#categoria_id_e").html(opciones);
+		}
+	});
+
 	//consulto para obtener los datos del medico correspondiente en BD
     $.ajax({
 		url:  'getMedico',
@@ -41,9 +55,10 @@ $(document).on("click", ".btn-edit-medico", function () {
 			$("#especialidad_e").val(medico.especialidad_id);
 			$("#duracionTurno_e").val(medico.duracionTurno.substring(11, 16));
 			$("#especialidad_id_e").val(medico.especialidad.id);
-			
-			//$("#apellido_e").focus();
-			
+			$("#categoria_id_e").val(medico.categoria_id);
+			$("#tipo_matricula_e").val(medico.tipo_matricula);
+			$("#nro_matricula_e").val(medico.nro_matricula);			
+			//$("#apellido_e").focus();			
 		}
 	});
 

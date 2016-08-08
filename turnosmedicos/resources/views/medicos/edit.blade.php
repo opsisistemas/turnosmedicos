@@ -45,6 +45,21 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('categoria_id', 'Categor&iacute;a:', ['class' => 'control-label']) !!}
+                    {!! Form::select('categoria_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'categoria_id_e']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('tipo_matricula', 'Tipo de Matr&iacute;cula:', ['class' => 'control-label']) !!}
+                    {!! Form::select('tipo_matricula', ['P' => 'Provincial', 'N' => 'Nacional'], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'tipo_matricula_e']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('nro_matricula', 'Nro. Matricula:', ['class' => 'control-label']) !!}
+                    {!! Form::text('nro_matricula', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nro_matricula_e']) !!}
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('sexo', 'Sexo:', ['class' => 'control-label']) !!}
                     {!! Form::select('sexo', ['F' => 'Femenino', 'M' => 'Masculino'], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'sexo_e']) !!}
                 </div>

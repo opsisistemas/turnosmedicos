@@ -19,7 +19,10 @@ class Medico extends Model
         'telefono',
         'email',
         'duracionTurno',
-        'especialidad_id'
+        'especialidad_id',
+        'categoria_id',
+        'tipo_matricula',
+        'nro_matricula'
     ];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];
 
@@ -39,5 +42,10 @@ class Medico extends Model
 
     public function turnos(Carbon $dia){
         return Turno::where('medico_id', '=', $this->id);
+    }
+
+    public function categoria($value='')
+    {
+        return $this->hasOne('App\Categoria', 'id', 'categoria_id');
     }
 }

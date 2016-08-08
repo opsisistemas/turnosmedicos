@@ -84,6 +84,11 @@
                     {!! Form::select('plan_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'plan_e']) !!}
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('nro_afiliado', 'Nro Afiliado:', ['class' => 'control-label']) !!}
+                    {!! Form::text('nro_afiliado', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nro_afiliado_e']) !!}
+                </div>
+
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
 
                 <div class="pull-right">

@@ -19,8 +19,10 @@ class Paciente extends Model
         'provincia_id',
         'localidad_id',
         'obra_social_id',
-        'plan_id'
+        'plan_id',
+        'nro_afiliado'
     ];
+    
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];
 
     public function plan()

@@ -17,6 +17,20 @@ $(document).on("click", ".btn-create-medico", function () {
 				opciones = opciones + ("<option value="+value.id+">"+value.descripcion+"</option>");
 			});
 			$("#especialidad_c").html(opciones);
+		}
+	});
+
+    $.ajax({
+		url:  'getCategorias',
+        type: 'GET',
+
+		success:  function (categorias)
+		{
+			var opciones = "<option value=-1>--Seleccionar--</option>";
+			$.each(categorias, function(key,value) {
+				opciones = opciones + ("<option value="+value.id+">"+value.descripcion+"</option>");
+			});
+			$("#categoria_id_c").html(opciones);
 			$("#apellido_c").focus();
 		}
 	});

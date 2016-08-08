@@ -59,6 +59,7 @@ $(document).on("click", ".btn-edit-paciente", function () {
 			$("#localidad_e").val(paciente[0].localidad_id);
 			$("#obra_social_e").val(paciente[0].obra_social_id);
 			$("#plan_e").val(paciente[0].plan);
+			$("#nro_afiliado_e").val(paciente[0].nro_afiliado);
 		}
 	});
 });
