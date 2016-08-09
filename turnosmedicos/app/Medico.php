@@ -26,18 +26,19 @@ class Medico extends Model
     ];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];
 
+    public function getDates()
+    {
+        return array('created_at', 'updated_at', 'deleted_at', 'fechaNacimiento');
+    }  
+
     public function especialidades()
     {
     	return $this->belongsToMany('App\Especialidad');
     }
 
-    public function getDates()
+    public function dias()
     {
-        return array('created_at', 'updated_at', 'deleted_at', 'fechaNacimiento');
-    }    
-
-    public function turnos(Carbon $dia){
-        return Turno::where('medico_id', '=', $this->id);
+        return $this->belongsToMany('App\Dia')->withPivot('desde', 'hasta');
     }
 
     public function categoria()

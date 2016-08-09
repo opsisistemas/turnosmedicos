@@ -105,18 +105,18 @@
                                 <tr>
                                     <td class="table-text">
                                         <div>
-                                            {!! Form::checkbox(ucwords($dia->nombre), null, false) !!}
+                                            {!! Form::checkbox('dia[]', $dia->id, $medico->dias->find($dia->id)) !!}
                                             {!! Form::label('dia', ucwords($dia->nombre), ['class' => 'control-label']) !!}
                                         </div>
                                     </td>
                                     <td class="table-text">
                                         <div>
-                                            {!! Form::text(ucwords($dia->nombre).'desde', '08:00', ['id' => 'desde', 'class' => 'desdeHasta']) !!}
+                                            {!! Form::text($dia->id.'desde', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->find($dia->id)->pivot->desde))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!}
                                         </div>
                                     </td>
                                     <td class="table-text">
                                         <div>
-                                            {!! Form::text( ucwords($dia->nombre).'hasta', '14:00', ['id' => 'hasta', 'class' => 'desdeHasta']) !!} 
+                                            {!! Form::text( $dia->id.'hasta', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->find($dia->id)->pivot->hasta))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!} 
                                         </div>
                                     </td>
                                 </tr>

@@ -15,6 +15,7 @@ use App\Funciones;
 
 use Session;
 use Carbon\Carbon;
+use DB;
 
 class MedicosController extends Controller
 {
@@ -23,59 +24,6 @@ class MedicosController extends Controller
             'apellido' => 'required',
             'nombre' => 'required'            
         ]);
-    }
-
-    private function altaHorarios($medico, $input){
-        //por cada dia de atención, doy de alta un horario
-        if(array_key_exists('Lunes',$input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '1',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Lunesdesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Luneshasta']));
-            Horario::create($datos);    
-        }
-        if(array_key_exists('Martes',$input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '2',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Martesdesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Marteshasta']));
-            Horario::create($datos);    
-        }
-        if(array_key_exists('Miercoles',$input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '3',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Miercolesdesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Miercoleshasta']));
-            Horario::create($datos);
-        } 
-        if(array_key_exists('Jueves', $input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '4',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Juevesdesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Jueveshasta']));
-            Horario::create($datos); 
-        }     
-        if(array_key_exists('Viernes', $input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '5',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Viernesdesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Vierneshasta']));
-            Horario::create($datos); 
-        }     
-        if(array_key_exists('Sabado', $input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '6',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Sabadodesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Sabadohasta']));
-            Horario::create($datos); 
-        }
-        if(array_key_exists('Domingo', $input)){
-            $datos = array('medico_id'=> $medico->id, 
-                           'dia'=> '7',
-                           'desde'=> Carbon::createFromFormat('H:i', $input['Domingodesde']),
-                           'hasta'=> Carbon::createFromFormat('H:i', $input['Domingohasta']));
-            Horario::create($datos);
-        }
     }
 
     public function getMedico(Request $request)
@@ -131,20 +79,27 @@ class MedicosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
-        $this->validarMedico($request);
+    {
+        DB::transaction(function () use ($request) {        
+            $this->validarMedico($request);
 
-        $input = $request->all();        
-        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
-        $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
+            $input = $request->all();        
+            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
-        $medico=Medico::create($input); 
+            $medico=Medico::create($input); 
 
-        $medico->especialidades()->sync($input['especialidad']);
+            $medico->especialidades()->sync($input['especialidad']);
 
-        $this->altaHorarios($medico, $input);        
-        
-        Session::flash('flash_message', 'Alta de Medico exitosa!');
+            $medico->dias()->detach();
+            foreach ($input['dia'] as $dia){
+                $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
+
+                $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+            }
+            Session::flash('flash_message', 'Alta de Medico exitosa!');
+        });
 
         return redirect('/medicos');
     }
@@ -168,7 +123,7 @@ class MedicosController extends Controller
      */
     public function edit($id)
     {
-        $medico=Medico::with('especialidades')->findOrFail($id);
+        $medico=Medico::with('especialidades')->with('dias')->findOrFail($id);
         $categorias = Funciones::getCategoriasSel();
         $especialidades = Especialidad::orderBy('descripcion')->get();
         $dias=Dia::all();
@@ -185,20 +140,28 @@ class MedicosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $medico = Medico::findOrFail($id);
-        
-        $this->validarMedico($request);
+        DB::transaction(function () use ($request) { 
+            $this->validarMedico($request);
 
-        $input = $request->all();
+            $medico = Medico::findOrFail($id);
+            
+            $input = $request->all();
+            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
-        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
-        $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
+            $medico->fill($input)->save();
 
-        $medico->fill($input)->save();
+            $medico->especialidades()->sync($input['especialidad']);
 
-        $medico->especialidades()->sync($input['especialidad']);
+            $medico->dias()->detach();
+            foreach ($input['dia'] as $dia){
+                $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
 
-        Session::flash('flash_message', 'Medico editado con éxito!');
+                $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+            }
+            Session::flash('flash_message', 'Medico editado con éxito!');
+        });
 
         return redirect('/medicos');
     }

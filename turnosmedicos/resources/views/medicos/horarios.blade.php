@@ -2,7 +2,7 @@
 <!--*****************************************************************************************-->
 
 <!-- MODAL -->
-<div class="modal fade" id="horariosModal_c" role="dialog">
+<div class="modal fade" id="horariosModal" role="dialog">
     <div class="modal-dialog">
 
     <!-- MODAL CONTENT-->
@@ -16,10 +16,6 @@
             <div class="modal-body">
                 {!! Form::open(['url' => 'horarios']) !!}
 
-                <div class="form-group">
-                    {!! Form::hidden('idmedico', null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
-                </div>
-
                 <table class="table table-striped table-responsive task-table">
                     <thead>
                         <th>D&iacute;a</th>
@@ -27,22 +23,22 @@
                         <th>Hasta</th>
                     </thead>
                     <tbody>
-                        @foreach ($dias as $dia)
+                       @foreach ($dias as $dia)                       
                             <tr>
                                 <td class="table-text">
                                     <div>
-                                        {!! Form::checkbox('dia', null, false) !!}
+                                        {!! Form::checkbox('dia[]', $dia->id, $medico->dias->find($dia->id)) !!}
                                         {!! Form::label('dia', ucwords($dia->nombre), ['class' => 'control-label']) !!}
                                     </div>
                                 </td>
                                 <td class="table-text">
                                     <div>
-                                        {!! Form::text('desde', '08:00', ['id' => 'desde', 'class' => 'desdeHasta']) !!}
+                                        {!! Form::text($dia->id.'desde', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->find($dia->id)->pivot->desde))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!}
                                     </div>
                                 </td>
                                 <td class="table-text">
                                     <div>
-                                        {!! Form::text('hasta', '14:00', ['id' => 'hasta', 'class' => 'desdeHasta']) !!} 
+                                        {!! Form::text( $dia->id.'hasta', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->find($dia->id)->pivot->hasta))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!} 
                                     </div>
                                 </td>
                             </tr>

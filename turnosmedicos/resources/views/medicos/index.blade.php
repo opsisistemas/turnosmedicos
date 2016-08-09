@@ -59,7 +59,7 @@
                                     <td class="table-text"><div>{{ $medico->email }}</div></td>
                                     <td>
                                         <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Horarios <i class="fa fa-clock-o"></i>', ['class' => 'btn btn-info btn-create-horario', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#horariosModal_c']) !!}
+                                        {!! Form::button('Horarios <i class="fa fa-clock-o"></i>', ['class' => 'btn btn-info btn-show-horario', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#horariosModal   ']) !!}
                                     </td>
                                     <td>
                                         {!! Form::open([
@@ -93,4 +93,8 @@
         </div>    
     </div>
     @include('medicos.horarios')
+@endsection
+
+@section('scripts')
+    {!! Html::script('js/medicos/horarios.js') !!}
 @endsection

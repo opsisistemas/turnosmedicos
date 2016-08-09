@@ -110,18 +110,18 @@
                                 <tr>
                                     <td class="table-text">
                                         <div>
-                                            {!! Form::checkbox(ucwords($dia->nombre), null, false) !!}
+                                            {!! Form::checkbox('dia[]', $dia->id, false) !!}
                                             {!! Form::label('dia', ucwords($dia->nombre), ['class' => 'control-label']) !!}
                                         </div>
                                     </td>
                                     <td class="table-text">
                                         <div>
-                                            {!! Form::text(ucwords($dia->nombre).'desde', '08:00', ['id' => 'desde', 'class' => 'desdeHasta']) !!}
+                                            {!! Form::text($dia->id.'desde', '08:00', ['class' => 'desdeHasta']) !!}
                                         </div>
                                     </td>
                                     <td class="table-text">
                                         <div>
-                                            {!! Form::text( ucwords($dia->nombre).'hasta', '14:00', ['id' => 'hasta', 'class' => 'desdeHasta']) !!} 
+                                            {!! Form::text($dia->id.'hasta', '14:00', ['class' => 'desdeHasta']) !!} 
                                         </div>
                                     </td>
                                 </tr>

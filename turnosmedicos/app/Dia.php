@@ -11,4 +11,9 @@ class Dia extends Model
     protected $fillable = [
         'nombre'
     ];
+
+    public function medicos()
+    {
+        return $this->belongsToMany('App\Medico')->withPivot('desde', 'hasta');
+    }
 }
