@@ -1,24 +1,26 @@
-<!--*****************************************************************************************-->
-<!--*****************************************************************************************-->
+@extends('layouts.app')
 
-<!-- MODAL -->
-<div class="modal fade" id="createModal" role="dialog">
-    <div class="modal-dialog">
-
-    <!-- MODAL CONTENT-->
-        <div class="modal-content">
-            <!-- MODAL HEADER-->
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Nuevo M&eacute;dico</h4>
+@section('content')
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1>Nuevo M&eacute;dico</h1>                       
             </div>
-            <!-- MODAL BODY-->
-            <div class="modal-body">
+
+            <div class="panel-body">                
+                @include('partials.alerts.errors')
+                <!-- success messages -->
+                @if(Session::has('flash_message'))
+                    <div class="alert alert-success">
+                         {{ Session::get('flash_message') }}
+                    </div>
+                @endif
+                <!-- -->
                 {!! Form::open(['url' => 'medicos']) !!}
 
                 <div class="form-group">
                     {!! Form::label('apellido', 'Apellido:', ['class' => 'control-label']) !!}
-                    {!! Form::text('apellido', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'apellido_c']) !!}
+                    {!! Form::text('apellido', null, ['method' => 'GET', 'class' => 'form-control enfocar', 'id' => 'apellido_c']) !!}
                 </div>
 
                 <div class="form-group">
@@ -38,7 +40,7 @@
 
                 <div class="form-group">
                     {!! Form::label('categoria_id', 'Categor&iacute;a:', ['class' => 'control-label']) !!}
-                    {!! Form::select('categoria_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'categoria_id_c']) !!}
+                    {!! Form::select('categoria_id', $categorias, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'categoria_id_c']) !!}
                 </div>
 
                 <div class="form-group">
@@ -72,46 +74,60 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('especialidad_id', 'Especialidad:', ['class' => 'control-label']) !!}
-                    {!! Form::select('especialidad_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'especialidad_c']) !!}
-                </div>
-
-                <div class="form-group">
                     {!! Form::label('duracionTurno', 'Duraci&oacute;n del Turno:', ['class' => 'control-label']) !!}
                     {!! Form::text('duracionTurno', '', ['id' => 'debe', 'class' => 'duracionTurno form-control', 'id' => 'duracionTurno_c']) !!}                     
                 </div>
 
+                <div class="form-group">
+                    <table class="table table-striped table-responsive task-table">
+                        <thead>
+                            <th>Especialidad</th>
+                        </thead>
+                        <tbody>
+                           @foreach ($especialidades as $especialidad)                       
+                                <tr>
+                                    <td class="table-text">
+                                        <div>
+                                            {!! Form::checkbox('especialidad[]', $especialidad->id, false) !!}
+                                            {!! Form::label('especialidad', ucwords($especialidad->descripcion), ['class' => 'control-label']) !!}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> 
                 
-                 <div class="form-group">
-                <table class="table table-striped table-responsive task-table">
-                <thead>
-                        <th>D&iacute;a</th>
-                        <th>Desde</th>
-                        <th>Hasta</th>
-                    </thead>
-                    <tbody>
-                       @foreach ($dias as $dia)                       
-                            <tr>
-                                <td class="table-text">
-                                    <div>
-                                        {!! Form::checkbox(ucwords($dia->nombre), null, false) !!}
-                                        {!! Form::label('dia', ucwords($dia->nombre), ['class' => 'control-label']) !!}
-                                    </div>
-                                </td>
-                                <td class="table-text">
-                                    <div>
-                                        {!! Form::text(ucwords($dia->nombre).'desde', '08:00', ['id' => 'desde', 'class' => 'desdeHasta']) !!}
-                                    </div>
-                                </td>
-                                <td class="table-text">
-                                    <div>
-                                        {!! Form::text( ucwords($dia->nombre).'hasta', '14:00', ['id' => 'hasta', 'class' => 'desdeHasta']) !!} 
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="form-group">
+                    <table class="table table-striped table-responsive task-table">
+                        <thead>
+                            <th>D&iacute;a</th>
+                            <th>Desde</th>
+                            <th>Hasta</th>
+                        </thead>
+                        <tbody>
+                           @foreach ($dias as $dia)                       
+                                <tr>
+                                    <td class="table-text">
+                                        <div>
+                                            {!! Form::checkbox(ucwords($dia->nombre), null, false) !!}
+                                            {!! Form::label('dia', ucwords($dia->nombre), ['class' => 'control-label']) !!}
+                                        </div>
+                                    </td>
+                                    <td class="table-text">
+                                        <div>
+                                            {!! Form::text(ucwords($dia->nombre).'desde', '08:00', ['id' => 'desde', 'class' => 'desdeHasta']) !!}
+                                        </div>
+                                    </td>
+                                    <td class="table-text">
+                                        <div>
+                                            {!! Form::text( ucwords($dia->nombre).'hasta', '14:00', ['id' => 'hasta', 'class' => 'desdeHasta']) !!} 
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div> 
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
@@ -124,4 +140,10 @@
             </div>
         </div>
     </div>
-</div>
+@endsection
+
+@section('scripts')
+    {!! Html::script('js/funciones/focus.js') !!}
+    {!! Html::script('js/funciones/datepicker.js') !!}
+    {!! Html::script('js/funciones/timepicker.js') !!}
+@endsection

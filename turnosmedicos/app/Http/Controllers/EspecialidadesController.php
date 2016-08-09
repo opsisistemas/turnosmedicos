@@ -28,7 +28,7 @@ class EspecialidadesController extends Controller
 
     public function getEspecialidades(Request $request)
     {
-        $especialidades = Especialidad::all();
+        $especialidades = Especialidad::orderBy('descripcion')->get();
         return response()->json(
             $especialidades->toArray()
         );
@@ -48,7 +48,7 @@ class EspecialidadesController extends Controller
      */
     public function index()
     {
-        $especialidades = Especialidad::paginate(30);
+        $especialidades = Especialidad::orderBy('descripcion')->paginate(30);
         return view('especialidades.index', array('especialidades' => $especialidades));
     }
 

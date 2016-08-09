@@ -15,8 +15,13 @@
                      <h1>
                         M&eacute;dicos
                         <div class="pull-right">
-                            <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                            {!! Form::button('Nuevo M&eacute;dico <i class="fa fa-bolt"></i>', ['class' => 'btn btn-success btn-create-medico', 'type' => 'submit', 'data-toggle' => 'modal', 'data-target' => '#createModal']) !!}
+                            {!! Form::open([
+                                'method' => 'GET',
+                                'route' => ['medicos.create'],
+                                'class' => 'navbar-form navbar-left pull-left'                                                         
+                            ]) !!}
+                            {!! Form::submit('Nuevo M&eacute;dico', ['class' => 'btn btn-success']) !!}
+                            {!! Form::close() !!} 
                         </div> 
                     </h1>
                 </div>
@@ -40,7 +45,6 @@
                             <th>Nombre</th>
                             <th>Tel&eacute;fono</th>
                             <th>Email</th>
-                            <th>Especialidad</th>
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
@@ -53,16 +57,17 @@
                                     <td class="table-text"><div>{{ $medico->nombre }}</div></td>
                                     <td class="table-text"><div>{{ $medico->telefono }}</div></td>
                                     <td class="table-text"><div>{{ $medico->email }}</div></td>
-                                    <td class="table-text"><div>{{ $medico->especialidad->descripcion }}</div></td>
-                                    <td>
-                                        
                                     <td>
                                         <!-- TRIGGER THE MODAL WITH A BUTTON -->
                                         {!! Form::button('Horarios <i class="fa fa-clock-o"></i>', ['class' => 'btn btn-info btn-create-horario', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#horariosModal_c']) !!}
                                     </td>
                                     <td>
-                                        <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-medico', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
+                                        {!! Form::open([
+                                            'method' => 'GET',
+                                            'route' => ['medicos.edit', $medico->id]                                
+                                        ]) !!}
+                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
+                                    {!! Form::close() !!}                                         
                                     </td>
                                     <!-- Task Delete Button -->
                                     <td>
@@ -87,14 +92,5 @@
             </div>
         </div>    
     </div>
-    @include('medicos.create')
-    @include('medicos.edit')
     @include('medicos.horarios')
-@endsection
-
-@section('scripts')    
-    {!! Html::script('js/medicos/edit.js') !!}
-    {!! Html::script('js/medicos/create.js') !!}
-    {!! Html::script('js/funciones/datepicker.js') !!}
-    {!! Html::script('js/funciones/timepicker.js') !!}
 @endsection

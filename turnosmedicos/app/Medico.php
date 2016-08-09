@@ -26,13 +26,9 @@ class Medico extends Model
     ];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];
 
-    public function especialidad()
+    public function especialidades()
     {
-    	return $this->hasOne('App\Especialidad', 'id', 'especialidad_id');
-    }
-
-    public function horarios(){
-        return $this->hasMany('App\Horario', 'medico_id', 'id');
+    	return $this->belongsToMany('App\Especialidad');
     }
 
     public function getDates()
@@ -44,8 +40,8 @@ class Medico extends Model
         return Turno::where('medico_id', '=', $this->id);
     }
 
-    public function categoria($value='')
+    public function categoria()
     {
-        return $this->hasOne('App\Categoria', 'id', 'categoria_id');
+        return $this->hasOne('App\Categoria_medico', 'id', 'categoria_id');
     }
 }

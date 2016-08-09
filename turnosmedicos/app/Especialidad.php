@@ -12,4 +12,9 @@ class Especialidad extends Model
     protected $fillable = [
         'descripcion'
     ];
+
+    public function medicos()
+    {
+    	return $this->belongsToMany('App/Medico');
+    }
 }

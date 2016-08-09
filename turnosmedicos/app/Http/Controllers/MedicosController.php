@@ -9,6 +9,9 @@ use App\Medico;
 use App\Dia;
 use App\Horario;
 use App\Turno;
+use App\Categoria_medico;
+use App\Especialidad;
+use App\Funciones;
 
 use Session;
 use Carbon\Carbon;
@@ -29,51 +32,50 @@ class MedicosController extends Controller
                            'dia'=> '1',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Lunesdesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Luneshasta']));
-        Horario::create($datos);    
+            Horario::create($datos);    
         }
         if(array_key_exists('Martes',$input)){
             $datos = array('medico_id'=> $medico->id, 
                            'dia'=> '2',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Martesdesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Marteshasta']));
-        Horario::create($datos);    
+            Horario::create($datos);    
         }
         if(array_key_exists('Miercoles',$input)){
             $datos = array('medico_id'=> $medico->id, 
                            'dia'=> '3',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Miercolesdesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Miercoleshasta']));
-        Horario::create($datos);
+            Horario::create($datos);
         } 
         if(array_key_exists('Jueves', $input)){
             $datos = array('medico_id'=> $medico->id, 
                            'dia'=> '4',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Juevesdesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Jueveshasta']));
-        Horario::create($datos); 
+            Horario::create($datos); 
         }     
         if(array_key_exists('Viernes', $input)){
             $datos = array('medico_id'=> $medico->id, 
                            'dia'=> '5',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Viernesdesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Vierneshasta']));
-        Horario::create($datos); 
+            Horario::create($datos); 
         }     
         if(array_key_exists('Sabado', $input)){
             $datos = array('medico_id'=> $medico->id, 
                            'dia'=> '6',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Sabadodesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Sabadohasta']));
-        Horario::create($datos); 
+            Horario::create($datos); 
         }
         if(array_key_exists('Domingo', $input)){
             $datos = array('medico_id'=> $medico->id, 
                            'dia'=> '7',
                            'desde'=> Carbon::createFromFormat('H:i', $input['Domingodesde']),
                            'hasta'=> Carbon::createFromFormat('H:i', $input['Domingohasta']));
-        Horario::create($datos);
-        }         
-        //
+            Horario::create($datos);
+        }
     }
 
     public function getMedico(Request $request)
@@ -115,7 +117,11 @@ class MedicosController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Funciones::getCategoriasSel();
+        $especialidades = Especialidad::orderBy('descripcion')->get();
+        $dias=Dia::all();
+
+        return view('medicos.create', ['categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
     }
 
     /**
@@ -129,11 +135,12 @@ class MedicosController extends Controller
         $this->validarMedico($request);
 
         $input = $request->all();        
-
         $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
         $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
         $medico=Medico::create($input); 
+
+        $medico->especialidades()->sync($input['especialidad']);
 
         $this->altaHorarios($medico, $input);        
         
@@ -161,7 +168,12 @@ class MedicosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $medico=Medico::with('especialidades')->findOrFail($id);
+        $categorias = Funciones::getCategoriasSel();
+        $especialidades = Especialidad::orderBy('descripcion')->get();
+        $dias=Dia::all();
+
+        return view('medicos.edit', ['medico' => $medico, 'categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
     }
 
     /**
@@ -183,6 +195,8 @@ class MedicosController extends Controller
         $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
         $medico->fill($input)->save();
+
+        $medico->especialidades()->sync($input['especialidad']);
 
         Session::flash('flash_message', 'Medico editado con éxito!');
 

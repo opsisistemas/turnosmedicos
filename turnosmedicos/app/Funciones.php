@@ -36,4 +36,15 @@ class Funciones extends Model
 
         return $obras_sociales_sel;
     }
+
+    public static function getCategoriasSel()
+    {
+        $categorias = DB::table('categoria_medico')->select('descripcion', 'id')->orderBy('id')->get();                        
+        $categorias_sel = array();
+        foreach($categorias as $categoria){
+            $categorias_sel[$categoria->id] = $categoria->descripcion;
+        }
+
+        return $categorias_sel;
+    }
 }
