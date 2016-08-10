@@ -12,6 +12,7 @@ use App\Turno;
 use App\Categoria_medico;
 use App\Especialidad;
 use App\Funciones;
+use App\ObraSocial;
 
 use Session;
 use Carbon\Carbon;
@@ -52,7 +53,7 @@ class MedicosController extends Controller
      */
     public function index()
     {
-        $medicos = Medico::paginate(30);
+        $medicos = Medico::orderBy('apellido')->orderBy('nombre')->paginate(30);
         $dias = Dia::all();
 
         return view('medicos.index', array('medicos' => $medicos, 'dias' => $dias));
@@ -67,9 +68,10 @@ class MedicosController extends Controller
     {
         $categorias = Funciones::getCategoriasSel();
         $especialidades = Especialidad::orderBy('descripcion')->get();
+        $obras_sociales = ObraSocial::orderBy('nombre')->get();
         $dias=Dia::all();
 
-        return view('medicos.create', ['categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
+        return view('medicos.create', ['obras_sociales' => $obras_sociales, 'categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
     }
 
     /**
@@ -90,6 +92,7 @@ class MedicosController extends Controller
             $medico=Medico::create($input); 
 
             $medico->especialidades()->sync($input['especialidad']);
+            $medico->obras_sociales()->sync($input['obras_sociales']);
 
             $medico->dias()->detach();
             foreach ($input['dia'] as $dia){
@@ -126,9 +129,10 @@ class MedicosController extends Controller
         $medico=Medico::with('especialidades')->with('dias')->findOrFail($id);
         $categorias = Funciones::getCategoriasSel();
         $especialidades = Especialidad::orderBy('descripcion')->get();
+        $obras_sociales = ObraSocial::orderBy('nombre')->get();
         $dias=Dia::all();
 
-        return view('medicos.edit', ['medico' => $medico, 'categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
+        return view('medicos.edit', ['obras_sociales' => $obras_sociales, 'medico' => $medico, 'categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
     }
 
     /**
@@ -152,6 +156,7 @@ class MedicosController extends Controller
             $medico->fill($input)->save();
 
             $medico->especialidades()->sync($input['especialidad']);
+            $medico->obras_sociales()->sync($input['obras_sociales']);
 
             $medico->dias()->detach();
             foreach ($input['dia'] as $dia){

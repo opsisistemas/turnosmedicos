@@ -44,9 +44,11 @@
         <div class="panel-body">
             <table class="table table-striped task-table">
                 <thead>
+                    <th>Hora</th>
                     <th>Paciente</th>
                     <th>Tel&eacute;fono</th>
-                    <th>Hora</th>
+                    <th>Obra Social</th>
+                    <th>Nro Afiliado</th>
                 </thead>
                 <tbody id="listado">
                 </tbody>

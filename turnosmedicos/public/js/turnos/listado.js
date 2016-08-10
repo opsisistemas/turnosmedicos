@@ -49,9 +49,11 @@ $("#btn-search").on('click', function (){
 		{
 			var listado = "<tr>";
 			$.each(horarios, function(key,value) {
+				listado = listado + ("<td class='table-text'><div>"+value.hora.substring(10, 16)+"</div></td>");
 				listado = listado + ("<td class='table-text'><div>"+value.paciente.nombre+"</div></td>");
 				listado = listado + ("<td class='table-text'><div>"+value.paciente.telefono+"</div></td>");
-				listado = listado + ("<td class='table-text'><div>"+value.hora.substring(10, 16)+"</div></td>");
+				listado = listado + ("<td class='table-text'><div>"+value.paciente.obra_social.nombre+"</div></td>");
+				listado = listado + ("<td class='table-text'><div>"+value.paciente.nro_afiliado+"</div></td>");
 				listado = listado + "</tr>";
 			});
 

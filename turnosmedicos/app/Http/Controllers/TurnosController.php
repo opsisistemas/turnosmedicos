@@ -70,7 +70,7 @@ class TurnosController extends Controller
         //ésto se hace para llamar, por cada objeto "turno", de la colección al paciente correspondiente
         //si no se hace, el json viaja a la vista sin los pacientes
         foreach($turnos as $turno){
-            $turno->paciente;
+            $turno->paciente->obra_social();
         }
 
         return response()->json(

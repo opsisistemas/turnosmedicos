@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <table class="table table-striped table-responsive task-table">
                         <thead>
-                            <th>Especialidad</th>
+                            <th><h3>Especialidad</h3></th>
                         </thead>
                         <tbody>
                            @foreach ($especialidades as $especialidad)                       
@@ -91,9 +91,30 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="form-group">
+                    <table class="table table-striped table-responsive task-table">
+                        <thead>
+                            <th><h3>Obras sociales por las que atiende</h3></th>
+                        </thead>
+                        <tbody>
+                           @foreach ($obras_sociales as $obra_social)                       
+                                <tr>
+                                    <td class="table-text">
+                                        <div>
+                                            {!! Form::checkbox('obras_sociales[]', $obra_social->id, $medico->obras_sociales->find($obra_social->id)) !!}
+                                            {!! Form::label('obras_sociales', ucwords($obra_social->nombre), ['class' => 'control-label']) !!}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div> 
 
                 <div class="form-group">
+                    <h3>Horarios de Trabajo</h3>
                     <table class="table table-striped table-responsive task-table">
                         <thead>
                             <th>D&iacute;a</th>

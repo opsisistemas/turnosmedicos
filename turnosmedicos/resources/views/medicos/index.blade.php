@@ -48,7 +48,6 @@
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
-                            <th>&nbsp;</th>
                         </thead>
                         <tbody>
                             @foreach ($medicos as $medico)
@@ -57,10 +56,6 @@
                                     <td class="table-text"><div>{{ $medico->nombre }}</div></td>
                                     <td class="table-text"><div>{{ $medico->telefono }}</div></td>
                                     <td class="table-text"><div>{{ $medico->email }}</div></td>
-                                    <td>
-                                        <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Horarios <i class="fa fa-clock-o"></i>', ['class' => 'btn btn-info btn-show-horario', 'type' => 'submit', 'data-id' => $medico->id,  'data-toggle' => 'modal', 'data-target' => '#horariosModal   ']) !!}
-                                    </td>
                                     <td>
                                         {!! Form::open([
                                             'method' => 'GET',
@@ -92,9 +87,4 @@
             </div>
         </div>    
     </div>
-    @include('medicos.horarios')
-@endsection
-
-@section('scripts')
-    {!! Html::script('js/medicos/horarios.js') !!}
 @endsection

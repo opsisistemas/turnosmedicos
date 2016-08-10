@@ -15,4 +15,9 @@ class ObraSocial extends Model
         'email',
         'telefono'
     ];
+
+    public function medicos()
+    {
+        return $this->belongsToMany('App\Medico');
+    }
 }

@@ -41,6 +41,11 @@ class Medico extends Model
         return $this->belongsToMany('App\Dia')->withPivot('desde', 'hasta');
     }
 
+    public function obras_sociales()
+    {
+        return $this->belongsToMany('App\ObraSocial');
+    }
+
     public function categoria()
     {
         return $this->hasOne('App\Categoria_medico', 'id', 'categoria_id');
