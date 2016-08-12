@@ -19,7 +19,7 @@
                 {!! Form::open(['url' => 'turnos']) !!}
 
                 <div class="form-group">
-                    {!! Form::hidden('paciente_id', 3, ['class' => 'form-control']) !!}
+                    {!! Form::hidden('paciente_id', 4, ['class' => 'form-control']) !!}
                 </div>
 
                 <div class="form-group">

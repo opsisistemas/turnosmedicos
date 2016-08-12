@@ -54,6 +54,3 @@ Route::get('getEspecialidades', 'EspecialidadesController@getEspecialidades');
 Route::get('getCategorias', 'CategoriasController@getCategorias');
 Route::get('diaDisponible', 'TurnosController@diaDisponible');
 Route::get('turnosMedicoDia', 'TurnosController@turnosMedicoDia');
-
-//ajax pdf
-Route::get('pdfListado', 'PdfController@listadoabm');

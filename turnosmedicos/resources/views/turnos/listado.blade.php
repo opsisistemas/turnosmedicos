@@ -25,15 +25,16 @@
                                  ]) !!}
                  <!--selección de fecha desde filtrar,hoy por defecto-->
                 {!! Form::label('fecha', 'D&iacute;a:', ['class' => 'control-label']) !!}
-                {!! Form::text('fecha', $fecha->format('d-m-Y'), ['class' => 'datepicker form-control', 'id' => 'fecha']) !!}
+                {!! Form::text('fecha', $fecha->format('d-m-Y'), ['class' => 'datepicker form-control']) !!}
 
                  <!--selección de médico-->
                 {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
-                {!! Form::select('medico_id', $medicos, $medico_id, ['class' => 'form-control enfocar', 'id' => 'medico']) !!}
+                {!! Form::select('medico_id', $medicos, $medico_id, ['class' => 'form-control enfocar']) !!}
 
-                {!! Form::submit('Buscar', ['class' => 'btn btn-default', 'id' => 'btn-search'])  !!}
+                <button type="submit" class="btn btn-default" name="aceptar" value="buscar"><i class="fa fa-search"></i></button>
+
                     <div class="pull-right">
-                        {!! Form::button('<i class="fa fa-file-pdf-o"></i>', ['class' => 'btn btn-default', 'id' => 'btn-pdf']) !!}
+                        <button type="submit" class="btn btn-default" name="aceptar" value="pdf"><i class="fa fa-file-pdf-o"></i></button>
                     </div>
                 {!! Form::close() !!}
             </div>
@@ -41,14 +42,16 @@
         <div class="panel-body">
             <table class="table table-striped task-table">
                 <thead>
-                    <th>Hora</th>
-                    <th>Paciente</th>
-                    <th>Tel&eacute;fono</th>
-                    <th>Obra Social</th>
-                    <th>Nro Afiliado</th>
-                    <th>Especialidad</th>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Paciente</th>
+                        <th>Tel&eacute;fono</th>
+                        <th>Obra Social</th>
+                        <th>Nro Afiliado</th>
+                        <th>Especialidad</th>
+                    </tr>
                 </thead>
-                <tbody id="listado">
+                <tbody>
                     @foreach ($turnos as $turno)
                         <tr>
                             <td> {{ (new \Carbon\Carbon($turno->hora))->format('H:i') }}</td>
@@ -72,5 +75,4 @@
 @section('scripts')
     {!!Html::script('js/funciones/focus.js')!!}
     {!!Html::script('js/funciones/datepicker.js')!!}
-    {!!Html::script('js/turnos/listado.js')!!}
 @endsection

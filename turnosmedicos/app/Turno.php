@@ -30,6 +30,6 @@ class Turno extends Model
 
     public function medico()
     {
-    	return $this->hasOne('App\Medico', 'medico_id', 'id');
+    	return $this->hasOne('App\Medico', 'id', 'medico_id');
     }
 }

@@ -81,20 +81,35 @@ class TurnosController extends Controller
 
     public function listado(Request $request)
     {
-        $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');
+        //si el submit button es el que tiene "value"='pdf' 
+        //es decir, si quiero exportar a pdf
+        if($request->get('aceptar') == 'pdf'){
+            //seteamos el médico y la fecha para buscar los turnos
+            $request->get('medico_id')? $medico = Medico::findOrFail($request->get('medico_id')) : $medico = Medico::first();
+            $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
-        $request->get('medico_id')? $medico_id = $request->get('medico_id') : $medico_id = 0;
-        $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
+            //buscamos los turnos correspondientes al médico y fecha dados
+            $turnos = Turno::where('medico_id', '=', $medico->id)->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
 
-        $turnos = Turno::where('medico_id', '=', $medico_id)->whereDate('fecha', '=', $fecha->startOfDay())->get();
+            //preparamos el pdf con una vista separada (para evitar errores de markup validation)
+            $pdf = \PDF::loadView('pdf.listado_turnos', ['medico' => $medico, 'turnos' => $turnos, 'fecha' => $fecha]);
 
-        return view('turnos.listado', ['medicos' => $medicos, 'turnos' => $turnos, 'medico_id' => $medico_id, 'fecha' => $fecha]);
-    }
+            //iniciamos la descarga
+            return $pdf->download('listado_turnos.pdf');
+        //si el submit button es el que tiene el "value"='buscar'
+        }else{
+            //preparamos los médico en formato arreglo para el dropdown en la vista
+            $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');
 
-    public function pdfPrueba()
-    {
-        $pdf = \PDF::loadView('welcome');
-        return $pdf->download('D:\backups\prueba.pdf');
+            //seteamos el medico_id y la fecha según los inputs e la vista o con valores por defecto
+            $request->get('medico_id')? $medico_id = $request->get('medico_id') : $medico_id = 0;
+            $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
+
+            //buscamos los turnos correspondientes al médico y fecha dados
+            $turnos = Turno::where('medico_id', '=', $medico_id)->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+
+            return view('turnos.listado', ['medicos' => $medicos, 'turnos' => $turnos, 'medico_id' => $medico_id, 'fecha' => $fecha]);
+        }
     }
 
     /**
