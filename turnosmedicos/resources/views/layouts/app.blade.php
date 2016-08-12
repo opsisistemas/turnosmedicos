@@ -91,8 +91,9 @@
                                 Gesti&oacute;n de Turnos <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/turnos.listado') }}">Turnos Por M&eacute;dico</a></li>
-                                <li><a href="{{ url('/turnos.create') }}">Nuevo Turno</a></li>
+                                <li><a href="{{ url('/turnos.listado') }}">Listado de Turnos</a></li>
+                                <li><a href="{{ url('/turnos.create') }}">Turno por M&eacute;dico</a></li>
+                                <li><a href="{{ url('/turnos.create_por_especialidad') }}">Turno por Especialidad</a></li>
                             </ul>
                         </li>
 

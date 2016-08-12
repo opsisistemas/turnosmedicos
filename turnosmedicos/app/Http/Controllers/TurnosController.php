@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Medico;
 use App\Dia;
-use App\Horario;
 use App\Turno;
+use App\Especialidad;
 
 use Session;
 use Carbon\Carbon;
+use DB;
 
 class TurnosController extends Controller
 {
@@ -30,12 +31,12 @@ class TurnosController extends Controller
     {
         $fecha=Carbon::createFromFormat('d-m-Y', $request->get('fecha'));
         $medico_id=$request->get('medico_id');
-
         //seteamos los datos necesarios para los cálculos: el médico, su horario en el día solicitado,
         //la cantidad en minutos que reporesenta ese horario, la duracion del turno, y la cantidad de 
         //turnos por día
         $medico = Medico::findOrFail($medico_id);
-        $horario = Horario::where('medico_id', '=', $medico_id)->where('dia', '=', $fecha->dayOfWeek)->get();
+        $horario = Medico::join('dia_medico', 'medicos.id', '=', 'dia_medico.medico_id')->where('medicos.id', '=', $medico_id)->where('dia_medico.dia_id', '=', $fecha->dayOfWeek)->get();
+
         $minutosAtencion = (new Carbon($horario[0]->hasta))->diffInMinutes(new Carbon($horario[0]->desde));
         $duracionTurno = (new Carbon($medico->duracionTurno))->minute;
         $turnos_x_dia = $minutosAtencion / $duracionTurno;
@@ -44,7 +45,7 @@ class TurnosController extends Controller
         $horarios = [];
         $hora = Carbon::createFromFormat('Y-m-d H:i:s', $horario[0]->desde);
         for($i = 0; $i < $turnos_x_dia; $i++){
-            $horarios[$hora->toTimeString()] = $this->verificarDisponibilidad($fecha, $hora);
+            $horarios[$hora->toTimeString()] = $this->verificarDisponibilidad($medico_id, $fecha, $hora);
 
             $hora = $hora->addMinutes($duracionTurno);
         }
@@ -52,9 +53,9 @@ class TurnosController extends Controller
         return $horarios;
     }
 
-    private function verificarDisponibilidad(Carbon $fecha, Carbon $hora)
+    private function verificarDisponibilidad($medico_id, Carbon $fecha, Carbon $hora)
     {
-        $turno = Turno::whereDate('fecha', '=', $fecha->startOfDay())->whereraw('hour(hora) = '.(string)$hora->hour)->whereraw('minute(hora) = '.(string)$hora->minute)->get();
+        $turno = Turno::whereDate('fecha', '=', $fecha->startOfDay())->where('medico_id', '=', $medico_id)->whereraw('hour(hora) = '.(string)$hora->hour)->whereraw('minute(hora) = '.(string)$hora->minute)->get();
 
         return $turno->isEmpty();
     }
@@ -78,12 +79,16 @@ class TurnosController extends Controller
         );
     }
 
-    public function listado()
+    public function listado(Request $request)
     {
-        $medicos=Medico::all();
-        $turnos=[];
+        $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');
 
-        return view('turnos.listado', array('medicos' => $medicos, 'turnos' => $turnos));
+        $request->get('medico_id')? $medico_id = $request->get('medico_id') : $medico_id = 0;
+        $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
+
+        $turnos = Turno::where('medico_id', '=', $medico_id)->whereDate('fecha', '=', $fecha->startOfDay())->get();
+
+        return view('turnos.listado', ['medicos' => $medicos, 'turnos' => $turnos, 'medico_id' => $medico_id, 'fecha' => $fecha]);
     }
 
     public function pdfPrueba()
@@ -109,7 +114,16 @@ class TurnosController extends Controller
      */
     public function create()
     {
-        return view('turnos.create');
+        $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id');
+
+        return view('turnos.create', ['medicos' => $medicos]);
+    }
+
+
+    public function create_por_especialidad()
+    {
+        $especialidades = Especialidad::orderBy('descripcion')->lists('descripcion', 'id');
+        return view('turnos.create_por_especialidad', ['especialidades' => $especialidades]);
     }
 
     /**
@@ -123,9 +137,9 @@ class TurnosController extends Controller
         $this->validarTurno($request);
 
         $input = $request->all();
-        $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha']);
-        $input['hora'] = Carbon::createFromFormat('H:i:s', $input['hora']);
-        
+        $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
+        $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
+
         Turno::create($input);
 
         Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa');

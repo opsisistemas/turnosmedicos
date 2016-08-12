@@ -18,21 +18,18 @@
         <div class="panel panel-info">
             <div class="panel-heading"> 
                 {!! Form::open([
+                                'method' => 'GET',
                                 'class' => 'navbar-form',
                                 'role' => 'search',
-                                'onsubmit' => 'return false'
+                                'url' => ['turnos.listado']
                                  ]) !!}
                  <!--selección de fecha desde filtrar,hoy por defecto-->
-                {!! Form::label('dia', 'D&iacute;a:', ['class' => 'control-label']) !!}
-                {!! Form::text('dia', Carbon\Carbon::now()->format('d-m-Y'), ['class' => 'datepicker form-control', 'id' => 'dia']) !!}
-
-                 <!--selección de especialidad-->
-                {!! Form::label('especialidad', 'Especialidad:', ['class' => 'control-label']) !!}
-                {!! Form::select('especialidad', ['0' => '--Selccionar--'], null, ['class' => 'form-control enfocar', 'id' => 'especialidad']) !!}
+                {!! Form::label('fecha', 'D&iacute;a:', ['class' => 'control-label']) !!}
+                {!! Form::text('fecha', $fecha->format('d-m-Y'), ['class' => 'datepicker form-control', 'id' => 'fecha']) !!}
 
                  <!--selección de médico-->
-                {!! Form::label('medico', 'M&eacute;dico:', ['class' => 'control-label']) !!}
-                {!! Form::select('medico', ['0' => '--Selccionar--'], null, ['class' => 'form-control enfocar', 'id' => 'medico']) !!}
+                {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
+                {!! Form::select('medico_id', $medicos, $medico_id, ['class' => 'form-control enfocar', 'id' => 'medico']) !!}
 
                 {!! Form::submit('Buscar', ['class' => 'btn btn-default', 'id' => 'btn-search'])  !!}
                     <div class="pull-right">
@@ -49,8 +46,19 @@
                     <th>Tel&eacute;fono</th>
                     <th>Obra Social</th>
                     <th>Nro Afiliado</th>
+                    <th>Especialidad</th>
                 </thead>
                 <tbody id="listado">
+                    @foreach ($turnos as $turno)
+                        <tr>
+                            <td> {{ (new \Carbon\Carbon($turno->hora))->format('H:i') }}</td>
+                            <td> {{ $turno->paciente->nombre }}</td>
+                            <td> {{ $turno->paciente->telefono }}</td>
+                            <td> {{ $turno->paciente->obra_social->nombre }}</td>
+                            <td> {{ $turno->paciente->nro_afiliado }}</td>
+                            <td> {{ $turno->especialidad->descripcion }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <div>

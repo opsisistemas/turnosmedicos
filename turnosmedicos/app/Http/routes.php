@@ -27,6 +27,7 @@ Route::resource('medicos', 'MedicosController');
 Route::resource('turnos', 'TurnosController');
 Route::get('turnos.create', 'TurnosController@create');
 Route::get('turnos.listado', 'TurnosController@listado');
+Route::get('turnos.create_por_especialidad', 'TurnosController@create_por_especialidad');
 
 //ajax edit/create
 Route::get('getPais', 'PaisesController@getPais');
@@ -43,7 +44,10 @@ Route::get('provinciasPais', 'ProvinciaController@provinciasPais');
 Route::get('localidadesProvincia', 'LocalidadesController@localidadesProvincia');
 Route::get('planesObraSocial', 'PlanesController@planesObraSocial');
 Route::get('medicosEspecialidad', 'EspecialidadesController@medicosEspecialidad');
+Route::get('especialidadesMedico', 'MedicosController@especialidadesMedico');
+Route::get('medicosDia', 'DiasController@medicosDia');
 Route::get('diasAtencion', 'MedicosController@diasAtencion');
+Route::get('diasAtencion_esp', 'EspecialidadesController@diasAtencion');
 Route::get('getPaises', 'PaisesController@getPaises');
 Route::get('getObrasSociales', 'ObrasSocialesController@getObrasSociales');
 Route::get('getEspecialidades', 'EspecialidadesController@getEspecialidades');

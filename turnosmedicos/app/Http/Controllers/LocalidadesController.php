@@ -43,8 +43,9 @@ class LocalidadesController extends Controller
      */
     public function index()
     {
-        $localidades = Localidad::paginate(30);
-        return view('localidades.index', array('localidades' => $localidades, 'paises' => Funciones::getPaisesSel(), 'provincias' => Funciones::getProvinciasSel(1)));
+        $localidades = Localidad::orderBy('nombre')->paginate(30);
+        $paises = Funciones::getPaisesSel();
+        return view('localidades.index', ['localidades' => $localidades, 'paises' => $paises]);
     }
 
     /**

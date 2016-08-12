@@ -25,7 +25,7 @@ class Turno extends Model
 
     public function especialidad()
     {
-    	return $this->hasOne('App\Especialidad', 'especialidad_id', 'id');
+    	return $this->hasOne('App\Especialidad', 'id', 'especialidad_id');
     }
 
     public function medico()

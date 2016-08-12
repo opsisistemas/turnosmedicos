@@ -1,51 +1,23 @@
-$("#medico_id").on('change', function (){
-	var id = $("#medico_id").val();
+$("#especialidad_id").on('change', function (){
+	var id = $("#especialidad_id").val();
 
     $.ajax({
-		url:  'diasAtencion',
+		url:  'diasAtencion_esp',
         type: 'GET',
         data: 'id=' + id,
 
 		success:  function (dias)
 		{
-			getEspecialidades();
 			//habilitamos el calendario
-			$("#calendar-picker").attr('class', 'panel panel-default')
+			$("#calendar-picker").attr('class', 'panel panel-default');
 			//deshablilitamos el resto
-			$("#hour-picker").attr('class', 'panel panel-default hidden')
-			$("#buttons").attr('class', 'hidden')			
+			$("#medicos").attr('class', 'form-group hidden');
+			$("#hour-picker").attr('class', 'panel panel-default hidden');
+			$("#buttons").attr('class', 'hidden');
 			$('#datepicker-center').html('<div id="calpicker"></div>');
 			configurarCalendario(dias);
 		}
 	});
-
-	function getEspecialidades(){
-		$.ajax({
-			url: 'especialidadesMedico',
-			type: 'GET',
-			data: 'id=' + id,
-
-			success: function (especialidades)
-			{
-				//armamos los especialidades
-				var opciones = "";
-				var tam = 0;
-				$.each(especialidades, function(key,value) {
-					opciones = opciones + ("<option value="+value.id+">"+value.descripcion+"</option>");
-					tam += 1;
-				});
-				
-				$("#especialidad_id").html(opciones);
-				if(tam > 1){
-					//habilitamos la especialidad (si es más de una, el usuario debería informarla)
-					$("#especialidad").attr('class', 'form-group');
-				}else{
-					//si sólo tiene una especialidad, no es necesario que el paciente la informe desde ésta utilidad 
-					$("#especialidad").attr('class', 'form-group hidden');
-				}
-			}
-		});
-	}
 
 	function configurarCalendario(dias){
 		$('#calpicker').datepicker({
@@ -80,6 +52,42 @@ $("#medico_id").on('change', function (){
 });
 
 function calendarClick(){
+	//obtenemos el dia_id, respetando la codificación de php, la cual usamos en la bd, 
+	//corresponiente al modelo "Dia" del proyecto
+	fecha = $("#fecha_dp").val();
+	date_string = fecha.substring(6, 10) + '-' + fecha.substring(3, 5) + '-' + fecha.substring(0, 2);
+	date = new Date(date_string);
+	dia_id = (date.getDay() + 1) % 7;
+	especialidad_id = $("#especialidad_id").val();
+
+	$.ajax({
+		url: 'medicosDia',
+		type: 'GET',
+		data: 'dia_id=' + dia_id + '&especialidad_id=' + especialidad_id,
+
+		success: function(medicos){
+			//desocultamos el panel de selección de médicos
+			$("#medico_id").attr('class', 'form-control')
+			//ocultamos el panel de botones de aceptar/cancelar y los horarios
+			$("#buttons").attr('class', 'hidden');
+			$("#hour-picker").attr('class', 'panel panel-default hidden');
+
+			//armamos los medicos
+			var opciones = "";
+			var tam = 0;
+			$.each(medicos, function(key,value) {
+				opciones = opciones + ("<option value="+value.id+">"+value.apellido+"</option>");
+				tam += 1;
+			});
+			
+			$("#medicos").attr('class', 'form-group');
+			$("#medico_id").html(opciones);
+			if(tam == 1){$("#medico_id").change()}
+		}
+	});
+}
+
+$("#medico_id").on('change', function (){
 	var fecha = $("#fecha_dp").val();
 	var medico_id = $("#medico_id").val();
 
@@ -110,7 +118,7 @@ function calendarClick(){
 			$("#horarios").html(opciones).focus();
 		}
 	});
-}
+});
 
 function horarioSeleccionado(){
 	$("#buttons").attr('class', '');

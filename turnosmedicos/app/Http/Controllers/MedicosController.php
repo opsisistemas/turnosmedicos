@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Medico;
 use App\Dia;
-use App\Horario;
 use App\Turno;
 use App\Categoria_medico;
 use App\Especialidad;
@@ -30,20 +29,26 @@ class MedicosController extends Controller
     public function getMedico(Request $request)
     {
         //$medico = Medico::where('id', $request->get('id'))->get();
-        $medico = Medico::findOrFail($request->get('id'));
+        $medico = Medico::with('especialidades')->findOrFail($request->get('id'));
         //intento recuperar los días y horarios de atención
-        $medico->horarios;
-        $medico->especialidad;
         return response()->json($medico);
     }    
 
     public function diasAtencion(Request $request)
     {
-
-        $dias = Dia::join('horarios', 'dias.id', '=', 'horarios.dia')->where('horarios.medico_id', '=', $request->get('id'))->get();        
+        $dias = Dia::with('medicos')->join('dia_medico', 'dias.id', '=', 'dia_medico.dia_id')->where('dia_medico.medico_id', '=', $request->get('id'))->get();
 
         return response()->json(
             $dias->toArray()
+        );
+    }
+
+    public function especialidadesMedico(Request $request)
+    {
+        $especialidades = Especialidad::select('especialidades.id', 'especialidades.descripcion')->join('especialidad_medico', 'especialidades.id', '=', 'especialidad_medico.especialidad_id')->where('especialidad_medico.medico_id', '=', $request->get('id'))->get();
+
+        return response()->json(
+            $especialidades->toArray()
         );
     }
     /**
@@ -91,15 +96,20 @@ class MedicosController extends Controller
 
             $medico=Medico::create($input); 
 
-            $medico->especialidades()->sync($input['especialidad']);
-            $medico->obras_sociales()->sync($input['obras_sociales']);
+            if(isset($input['especialidad'])){
+                $medico->especialidades()->sync($input['especialidad']);
+            }
+            if(isset($input['obras_sociales'])){
+                $medico->obras_sociales()->sync($input['obras_sociales']);
+            }
+            if(isset($input['dia'])){
+                $medico->dias()->detach();
+                foreach ($input['dia'] as $dia){
+                    $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                    $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
 
-            $medico->dias()->detach();
-            foreach ($input['dia'] as $dia){
-                $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
-                $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
-
-                $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                    $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                }
             }
             Session::flash('flash_message', 'Alta de Medico exitosa!');
         });
@@ -144,7 +154,7 @@ class MedicosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::transaction(function () use ($request) { 
+        DB::transaction(function () use ($request, $id) { 
             $this->validarMedico($request);
 
             $medico = Medico::findOrFail($id);
@@ -155,15 +165,21 @@ class MedicosController extends Controller
 
             $medico->fill($input)->save();
 
-            $medico->especialidades()->sync($input['especialidad']);
-            $medico->obras_sociales()->sync($input['obras_sociales']);
+            if(isset($input['especialidad'])){
+                $medico->especialidades()->sync($input['especialidad']);
+            }
+            if(isset($input['obras_sociales'])){
+                $medico->obras_sociales()->sync($input['obras_sociales']);
+            }
 
-            $medico->dias()->detach();
-            foreach ($input['dia'] as $dia){
-                $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
-                $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
+            if(isset($input['dia'])){
+                $medico->dias()->detach();
+                foreach ($input['dia'] as $dia){
+                    $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                    $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
 
-                $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                    $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                }
             }
             Session::flash('flash_message', 'Medico editado con éxito!');
         });

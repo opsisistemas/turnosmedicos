@@ -31,7 +31,7 @@
 
                 <div class="form-group">
                     {!! Form::label('provincia_id', 'Provincias', ['class' => 'control-label']) !!}
-                    {!! Form::select('provincia_id', $provincias, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'provincia_e']) !!}
+                    {!! Form::select('provincia_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'provincia_e']) !!}
                 </div>
 
                 <div class="form-group">

@@ -36,9 +36,19 @@ class EspecialidadesController extends Controller
 
     public function medicosEspecialidad(Request $request)
     {
-        $medicos = Medico::where('especialidad_id', '=',  $request->get('id'))->get();
+        $medicos = Medico::join('especialidad_medico', 'medicos.id', '=', 'especialidad_medico.medico_id')->where('especialidad_medico.especialidad_id', $request->get('id'))->get();
+
         return response()->json(
             $medicos->toArray()
+        );
+    }
+
+    public function diasAtencion(Request $request)
+    {
+        $dias =  Medico::select('dia_medico.dia_id')->join('especialidad_medico', 'medicos.id', '=', 'especialidad_medico.medico_id')->where('especialidad_medico.especialidad_id', $request->get('id'))->join('dia_medico', 'medicos.id', '=', 'dia_medico.medico_id')->get();
+
+        return response()->json(
+            $dias->toArray()
         );
     }
     /**

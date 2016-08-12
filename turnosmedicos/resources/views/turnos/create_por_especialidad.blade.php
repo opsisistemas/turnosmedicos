@@ -23,8 +23,8 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
-                    {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
+                    {!! Form::label('especialidad_id', 'Especialidad:', ['class' => 'control-label']) !!}
+                    {!! Form::select('especialidad_id', $especialidades, null, ['class' => 'form-control', 'id' => 'especialidad_id']) !!}
                 </div>
 
                 <div class="panel panel-default hidden" id="calendar-picker">
@@ -36,9 +36,9 @@
                     </div>
                 </div>
 
-                <div class="form-group hidden" id="especialidad">
-                    {!! Form::label('especialidad_id', 'Especialidad:', ['class' => 'control-label']) !!}
-                    {!! Form::select('especialidad_id', [], null, ['class' => 'form-control', 'id' => 'especialidad_id']) !!}
+                <div class="form-group hidden" id="medicos">
+                    {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
+                    {!! Form::select('medico_id', [-1 => '--Selecccionar--'], null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>
 
                 <div class="panel panel-default hidden" id="hour-picker">
@@ -67,7 +67,7 @@
 @endsection
 
 @section('scripts')
-    {!!Html::script('js/turnos/create.js')!!}
     {!!Html::script('js/funciones/toTitleCase.js')!!}
+    {!!Html::script('js/turnos/create_por_especialidad.js')!!}
     <link rel="stylesheet" href="{{ asset('css/turnos.css') }}">
 @endsection

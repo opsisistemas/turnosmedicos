@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Horario;
-
 class Medico extends Model
 {
     protected $primaryKey = 'id';
