@@ -10,9 +10,9 @@ $("#medico_id").on('change', function (){
 		{
 			getEspecialidades();
 			//habilitamos el calendario
-			$("#calendar-picker").attr('class', 'panel panel-default')
+			$("#calendar-picker").attr('class', '')
 			//deshablilitamos el resto
-			$("#hour-picker").attr('class', 'panel panel-default hidden')
+			$("#hour-picker").attr('class', 'hidden')
 			$("#buttons").attr('class', 'hidden')			
 			$('#datepicker-center').html('<div id="calpicker"></div>');
 			configurarCalendario(dias);
@@ -90,7 +90,7 @@ function calendarClick(){
 
 		success: function(horarios){
 			//desocultamos el panel de horarios
-			$("#hour-picker").attr('class', 'panel panel-default')
+			$("#hour-picker").attr('class', '')
 			//ocultamos el panel de botones de aceptar/cancelar
 			$("#buttons").attr('class', 'hidden');
 

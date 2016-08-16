@@ -9,3 +9,9 @@
 .noDisp{
 	color: red; 
 }
+
+.comment {
+	color: green;
+	display: inline;
+	padding-left: 10px;
+}

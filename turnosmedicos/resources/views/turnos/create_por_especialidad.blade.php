@@ -27,26 +27,35 @@
                     {!! Form::select('especialidad_id', $especialidades, null, ['class' => 'form-control', 'id' => 'especialidad_id']) !!}
                 </div>
 
-                <div class="panel panel-default hidden" id="calendar-picker">
-                    <div class="panel-heading">
-                        <div id="datepicker-container">
-                            <div id="datepicker-center"></div>
+                <div class="hidden" id="calendar-picker">
+                    {!! Form::label('datepicker-container', 'Seleccione fecha:', ['class' => 'control-label']) !!}
+                    <p class="comment">(Seleccionando una d&iacute;a del calendario, usted podr&aacute; ver los d&iacute;as de atenci&oacute;n correspondientes a la especialidad seleccionada)</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div id="datepicker-container">
+                                <div id="datepicker-center"></div>
+                            </div>
+                            {!! Form::hidden('fecha', '', ['id' => 'fecha_dp']) !!}
                         </div>
-                        {!! Form::hidden('fecha', '', ['id' => 'fecha_dp']) !!}
                     </div>
                 </div>
 
                 <div class="form-group hidden" id="medicos">
                     {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
+                    <p class="comment">(Uste puede seleccionar un m&eacute;dico de &eacute;sta lista conforme a la especialidad y el d&iacute;a seleccionados)</p>
                     {!! Form::select('medico_id', [-1 => '--Selecccionar--'], null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>
 
-                <div class="panel panel-default hidden" id="hour-picker">
-                    <div class="panel-heading hidden"></div>
-                    <div class="panel-body">
-                        <div id="datepicker-container">
-                            <div id="datepicker-center">
-                                <div id="horarios"></div>
+                <div class="hidden" id="hour-picker">
+                    {!! Form::label('datepicker-container', 'Seleccione hora:', ['class' => 'control-label']) !!}
+                    <p class="comment">(Los horarios en rojo no est&aacute;n disponibles)</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading hidden"></div>
+                        <div class="panel-body">
+                            <div id="datepicker-container">
+                                <div id="datepicker-center">
+                                    <div id="horarios"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

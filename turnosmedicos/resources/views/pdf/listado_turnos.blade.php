@@ -29,7 +29,6 @@
             <table class="table table-striped task-table">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Hora</th>
                         <th>Paciente</th>
                         <th>Tel&eacute;fono</th>
@@ -51,8 +50,6 @@
                     @endforeach
                 </tbody>
             </table>
-            <div>
-            </div>
         </div>                
     </div>
 </div>
