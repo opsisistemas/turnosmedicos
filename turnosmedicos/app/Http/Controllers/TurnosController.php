@@ -11,6 +11,7 @@ use App\Turno;
 use App\Especialidad;
 
 use Session;
+use Auth;
 use Carbon\Carbon;
 use DB;
 
@@ -55,7 +56,7 @@ class TurnosController extends Controller
 
     private function verificarDisponibilidad($medico_id, Carbon $fecha, Carbon $hora)
     {
-        $turno = Turno::whereDate('fecha', '=', $fecha->startOfDay())->where('medico_id', '=', $medico_id)->whereraw('hour(hora) = '.(string)$hora->hour)->whereraw('minute(hora) = '.(string)$hora->minute)->get();
+        $turno = Turno::whereDate('fecha', '=', $fecha->startOfDay())->where('medico_id', '=', $medico_id)->whereraw('hour(hora) = '.(string)$hora->hour)->whereraw('minute(hora) = '.(string)$hora->minute)->where('cancelado', false)->get();
 
         return $turno->isEmpty();
     }
@@ -112,6 +113,13 @@ class TurnosController extends Controller
         }
     }
 
+    public function misTurnos()
+    {
+        $paciente_id = 3;//Auth::user()->id;
+        $turnos = Turno::with('medico')->with('especialidad')->where('paciente_id', '=', $paciente_id)->where('cancelado', false)->orderBy('fecha', 'DESC')->get();
+
+        return view('turnos.misturnos', ['turnos' => $turnos]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -162,6 +170,16 @@ class TurnosController extends Controller
         return redirect('/turnos.listado');
     }
 
+    public function cancel($id)
+    {
+        $turno = Turno::findOrFail($id);
+        $turno->fill(['cancelado' => true])->save();
+
+        Session::flash('flash_message', 'Se ha cancelado el turno de manera exitosa');
+
+        return redirect('/turnos.misturnos');
+    }
+
     /**
      * Display the specified resource.
      *
@@ -204,6 +222,8 @@ class TurnosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $turno = Turno::findOrFail($id);
+        $turno->delete();
+        return redirect('/turnos.misturnos');
     }
 }

@@ -14,9 +14,16 @@ class Turno extends Model
         'medico_id',
         'horario',
         'fecha',
-        'hora'
+        'hora',
+        'tipo',
+        'cancelado'
     ];
+
     protected $dates = ['fecha', 'hora'];
+
+    protected $casts = [
+        'cancelado' => 'boolean',
+    ];
 
     public function paciente()
     {

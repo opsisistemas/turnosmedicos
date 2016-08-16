@@ -28,6 +28,8 @@ Route::resource('turnos', 'TurnosController');
 Route::get('turnos.create', 'TurnosController@create');
 Route::get('turnos.listado', 'TurnosController@listado');
 Route::get('turnos.create_por_especialidad', 'TurnosController@create_por_especialidad');
+Route::get('turnos.misturnos', 'TurnosController@misTurnos');
+Route::post('turnos.cancel/{id}', 'TurnosController@cancel');
 
 //ajax edit/create
 Route::get('getPais', 'PaisesController@getPais');

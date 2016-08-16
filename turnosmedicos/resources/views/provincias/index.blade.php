@@ -38,7 +38,6 @@
                         <thead>
                             <th>Nombre</th>
                             <th>Pa&iacute;s</th>
-                            <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </thead>

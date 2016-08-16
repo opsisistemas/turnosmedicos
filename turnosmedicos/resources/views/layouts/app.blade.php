@@ -73,12 +73,19 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Datos Generales <span class="caret"></span>
+                                Datos Secundarios <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/paises') }}">Pa&iacute;ses</a></li>
                                 <li><a href="{{ url('/provincias') }}">Provincias</a></li>
                                 <li><a href="{{ url('/localidades') }}">Localidades</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Datos Generales <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/especialidades') }}">Especialidades</a></li>
                                 <li><a href="{{ url('/obras_sociales') }}">Obras Sociales</a></li>
                                 <li><a href="{{ url('/planes') }}">Planes</a></li>
@@ -94,6 +101,7 @@
                                 <li><a href="{{ url('/turnos.listado') }}">Listado de Turnos</a></li>
                                 <li><a href="{{ url('/turnos.create') }}">Turno por M&eacute;dico</a></li>
                                 <li><a href="{{ url('/turnos.create_por_especialidad') }}">Turno por Especialidad</a></li>
+                                <li><a href="{{ url('/turnos.misturnos') }}">Mis Turnos</a></li>
                             </ul>
                         </li>
 
