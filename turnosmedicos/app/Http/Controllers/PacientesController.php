@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Paciente;
 use App\Funciones;
+use App\Pais;
+use App\ObraSocial;
+use App\User;
 
 use Session;
 use Carbon\Carbon;
+use DB;
+use Auth;
 
 class PacientesController extends Controller
 {
@@ -46,7 +51,10 @@ class PacientesController extends Controller
      */
     public function create()
     {
-        //
+        $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+
+        return view('pacientes.create', ['paises' => $paises, 'obras_sociales' => $obras_sociales]);
     }
 
     /**
@@ -54,20 +62,36 @@ class PacientesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function store(Request $request)
     {
-        $this->validarPaciente($request);
+        DB::transaction(function () use ($request) {
+            $this->validarPaciente($request);
+            $input = $request->all();
 
-        $input = $request->all();
+            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            $input['user_id'] = $usuario->id;
 
-        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            Paciente::create($input);
+
+            Session::flash('flash_message', 'Alta de Paciente exitosa!');
+        });
+        return redirect('/');
+    }
+
+    public function persist(Request $request)
+    {
+        $user = Auth::user();
+        $input = [];
+        $input['user_id'] = $user->id;
+        $input['nombre'] = $user->name;
+        $input['apellido'] = '';
 
         Paciente::create($input);
 
-        Session::flash('flash_message', 'Alta de Paciente exitosa!');
+        Session::flash('flash_message', 'Bienvenido '.$user->name.'!');
 
-        return redirect('/pacientes');
+        return redirect('/');
     }
 
     /**

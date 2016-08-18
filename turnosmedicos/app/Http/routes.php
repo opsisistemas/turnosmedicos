@@ -25,6 +25,8 @@ Route::resource('planes', 'PlanesController');
 Route::resource('pacientes', 'PacientesController');
 Route::resource('medicos', 'MedicosController');
 Route::resource('turnos', 'TurnosController');
+Route::get('pacientes.persist', 'PacientesController@persist');
+Route::get('pacientes.create', 'PacientesController@create');
 Route::get('turnos.create', 'TurnosController@create');
 Route::get('turnos.listado', 'TurnosController@listado');
 Route::get('turnos.create_por_especialidad', 'TurnosController@create_por_especialidad');

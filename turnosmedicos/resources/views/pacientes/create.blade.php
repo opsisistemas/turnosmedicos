@@ -1,23 +1,25 @@
-<!--*****************************************************************************************-->
-<!--*****************************************************************************************-->
+@extends('layouts.app')
 
-<!-- MODAL -->
-<div class="modal fade" id="createModal" role="dialog">
-    <div class="modal-dialog">
-
-    <!-- MODAL CONTENT-->
-        <div class="modal-content">
-            <!-- MODAL HEADER-->
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Nuevo Paciente</h4>
+@section('content')
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1>Nuevo Paciente</h1>                       
             </div>
-            <!-- MODAL BODY-->
-            <div class="modal-body">
+
+            <div class="panel-body">                
+                @include('partials.alerts.errors')
+                <!-- success messages -->
+                @if(Session::has('flash_message'))
+                    <div class="alert alert-success">
+                         {{ Session::get('flash_message') }}
+                    </div>
+                @endif
+                <!-- -->
                 {!! Form::open(['url' => 'pacientes']) !!}
 
                 <div class="form-group">
-                    {!! Form::label('apellido', 'Apellido:', ['class' => 'control-label']) !!}
+                    {!! Form::label('apellido', 'Apellido:', ['class' => 'control-label enfocar']) !!}
                     {!! Form::text('apellido', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'apellido_c']) !!}
                 </div>
 
@@ -47,13 +49,35 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('email', 'E-Mail', ['class' => 'control-label']) !!}
+                    {!! Form::email('email', old('email'), ['method' => 'GET', 'class' => 'form-control']) !!}
+
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('password', 'Password', ['class' => 'control-label']) !!}
+                    {!! Form::password('password', ['class' => 'form-control']) !!}
+
+                    @if ($errors->has('password'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                    @endif
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento:', ['class' => 'control-label']) !!}
                     {!! Form::text('fechaNacimiento', \Carbon\Carbon::now()->format('d-m-Y'), ['class' => 'form-control datepicker', 'id' => 'fechaNacimiento_c']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('pais_id', 'Pa&iacute;s:', ['class' => 'control-label']) !!}
-                    {!! Form::select('pais_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'pais_c']) !!}
+                    {!! Form::select('pais_id', $paises, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'pais_c']) !!}
                 </div>
 
                 <div class="form-group">
@@ -68,7 +92,7 @@
 
                 <div class="form-group">
                     {!! Form::label('obra_social_id', 'Obra Social:', ['class' => 'control-label']) !!}
-                    {!! Form::select('obra_social_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_c']) !!}
+                    {!! Form::select('obra_social_id', $obras_sociales, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_c']) !!}
                 </div>
 
                 <div class="form-group">
@@ -91,4 +115,10 @@
             </div>
         </div>
     </div>
-</div>
+@endsection
+
+@section('scripts')
+    {!! Html::script('js/funciones/focus.js') !!}
+    {!! Html::script('js/funciones/datepicker.js') !!}
+    {!! Html::script('js/pacientes/create.js') !!}
+@endsection

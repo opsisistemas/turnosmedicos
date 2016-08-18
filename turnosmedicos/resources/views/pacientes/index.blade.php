@@ -15,8 +15,13 @@
                      <h1>
                         Pacientes
                         <div class="pull-right">
-                            <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                            {!! Form::button('Nuevo Paciente <i class="fa fa-bolt"></i>', ['class' => 'btn btn-success btn-create-paciente', 'type' => 'submit', 'data-toggle' => 'modal', 'data-target' => '#createModal']) !!}
+                            {!! Form::open([
+                                'method' => 'GET',
+                                'route' => ['pacientes.create'],
+                                'class' => 'navbar-form navbar-left pull-left'                                                         
+                            ]) !!}
+                            {!! Form::submit('Nuevo Paciente', ['class' => 'btn btn-success']) !!}
+                            {!! Form::close() !!} 
                         </div> 
                     </h1>
                 </div>

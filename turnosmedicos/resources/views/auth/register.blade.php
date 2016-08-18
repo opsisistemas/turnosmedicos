@@ -11,10 +11,10 @@
                         {!! csrf_field() !!}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Name</label>
+                            <label class="col-md-4 control-label">Nombre</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                <input type="text" class="form-control enfocar" name="name" value="{{ old('name') }}">
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i>Register
+                                    <i class="fa fa-btn fa-user"></i>Registrarse
                                 </button>
                             </div>
                         </div>
@@ -82,11 +82,6 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript">
-
-    $(document).ready(function(){
-        $("input[name='name']").focus();
-    });
-
-    </script>
+    
+    {!! Html::script('js/funciones/focus.js') !!}
 @endsection

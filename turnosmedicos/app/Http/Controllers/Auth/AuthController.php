@@ -28,7 +28,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/pacientes.persist';
 
     /**
      * Create a new authentication controller instance.
