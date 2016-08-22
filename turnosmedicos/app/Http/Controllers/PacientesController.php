@@ -10,6 +10,7 @@ use App\Funciones;
 use App\Pais;
 use App\ObraSocial;
 use App\User;
+use App\Role;
 
 use Session;
 use Carbon\Carbon;
@@ -39,9 +40,11 @@ class PacientesController extends Controller
      */
     public function index()
     {
-        $pacientes = Paciente::paginate(30);
+        $pacientes = Paciente::with('localidad')->with('obra_social')->orderBy('nombre')->paginate(30);
+        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
+        $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
 
-        return view('pacientes.index', array('pacientes' => $pacientes));
+        return view('pacientes.index', ['pacientes' => $pacientes, 'obras_sociales' => $obras_sociales, 'paises' => $paises]);
     }
 
     /**
@@ -82,14 +85,22 @@ class PacientesController extends Controller
     public function persist(Request $request)
     {
         $user = Auth::user();
-        $input = [];
-        $input['user_id'] = $user->id;
-        $input['nombre'] = $user->name;
-        $input['apellido'] = '';
+        if($user->pacienteAsociado()->isEmpty()){
+            DB::transaction(function () use ($request, $user) {
+                $input = [];
+                $input['user_id'] = $user->id;
+                $input['nombre'] = $user->name;
+                $input['apellido'] = $user->surname;
+                $input['email'] = $user->email;
 
-        Paciente::create($input);
+                Paciente::create($input);
 
-        Session::flash('flash_message', 'Bienvenido '.$user->name.'!');
+                $role = Role::where('name', '=', 'paciente')->first();
+                $user->attachRole($role);
+
+                Session::flash('flash_message', 'Bienvenido '.$user->name.'!');
+            });
+        }
 
         return redirect('/');
     }
@@ -135,7 +146,7 @@ class PacientesController extends Controller
 
         $paciente->fill($input)->save();
 
-        Session::flash('flash_message', 'Paciente editado con éxito!');
+        Session::flash('flash_message', 'Perfil de Paciente editado con éxito!');
 
         return redirect('/pacientes');
     }

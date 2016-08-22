@@ -57,25 +57,30 @@
                                     <td class="table-text"><div>{{ $paciente->apellido }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->nombre }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->telefono }}</div></td>
-                                    <td class="table-text"><div>{{ $paciente->localidad->nombre }}</div></td>
-                                    <td class="table-text"><div>{{ $paciente->obra_social->nombre }}</div></td>
-                                    <td class="table-text"><div>{{ $paciente->plan->nombre }}</div></td>
-                                    <td>
-                                        <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-paciente', 'type' => 'submit', 'data-id' => $paciente->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
-                                    </td>
-                                    <!-- Task Delete Button -->
-                                    <td>
-                                        {!! Form::open([
-                                            'method' => 'DELETE',
-                                            'route' => ['pacientes.destroy', $paciente->id],
-                                            'onsubmit' => 'return ConfirmDelete()'                  
-                                        ]) !!}
+                                    <td class="table-text"><div>{{ $paciente->localidad? $paciente->localidad->nombre : '' }}</div></td>
+                                    <td class="table-text"><div>{{ $paciente->obra_social? $paciente->obra_social->nombre : '' }}</div></td>
+                                    <td class="table-text"><div>{{ $paciente->plan? $paciente->plan->nombre : '' }}</div></td>
+                                    @if(Entrust::can('editar_usuarios'))
+                                        <td>
+                                            <!-- TRIGGER THE MODAL WITH A BUTTON -->
+                                            {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-paciente', 'type' => 'submit', 'data-id' => $paciente->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
+                                        </td>
+                                        <!-- Task Delete Button -->
+                                        <td>
+                                            {!! Form::open([
+                                                'method' => 'DELETE',
+                                                'route' => ['pacientes.destroy', $paciente->id],
+                                                'onsubmit' => 'return ConfirmDelete()'                  
+                                            ]) !!}
 
-                                        {!! Form::button('Delete <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+                                            {!! Form::button('Delete <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
 
-                                        {!! Form::close() !!}                                           
-                                    </td>
+                                            {!! Form::close() !!}                                           
+                                        </td>
+                                    @else
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -87,7 +92,6 @@
             </div>
         </div>    
     </div>
-    @include('pacientes.create')
     @include('pacientes.edit')
 @endsection
 

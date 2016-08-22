@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e8b5ec499b6fa5b07795581e0caa6935",
-    "content-hash": "7cde7ac1f04d1272b58c0ea2dc02f78f",
+    "hash": "deccef3280e267470e1614b6a2f01df3",
+    "content-hash": "9cfaf7b8eefa8f3f7d17fa19c1a99075",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2360,23 +2360,22 @@
         },
         {
             "name": "zizaco/entrust",
-            "version": "5.2.x-dev",
+            "version": "dev-laravel-5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Zizaco/entrust.git",
-                "reference": "b749bff868026336dec1ba1a16c150728697353d"
+                "reference": "3936ecf81efe2e124998b657a7adf03106e279e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Zizaco/entrust/zipball/b749bff868026336dec1ba1a16c150728697353d",
-                "reference": "b749bff868026336dec1ba1a16c150728697353d",
+                "url": "https://api.github.com/repos/Zizaco/entrust/zipball/3936ecf81efe2e124998b657a7adf03106e279e6",
+                "reference": "3936ecf81efe2e124998b657a7adf03106e279e6",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": "~5.0",
                 "illuminate/console": "~5.0",
                 "illuminate/support": "~5.0",
-                "php": ">=5.5.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "illuminate/database": "~5.0",
@@ -2424,7 +2423,7 @@
                 "permission",
                 "roles"
             ],
-            "time": "2016-03-24 15:24:42"
+            "time": "2016-03-05 04:51:31"
         }
     ],
     "packages-dev": [
