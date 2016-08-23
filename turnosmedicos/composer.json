@@ -10,8 +10,10 @@
         "laravelcollective/html": "^5.2",
         "doctrine/dbal": "~2.4.",
         "barryvdh/laravel-dompdf": "0.6.*",
-        "zizaco/entrust": "dev-laravel-5"
+        "zizaco/entrust": "dev-laravel-5",
+        "mews/captcha": "~2.0"
     },
+    "minimum-stability": "dev",
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",

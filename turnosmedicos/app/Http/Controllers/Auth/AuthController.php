@@ -48,12 +48,16 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $rules = [
             'name' => 'required|max:100',
             'surname' => 'required|max:100',
+            'captcha' => ['required', 'captcha'],
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+        ];
+        $errors = [ 'captcha' => 'El captcha ingresado es incorrecto.' ];
+
+        return Validator::make($data, $rules, $errors);
     }
 
     /**

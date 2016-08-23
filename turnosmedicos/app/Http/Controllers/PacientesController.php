@@ -16,6 +16,8 @@ use Session;
 use Carbon\Carbon;
 use DB;
 use Auth;
+use Validator;
+use Input;
 
 class PacientesController extends Controller
 {

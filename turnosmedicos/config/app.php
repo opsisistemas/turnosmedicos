@@ -156,8 +156,12 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        /*Para exportación a PDF*/
         Barryvdh\DomPDF\ServiceProvider::class,
+        /*Para permisos y roles*/
         Zizaco\Entrust\EntrustServiceProvider::class,
+        /*Para captcha*/
+        Mews\Captcha\CaptchaServiceProvider::class,
 
     ],
 
@@ -203,11 +207,13 @@ return [
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
+        'Input'     => Illuminate\Support\Facades\Input::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];
