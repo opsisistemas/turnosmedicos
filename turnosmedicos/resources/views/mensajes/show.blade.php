@@ -37,7 +37,7 @@
 
                 <div class="form-group">
                     {!! Form::label('visto', 'Visto:', ['class' => 'control-label']) !!}
-                    {!! Form::checkbox('visto', null, false, ['id' => 'visto']) !!}
+                    {!! Form::checkbox('visto', null, false, ['class' => 'form-control', 'id' => 'visto_s']) !!}
                 </div>
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}

@@ -61,7 +61,7 @@
                     {!! Form::submit('Accept', ['class' => 'btn btn-success', 'id' => 'btn-submit']) !!}
 
                     <div class="pull-right">
-                        <a href="{{ route('turnos.index') }}" class="btn btn-danger"></i>Cancel</a>
+                        <a href="{{ url('/') }}" class="btn btn-danger"></i>Cancel</a>
                     </div>
                 </div>
 

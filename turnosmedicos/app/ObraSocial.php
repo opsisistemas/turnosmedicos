@@ -20,4 +20,9 @@ class ObraSocial extends Model
     {
         return $this->belongsToMany('App\Medico');
     }
+
+    public function pacientes()
+    {
+        return $this->hasMany('App\Paciente');
+    }
 }

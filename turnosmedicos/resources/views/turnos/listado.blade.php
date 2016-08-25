@@ -55,9 +55,9 @@
                     @foreach ($turnos as $turno)
                         <tr>
                             <td> {{ (new \Carbon\Carbon($turno->hora))->format('H:i') }}</td>
-                            <td> {{ $turno->paciente->nombre }}</td>
+                            <td> {{ ucwords($turno->paciente->apellido) . ', ' .  ucwords($turno->paciente->nombre) }}</td>
                             <td> {{ $turno->paciente->telefono }}</td>
-                            <td> {{ $turno->paciente->obra_social->nombre }}</td>
+                            <td> {{ $turno->paciente->obra_social['nombre'] }}</td>
                             <td> {{ $turno->paciente->nro_afiliado }}</td>
                             <td> {{ $turno->especialidad->descripcion }}</td>
                         </tr>

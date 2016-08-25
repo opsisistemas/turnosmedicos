@@ -22,8 +22,8 @@
                             'class' => 'navbar-form',
                             'role' => 'search'                                
                         ]) !!}
-                        {!! Form::label('visto', 'Vistos / No Vistos', ['class' => 'control-label']) !!}
-                        {!! Form::select('visto', ['0' => 'No Vistos', '1' => 'Vistos'], $vistos, ['class' => 'form-control']) !!}                 
+                        {!! Form::label('vistos', 'Vistos / No Vistos', ['class' => 'control-label']) !!}
+                        {!! Form::select('vistos', ['0' => 'No Vistos', '1' => 'Vistos'], $vistos, ['class' => 'form-control']) !!}                 
                         {!! Form::submit('Buscar', ['class' => 'btn btn-default']) !!}
                         {!! Form::close() !!}
                     </div>

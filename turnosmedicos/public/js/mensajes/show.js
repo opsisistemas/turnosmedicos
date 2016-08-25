@@ -18,15 +18,11 @@ $(document).on("click", ".btn-show-mensaje", function () {
 			$("#asunto").val( mensaje[0].asunto);
 			$("#destinatario").val( mensaje[0].destinatario);
 			$("#cuerpo").val( mensaje[0].cuerpo);
-
-			visto = '<input id="visto" type="checkbox" name="visto" value=' +  mensaje[0].visto;
 			if(mensaje[0].visto == 0){
-				visto += '>'
+				$("#visto_s").checked = false;
 			}else{
-				visto += ' checked>'
+				$("#visto_s").checked = true;
 			}
-
-			$("#visto").html(visto);
 		}
 	});
 });

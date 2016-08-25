@@ -110,7 +110,7 @@ class TurnosController extends Controller
             $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
             //buscamos los turnos correspondientes al médico y fecha dados
-            $turnos = Turno::where('medico_id', '=', $medico_id)->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico_id)->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
 
             return view('turnos.listado', ['medicos' => $medicos, 'turnos' => $turnos, 'medico_id' => $medico_id, 'fecha' => $fecha]);
         }

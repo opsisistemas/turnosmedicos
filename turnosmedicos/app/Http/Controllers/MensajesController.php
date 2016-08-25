@@ -37,8 +37,8 @@ class MensajesController extends Controller
 
     public function index(Request $request)
     {
-        $mensajes = Mensaje::where('visto', '=', $request->get('visto'))->with('paciente')->latest()->paginate('30');
-        $request->get('visto')? $vistos = $request->get('visto') : $vistos = 0;
+        $request->get('vistos')? $vistos = $request->get('vistos') : $vistos = 0;
+        $mensajes = Mensaje::where('visto', '=', $vistos)->with('paciente')->latest()->paginate('30');
 
         return view('mensajes.index', ['mensajes' => $mensajes, 'vistos' => $vistos]);
     }
@@ -118,7 +118,7 @@ class MensajesController extends Controller
 
         $input = $request->all();
 
-        $input['visto'] == 'on'? $input['visto'] = 1 : $input['visto'] = 0;
+        isset($input['visto'])? $input['visto'] = 1 : $input['visto'] = 0;
 
         $mensaje->fill($input)->save();
 

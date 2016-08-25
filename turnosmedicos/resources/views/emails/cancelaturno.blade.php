@@ -8,7 +8,7 @@
 		<div>
 			<h3>El paciente {!! $paciente->apellido . ', ' . $paciente->nombre !!}, cancel&oacute; el siguiente turno:</h3>
 			<h3>Especialidad: {!! $especialidad->descripcion !!}</h3>
-			<h3>M&eacute;dico: {!! $medico->apellido !!}</h3>
+			<h3>M&eacute;dico: {!! $medico->apellido  . ', ' . $medico->nombre !!}</h3>
 			<h4>D&iacute;a: {!! (new \Carbon\Carbon($turno->fecha))->format('d-m-Y') !!}</h4>
 			<h4>A las: {!! (new \Carbon\Carbon($turno->hora))->format('H:i') !!}</h4>
 
