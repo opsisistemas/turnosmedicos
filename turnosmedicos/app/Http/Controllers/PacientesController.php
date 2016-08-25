@@ -42,11 +42,15 @@ class PacientesController extends Controller
      */
     public function index()
     {
-        $pacientes = Paciente::with('localidad')->with('obra_social')->orderBy('nombre')->paginate(30);
-        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
-        $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
+        if(Auth::user()->hasRole('paciente')){
+            return redirect('/');
+        }else{
+            $pacientes = Paciente::with('localidad')->with('obra_social')->orderBy('nombre')->paginate(30);
+            $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
+            $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
 
-        return view('pacientes.index', ['pacientes' => $pacientes, 'obras_sociales' => $obras_sociales, 'paises' => $paises]);
+            return view('pacientes.index', ['pacientes' => $pacientes, 'obras_sociales' => $obras_sociales, 'paises' => $paises]);
+        }
     }
 
     /**
@@ -56,10 +60,14 @@ class PacientesController extends Controller
      */
     public function create()
     {
-        $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
-        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+        if(Auth::user()->hasRole('paciente')){
+            return redirect('/');
+        }else{
+            $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+            $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
 
-        return view('pacientes.create', ['paises' => $paises, 'obras_sociales' => $obras_sociales]);
+            return view('pacientes.create', ['paises' => $paises, 'obras_sociales' => $obras_sociales]);
+        }
     }
 
     /**
@@ -129,6 +137,17 @@ class PacientesController extends Controller
         //
     }
 
+    public function perfil()
+    {
+        $id=Auth::user()->pacienteAsociado()->first()->id;
+        $paciente = Paciente::findOrFail($id);
+        $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
+        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
+        $email = Auth::user()->email;
+
+        return view('pacientes.edit_completo', ['paciente' => $paciente, 'obras_sociales' => $obras_sociales, 'paises' => $paises, 'email' => $email]);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -148,9 +167,22 @@ class PacientesController extends Controller
 
         $paciente->fill($input)->save();
 
+        $this->actualizarEmailUsuario($request->get('email'));
+
         Session::flash('flash_message', 'Perfil de Paciente editado con éxito!');
 
         return redirect('/pacientes');
+    }
+
+
+    public function actualizarEmailUsuario($email)
+    {
+        $user = User::findOrFail(Auth::user()->id);
+
+        $input=[];
+        $input['email'] = $email;
+
+        $user->fill($input)->save();
     }
 
     /**

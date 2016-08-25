@@ -12,13 +12,11 @@
 */
 Route::auth();
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'EmpresaController@index');
 
 //antes de devolver el recurso, pasa por el middleware, que evalúa el rol del usuario
 //ésto evita que se acceda por url a alguna parte del sistema, sin estar autorizado
-Route::group(['middleware' => 'role:paciente'], function () {
+Route::group(['middleware' => 'rolesExcept:paciente'], function () {
 	//rutas tipo recurso
 	Route::resource('paises', 'PaisesController');
 	Route::resource('provincias', 'ProvinciaController');
@@ -26,9 +24,9 @@ Route::group(['middleware' => 'role:paciente'], function () {
 	Route::resource('especialidades', 'EspecialidadesController');
 	Route::resource('obras_sociales', 'ObrasSocialesController');
 	Route::resource('planes', 'PlanesController');
-	Route::resource('pacientes', 'PacientesController');
 	Route::resource('medicos', 'MedicosController');
-	Route::resource('turnos', 'TurnosController');
+	Route::get('empresa.perfil', 'EmpresaController@perfil');
+	Route::resource('empresa', 'EmpresaController');
 
 	//rutas tipo get (agregados a recursos)
 	Route::get('turnos.listado', 'TurnosController@listado');
@@ -44,6 +42,12 @@ Route::group(['middleware' => 'role:paciente'], function () {
 	Route::get('getPaciente', 'PacientesController@getPaciente');
 	Route::get('getMedico', 'MedicosController@getMedico');
 });
+
+//rutas que deberían estar protegidas, pero se desportegieron para que el usuario pueda
+//sacar turno y ver sus datos
+Route::resource('turnos', 'TurnosController');
+Route::get('pacientes.perfil', 'PacientesController@perfil');
+Route::resource('pacientes', 'PacientesController');
 
 //rutas tipo get (agregados a recursos -para sacar turno-)
 Route::get('turnos.create', 'TurnosController@create');
@@ -68,3 +72,4 @@ Route::get('getObrasSociales', 'ObrasSocialesController@getObrasSociales');
 Route::get('getEspecialidades', 'EspecialidadesController@getEspecialidades');
 Route::get('getCategorias', 'CategoriasController@getCategorias');
 Route::get('turnosMedicoDia', 'TurnosController@turnosMedicoDia');
+Route::get('getEmpresa', 'EmpresaController@getDatos');

@@ -19,10 +19,6 @@
                 {!! Form::open(['url' => 'turnos']) !!}
 
                 <div class="form-group">
-                    {!! Form::hidden('paciente_id', 3, ['class' => 'form-control']) !!}
-                </div>
-
-                <div class="form-group">
                     {!! Form::label('especialidad_id', 'Especialidad:', ['class' => 'control-label']) !!}
                     {!! Form::select('especialidad_id', $especialidades, null, ['class' => 'form-control', 'id' => 'especialidad_id']) !!}
                 </div>

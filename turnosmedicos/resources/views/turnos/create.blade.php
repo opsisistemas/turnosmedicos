@@ -19,10 +19,6 @@
                 {!! Form::open(['url' => 'turnos']) !!}
 
                 <div class="form-group">
-                    {!! Form::hidden('paciente_id', 3, ['class' => 'form-control']) !!}
-                </div>
-
-                <div class="form-group">
                     {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
                     {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>

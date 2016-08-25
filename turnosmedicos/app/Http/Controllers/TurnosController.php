@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Medico;
+use App\Paciente;
 use App\Dia;
 use App\Turno;
 use App\Especialidad;
+use App\Empresa;
 
 use Session;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Mail;
 
 class TurnosController extends Controller
 {
@@ -115,7 +118,7 @@ class TurnosController extends Controller
 
     public function misTurnos()
     {
-        $paciente_id = 3;//Auth::user()->id;
+        $paciente_id = Auth::user()->pacienteAsociado()->first()->id;
         $turnos = Turno::with('medico')->with('especialidad')->where('paciente_id', '=', $paciente_id)->where('cancelado', false)->orderBy('fecha', 'DESC')->get();
 
         return view('turnos.misturnos', ['turnos' => $turnos]);
@@ -157,17 +160,33 @@ class TurnosController extends Controller
      */
     public function store(Request $request)
     {
+        $request['paciente_id'] = Auth::user()->pacienteAsociado()->first()->id;
         $this->validarTurno($request);
 
         $input = $request->all();
         $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
         $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
 
-        Turno::create($input);
+        $this->emailAltaTurno(Turno::create($input));
 
-        Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa');
+        Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa. \n Se ha enviado un email a '. Auth::user()->email);
 
-        return redirect('/turnos.listado');
+        if(Auth::user()->hasRole('paciente')){
+            return redirect('/turnos.misturnos');
+        }else{
+            return redirect('turnos.listado');
+        }
+    }
+
+    private function emailAltaTurno($turno){
+        $data['turno'] = $turno;
+        $data['especialidad'] = Especialidad::findOrFail($turno->especialidad_id);
+        $data['medico'] = Medico::findOrFail($turno->medico_id);
+
+        Mail::send('emails.altaturno', $data, function ($message) {
+            $message->subject('Mensaje automático de Consultorio');
+            $message->to(Auth::user()->email);
+        });
     }
 
     public function cancel($id)
@@ -175,9 +194,23 @@ class TurnosController extends Controller
         $turno = Turno::findOrFail($id);
         $turno->fill(['cancelado' => true])->save();
 
+        $this->emailCancelaTurno($turno);
+
         Session::flash('flash_message', 'Se ha cancelado el turno de manera exitosa');
 
         return redirect('/turnos.misturnos');
+    }
+
+    private function emailCancelaTurno($turno){
+        $data['turno'] = $turno;
+        $data['especialidad'] = Especialidad::findOrFail($turno->especialidad_id);
+        $data['medico'] = Medico::findOrFail($turno->medico_id);
+        $data['paciente'] = Paciente::findOrFail($turno->paciente_id);
+
+        Mail::send('emails.cancelaturno', $data, function ($message) {
+            $message->subject('Mensaje automático de Consultorio');
+            $message->to(Empresa::findOrFail(1)->email);
+        });
     }
 
     /**
