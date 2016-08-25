@@ -15,6 +15,6 @@ class Pais extends Model
 
     public function provincias()
     {
-    	return $this->hasMany('App\Provincias', 'id_Pais');
+    	return $this->hasMany('App\Provincias', 'pais_id');
     }
 }

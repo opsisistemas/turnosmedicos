@@ -48,6 +48,8 @@ Route::group(['middleware' => 'rolesExcept:paciente'], function () {
 Route::resource('turnos', 'TurnosController');
 Route::get('pacientes.perfil', 'PacientesController@perfil');
 Route::resource('pacientes', 'PacientesController');
+Route::resource('mensajes', 'MensajesController');
+Route::get('mensajes.create', 'MensajesController@create');
 
 //rutas tipo get (agregados a recursos -para sacar turno-)
 Route::get('turnos.create', 'TurnosController@create');
@@ -73,3 +75,5 @@ Route::get('getEspecialidades', 'EspecialidadesController@getEspecialidades');
 Route::get('getCategorias', 'CategoriasController@getCategorias');
 Route::get('turnosMedicoDia', 'TurnosController@turnosMedicoDia');
 Route::get('getEmpresa', 'EmpresaController@getDatos');
+Route::get('cantMensajes', 'MensajesController@cantMensajes');
+Route::get('getMensaje', 'MensajesController@getMensaje');

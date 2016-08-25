@@ -94,6 +94,7 @@
                                     <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
                                 </ul>
                             </li>
+                            <li><a href="{{ url('/mensajes') }}" id=mensajes>Mensajes</a></li>
                             <li><a href="{{ url('/turnos.listado') }}">Listado de Turnos de Cada M&eacute;dico</a></li>
                             <li><a href="{{ url('/empresa.perfil') }}">Empresa</a></li>
                         @else
@@ -107,6 +108,7 @@
                                     <li><a href="{{ url('/turnos.misturnos') }}">Mis Turnos</a></li>
                                 </ul>
                             </li>
+                            <li><a href="{{ url('/mensajes.create') }}">Contacto</a></li>
                         @endif
 
                         <li class="dropdown">
@@ -150,6 +152,7 @@
     <!--FIN IMPORTACIÓN DE COMPONENTES COLORPICKER-->
 
     {{ Html::script('js/layout/parameters.js') }}
+    {{ Html::script('js/layout/alertMensajes.js') }}
     @yield('scripts')
     }
 </body>
