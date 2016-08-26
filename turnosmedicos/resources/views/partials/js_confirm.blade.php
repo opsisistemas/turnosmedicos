@@ -1,7 +1,7 @@
 <script>
 
         function ConfirmDelete(){
-            var x = confirm("Are you sure you want to delete?");
+            var x = confirm("Confirma que desea eliminar?");
         if (x)
             return true;
         else

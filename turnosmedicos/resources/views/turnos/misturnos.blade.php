@@ -13,7 +13,7 @@
     @endif 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h1>Listado de Turnos de {{ ucwords(Auth::user()->name) }}</h1>
+            <h1>Listado de Turnos de {{ ucwords(Auth::user()->name) . ' ' . ucwords(Auth::user()->surname) }}</h1>
         </div>
         <div class="panel-body">
             <table class="table table-striped task-table">
@@ -40,7 +40,7 @@
                                     'onsubmit' => 'return ConfirmDelete()'                  
                                 ]) !!}
 
-                                {!! Form::button('Cancelar <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+                                {!! Form::button('Anular Turno <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
 
                                 {!! Form::close() !!}                                           
                             </td>

@@ -179,12 +179,20 @@ class TurnosController extends Controller
     }
 
     private function emailAltaTurno($turno){
+        $medico = Medico::findOrFail($turno->medico_id);
+
         $data['turno'] = $turno;
         $data['especialidad'] = Especialidad::findOrFail($turno->especialidad_id);
-        $data['medico'] = Medico::findOrFail($turno->medico_id);
+        $data['medico'] = $medico;
+        $data['empresa'] = Empresa::findOrFail(1);
 
-        Mail::send('emails.altaturno', $data, function ($message) {
-            $message->subject('Mensaje automático de Consultorio');
+        Mail::send('emails.altaturno', $data, function ($message) use($medico, $turno){
+            $message->subject(
+                Empresa::findOrFail(1)->nombre . ' - Turno: ' . $medico->apellido .
+                ', ' . $medico->nombre . ' - ' . $turno->fecha->format('d-m-Y') .
+                ' a las ' . $turno->hora->format('H:i')
+            );
+
             $message->to(Auth::user()->email);
         });
     }
@@ -208,7 +216,7 @@ class TurnosController extends Controller
         $data['paciente'] = Paciente::findOrFail($turno->paciente_id);
 
         Mail::send('emails.cancelaturno', $data, function ($message) {
-            $message->subject('Mensaje automático de Consultorio');
+            $message->subject(Empresa::findOrFail(1)->nombre);
             $message->to(Empresa::findOrFail(1)->email);
         });
     }

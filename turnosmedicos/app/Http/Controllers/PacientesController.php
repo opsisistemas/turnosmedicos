@@ -11,6 +11,7 @@ use App\Pais;
 use App\ObraSocial;
 use App\User;
 use App\Role;
+use App\Empresa;
 
 use Session;
 use Carbon\Carbon;
@@ -108,11 +109,38 @@ class PacientesController extends Controller
                 $role = Role::where('name', '=', 'paciente')->first();
                 $user->attachRole($role);
 
+                if($user->email){
+                    $this->mailBienvenida($user);
+                }
+
                 Session::flash('flash_message', 'Bienvenido '.$user->name.'!');
             });
         }
 
         return redirect('/');
+    }
+
+    private function mailBienvenida($user)
+    {
+        $data['empresa'] = Empresa::findOrFail(1);
+        $date['']
+
+        Mail::send('emails.bienvenida', $data, function ($message) {
+            $message->subject(Empresa::findOrFail(1)->nombre . ' - ' . 'Recepci&oacute;n de registro de usuario');
+            $message->to($user->email);
+        });
+    }
+
+    private function emailCancelaTurno($turno){
+        $data['turno'] = $turno;
+        $data['especialidad'] = Especialidad::findOrFail($turno->especialidad_id);
+        $data['medico'] = Medico::findOrFail($turno->medico_id);
+        $data['paciente'] = Paciente::findOrFail($turno->paciente_id);
+
+        Mail::send('emails.cancelaturno', $data, function ($message) {
+            $message->subject('Mensaje automático de Consultorio');
+            $message->to(Empresa::findOrFail(1)->email);
+        });
     }
 
     /**

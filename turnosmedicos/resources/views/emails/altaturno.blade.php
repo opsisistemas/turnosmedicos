@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
    </head>
    <body>
-		<h1>Aviso de Turno en Consultorio</h1>
+		<h1>Aviso de Turno en {!! $empresa->nombre !!}</h1>
 		<div>
 			<h3>Usted Tiene un turno para {!! $especialidad->descripcion !!}</h3>
 			<h3>Con el m&eacute;dico {!! $medico->apellido . ', ' . $medico->nombre !!}</h3>

@@ -21,7 +21,7 @@ $("#especialidad_id").on('change', function (){
 
 	function configurarCalendario(dias){
 		$('#calpicker').datepicker({
-			daysOfWeekDisabled: setDiasDeshabilitados(dias)
+			daysOfWeekDisabled: setDiasDeshabilitados(dias), startDate: new Date()
 		}).on("changeDate", function() {
 			$('#fecha_dp').val(
 				$('#calpicker').datepicker('getFormattedDate')
