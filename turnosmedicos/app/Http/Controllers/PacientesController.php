@@ -123,7 +123,6 @@ class PacientesController extends Controller
     private function mailBienvenida($user)
     {
         $data['empresa'] = Empresa::findOrFail(1);
-        $date['']
 
         Mail::send('emails.bienvenida', $data, function ($message) {
             $message->subject(Empresa::findOrFail(1)->nombre . ' - ' . 'Recepci&oacute;n de registro de usuario');

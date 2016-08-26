@@ -114,5 +114,44 @@ function calendarClick(){
 
 function horarioSeleccionado(){
 	$("#buttons").attr('class', '');
-	$("#btn-submit").focus();
+	$("#btn-modalconfirm").focus();
 }
+
+$("#btn-modalconfirm").on("click", function () {
+	medico = $("#medico_id option:selected").html();
+	$("#medico").html(medico);
+
+	adate = $("#calpicker").data("datepicker").getDate();
+	var weekday = new Array(7);
+	weekday[0]=  "Domingo";
+	weekday[1] = "Lunes";
+	weekday[2] = "Martes";
+	weekday[3] = "Mi&eacute;rcoles";
+	weekday[4] = "Jueves";
+	weekday[5] = "Viernes";
+	weekday[6] = "S&aacute;bado";
+
+	var dia = weekday[adate.getDay()];
+
+	var months = new Array(7);
+	months[0]=  "Enero";
+	months[1] = "Febrero";
+	months[2] = "Marzo";
+	months[3] = "Abril";
+	months[4] = "Mayo";
+	months[5] = "Junio";
+	months[6] = "Julio";
+	months[7] = "Agosto";
+	months[8] = "Septiembre";
+	months[9] = "Octubre";
+	months[10] = "Noviembre";
+	months[11] = "Diciembre";
+
+	var mes = months[adate.getMonth()]; 
+
+	formatted = dia + " " + adate.getDate() + " de " + mes;
+	$("#dia").html(formatted);
+
+	hora = $("input[name='hora']:checked").val();
+	$("#hora").html(hora);
+});
