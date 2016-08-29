@@ -17,6 +17,11 @@
                 {!! Form::open(['url' => 'obras_sociales']) !!}
 
                 <div class="form-group">
+                    {!! Form::label('codigo', 'C&oacute;digo:', ['class' => 'control-label']) !!}
+                    {!! Form::text('codigo', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'codigo_c']) !!}
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('nombre', 'Nombre:', ['class' => 'control-label']) !!}
                     {!! Form::text('nombre', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nombre_c']) !!}
                 </div>

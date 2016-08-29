@@ -15,8 +15,8 @@ $(document).on("click", ".btn-show-mensaje", function () {
 		{
 			//mensaje es un arreglo con un sólo elemento (accedemos con [0])
 			$("#formEdit").attr("action", "mensajes/"+idmensaje);
-			$("#asunto").val( mensaje[0].asunto);
-			$("#destinatario").val( mensaje[0].destinatario);
+			$("#asunto_id").val( mensaje[0].asunto_id);
+			$("#medico_id").val( mensaje[0].medico_id);
 			$("#cuerpo").val( mensaje[0].cuerpo);
 			if(mensaje[0].visto == 0){
 				$("#visto_s").checked = false;

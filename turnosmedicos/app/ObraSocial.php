@@ -13,7 +13,8 @@ class ObraSocial extends Model
         'nombre',
         'pagina_web',
         'email',
-        'telefono'
+        'telefono',
+        'codigo'
     ];
 
     public function medicos()

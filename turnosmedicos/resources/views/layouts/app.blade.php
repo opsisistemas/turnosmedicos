@@ -92,6 +92,7 @@
                                     <li><a href="{{ url('/planes') }}">Planes</a></li>
                                     <li><a href="{{ url('/pacientes') }}">Pacientes</a></li>
                                     <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
+                                    <li><a href="{{ url('/asuntos') }}">Asuntos</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ url('/mensajes') }}" id=mensajes>Mensajes</a></li>

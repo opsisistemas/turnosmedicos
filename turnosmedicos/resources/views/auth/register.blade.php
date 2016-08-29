@@ -56,7 +56,7 @@
                             <label class="col-md-4 control-label">Clave</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
+                                <input type="password" class="form-control pwd" name="password">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -70,7 +70,7 @@
                             <label class="col-md-4 control-label">Confirmar Clave</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password_confirmation">
+                                <input type="password" class="form-control pwd" name="password_confirmation">
 
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
@@ -81,9 +81,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Mostrar Clave</label>                            
+                            <div class="col-md-6">
+                                <input type="checkbox" name="eye" id="eye">
+                            </div>
+                        </div>                        
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Captcha</label>                            
                             <div class="col-md-6">
-                                {!! Captcha::img() !!}
+                                <span id="captcha">
+                                    {!! Captcha::img('inverse') !!}
+                                </span>
+                                {!! Form::button('<i class="fa fa-refresh"></i>', ['class' => 'btn btn-default', 'id' => 'reload-captcha']) !!}
                             </div>
                         </div>
 
@@ -118,5 +128,5 @@
 
 @section('scripts')
     {!! Html::script('js/funciones/focus.js') !!}
-
+    {!! Html::script('js/register/register.js') !!}
 @endsection

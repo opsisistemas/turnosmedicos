@@ -9,14 +9,14 @@
                 {{ Session::get('flash_message') }}
             </div>
         @endif 
-         <!-- Current obra_social -->
+         <!-- Current asunto -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                      <h1>
-                        Obras Sociales
+                        Asuntos
                         <div class="pull-right">
                             <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                            {!! Form::button('Nueva Obra Social <i class="fa fa-bolt"></i>', ['class' => 'btn btn-success btn-create-obra_social', 'type' => 'submit', 'data-toggle' => 'modal', 'data-target' => '#createModal']) !!}
+                            {!! Form::button('Nuevo asunto <i class="fa fa-bolt"></i>', ['class' => 'btn btn-success btn-create-asunto', 'type' => 'submit', 'data-toggle' => 'modal', 'data-target' => '#createModal']) !!}
                         </div> 
                     </h1>
                 </div>
@@ -24,7 +24,7 @@
                     <div class="panel-heading">
                         {!! Form::open([
                             'method' => 'GET',
-                            'route' => ['obras_sociales.index'],
+                            'route' => ['asuntos.index'],
                             'class' => 'navbar-form',
                             'role' => 'search'                                
                         ]) !!}
@@ -36,32 +36,24 @@
                 <div class="panel-body">
                     <table class="table table-striped task-table">
                         <thead>
-                            <th>C&oaucte;digo</th>
-                            <th>Nombre</th>
-                            <th>P&aacute;gina Web</th>
-                            <th>Email</th>
-                            <th>Tel&eacute;fono</th>
+                            <th>Descripci&oacute;n</th>
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </thead>
                         <tbody>
-                            @foreach ($obras_sociales as $obra_social)
+                            @foreach ($asuntos as $asunto)
                                 <tr>
-                                    <td class="table-text"><div>{{ $obra_social->codigo }}</div></td>
-                                    <td class="table-text"><div>{{ $obra_social->nombre }}</div></td>
-                                    <td class="table-text"><div>{{ $obra_social->pagina_web }}</div></td>
-                                    <td class="table-text"><div>{{ $obra_social->email }}</div></td>
-                                    <td class="table-text"><div>{{ $obra_social->telefono }}</div></td>
+                                    <td class="table-text"><div>{{ $asunto->nombre }}</div></td>
                                     <td>
                                         <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-obra_social', 'type' => 'submit', 'data-id' => $obra_social->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
+                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-asunto', 'type' => 'submit', 'data-id' => $asunto->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
                                     </td>
                                     <!-- Task Delete Button -->
                                     <td>
                                         {!! Form::open([
                                             'method' => 'DELETE',
-                                            'route' => ['obras_sociales.destroy', $obra_social->id],
+                                            'route' => ['asuntos.destroy', $asunto->id],
                                             'onsubmit' => 'return ConfirmDelete()'                  
                                         ]) !!}
 
@@ -74,18 +66,18 @@
                         </tbody>
                     </table>
                     <div>
-                        {!! $obras_sociales->render() !!}
+                        {!! $asuntos->render() !!}
                     </div>
                 </div>                
             </div>
         </div>    
     </div>
-    @include('obras_sociales.create')
-    @include('obras_sociales.edit')
+    @include('asuntos.create')
+    @include('asuntos.edit')
 @endsection
 
 @section('scripts')
     {!! Html::script('js/funciones/focus.js') !!}
-    {!! Html::script('js/obras_sociales/edit.js') !!}
-    {!! Html::script('js/obras_sociales/create.js') !!}
+    {!! Html::script('js/asuntos/edit.js') !!}
+    {!! Html::script('js/asuntos/create.js') !!}
 @endsection

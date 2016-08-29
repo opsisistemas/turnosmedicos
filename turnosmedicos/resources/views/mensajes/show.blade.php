@@ -22,12 +22,12 @@
 
                 <div class="form-group">
                     {!! Form::label('asunto', 'Asunto:', ['class' => 'control-label enfocar']) !!}
-                    {!! Form::text('asunto', null, ['class' => 'form-control', 'id' => 'asunto']) !!}
+                    {!! Form::select('asunto_id', $asuntos, null, ['class' => 'form-control', 'id' => 'asunto_id']) !!}
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('destinatario', 'Para:', ['class' => 'control-label']) !!}
-                    {!! Form::text('destinatario', null, ['class' => 'form-control', 'id' => 'destinatario']) !!}
+                    {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>
 
                 <div class="form-group">

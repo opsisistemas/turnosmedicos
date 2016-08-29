@@ -48,4 +48,9 @@ class Medico extends Model
     {
         return $this->hasOne('App\Categoria_medico', 'id', 'categoria_id');
     }
+
+    public function mensajes()
+    {
+        return $this->hasMany('App\Mensaje');
+    }
 }

@@ -25,6 +25,11 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('codigo', 'C&oacute;digo:', ['class' => 'control-label']) !!}
+                    {!! Form::text('codigo', null, ['class' => 'form-control', 'id' => 'codigo_e']) !!}  
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('nombre', 'Nombre:', ['class' => 'control-label']) !!}
                     {!! Form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre_e']) !!}  
                 </div>

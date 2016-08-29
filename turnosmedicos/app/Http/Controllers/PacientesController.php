@@ -19,6 +19,7 @@ use DB;
 use Auth;
 use Validator;
 use Input;
+use Mail;
 
 class PacientesController extends Controller
 {

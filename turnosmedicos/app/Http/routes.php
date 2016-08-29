@@ -25,6 +25,7 @@ Route::group(['middleware' => 'rolesExcept:paciente'], function () {
 	Route::resource('obras_sociales', 'ObrasSocialesController');
 	Route::resource('planes', 'PlanesController');
 	Route::resource('medicos', 'MedicosController');
+	Route::resource('asuntos', 'AsuntosController');
 	Route::get('empresa.perfil', 'EmpresaController@perfil');
 	Route::resource('empresa', 'EmpresaController');
 
@@ -77,3 +78,5 @@ Route::get('turnosMedicoDia', 'TurnosController@turnosMedicoDia');
 Route::get('getEmpresa', 'EmpresaController@getDatos');
 Route::get('cantMensajes', 'MensajesController@cantMensajes');
 Route::get('getMensaje', 'MensajesController@getMensaje');
+Route::get('getAsunto', 'AsuntosController@getAsunto');
+Route::get('getCaptcha', 'Controller@getCaptcha');

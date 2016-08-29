@@ -58,12 +58,14 @@
                 </div>
 
                 <div id='buttons' class="hidden">
-                    {!! Form::submit('Accept', ['class' => 'btn btn-success', 'id' => 'btn-submit']) !!}
+                    <!-- TRIGGER THE MODAL WITH A BUTTON -->
+                    {!! Form::button('Aceptar', ['class' => 'btn btn-success', 'data-toggle' => 'modal', 'data-target' => '#modalconfirm', 'id' => 'btn-modalconfirm']) !!}
 
                     <div class="pull-right">
-                        <a href="{{ url('/') }}" class="btn btn-danger"></i>Cancel</a>
+                        <a href="{{ url ('/') }}" class="btn btn-danger"></i>Cancel</a>
                     </div>
                 </div>
+                @include('turnos.modalconfirm_esp')
 
                 {!! Form::close() !!}
             </div>    
@@ -74,5 +76,5 @@
 @section('scripts')
     {!!Html::script('js/funciones/toTitleCase.js')!!}
     {!!Html::script('js/turnos/create_por_especialidad.js')!!}
-    <link rel="stylesheet" href="{{ asset('css/turnos.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/aditionals.css') }}">
 @endsection

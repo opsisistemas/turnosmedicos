@@ -6,7 +6,7 @@
    <body>
 		<h1>{!! $empresa->nombre !!}</h1>
 		<div>
-			<h4> Estimado {!! $user->nombre !!} </h4>
+			<h4> Estimado paciente </h4>
 			<p>
 				Hemos recibido una solicitud de registro de usuario en nuestro sistema online, con &eacute;sta direcci&oacute;n de correo electr&oacute;nico como referencia.
 			</p>

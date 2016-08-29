@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Mensaje;
+use App\Medico;
+use App\Paciente;
+use App\Asunto;
 
+use \Carbon\Carbon;
 use Session;
+use DB;
 use Auth;
 use Validator;
 use Redirect;
@@ -37,10 +42,29 @@ class MensajesController extends Controller
 
     public function index(Request $request)
     {
+        //nos aseguramos de que los parámetros estén seteados (sino lo haacemos con valores por defecto), para poder buscar en BD de manera correcta
         $request->get('vistos')? $vistos = $request->get('vistos') : $vistos = 0;
-        $mensajes = Mensaje::where('visto', '=', $vistos)->with('paciente')->latest()->paginate('30');
+        $request->get('desde')? $desde = Carbon::createFromFormat('d-m-Y', $request->get('desde')) : $desde = Carbon::now()->startOfDay()->subMonth();
+        $request->get('hasta')? $hasta = Carbon::createFromFormat('d-m-Y', $request->get('hasta')) : $hasta = Carbon::now()->startOfDay();
 
-        return view('mensajes.index', ['mensajes' => $mensajes, 'vistos' => $vistos]);
+        $asuntos = Asunto::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+        $medicos_list = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');
+        $pacientes_list = Paciente::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');
+        $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id');
+        $request->get('medico_id')? $medico_id = $request->get('medico_id') : $medico_id = 0;
+        $request->get('paciente_id')? $paciente_id = $request->get('paciente_id') : $paciente_id = 0;
+
+        if(($medico_id != 0)&&($paciente_id == 0)){
+            $mensajes = Mensaje::with('asunto')->with('paciente')->where('visto', '=', $vistos)->where('medico_id', '=', $medico_id)->whereBetween('created_at', [$desde, $hasta])->latest()->paginate(30);
+        }elseif(($paciente_id != 0)&&($medico_id == 0)){
+            $mensajes = Mensaje::with('asunto')->with('paciente')->where('visto', '=', $vistos)->where('paciente_id', '=', $paciente_id)->whereBetween('created_at', [$desde, $hasta])->latest()->paginate(30);
+        }elseif(($paciente_id != 0)&&($medico_id != 0)){
+            $mensajes = Mensaje::with('asunto')->with('paciente')->where('visto', '=', $vistos)->where('medico_id', '=', $medico_id)->where('paciente_id', '=', $paciente_id)->whereBetween('created_at', [$desde, $hasta])->latest()->paginate(30);
+        }else{
+            $mensajes = Mensaje::with('asunto')->with('paciente')->where('visto', '=', $vistos)->whereBetween('created_at', [$desde, $hasta])->latest()->paginate(30);
+        }
+
+        return view('mensajes.index', ['mensajes' => $mensajes, 'vistos' => $vistos, 'asuntos' => $asuntos, 'medicos' => $medicos, 'medicos_list' => $medicos_list, 'pacientes_list' => $pacientes_list, 'medico_id' => $medico_id, 'paciente_id' => $paciente_id, 'desde' => $desde, 'hasta' => $hasta]);
     }
 
     /**
@@ -50,7 +74,9 @@ class MensajesController extends Controller
      */
     public function create()
     {
-        return view('mensajes.create');
+        $asuntos = Asunto::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+        $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id');
+        return view('mensajes.create', ['asuntos' => $asuntos, 'medicos' => $medicos]);
     }
 
     /**
