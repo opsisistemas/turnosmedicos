@@ -148,9 +148,10 @@ class TurnosController extends Controller
      */
     public function create()
     {
+        $pacientes = Paciente::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id');
         $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id');
 
-        return view('turnos.create', ['medicos' => $medicos]);
+        return view('turnos.create', ['medicos' => $medicos, 'pacientes' => $pacientes]);
     }
 
 
@@ -168,25 +169,36 @@ class TurnosController extends Controller
      */
     public function store(Request $request)
     {
-        $request['paciente_id'] = Auth::user()->pacienteAsociado()->first()->id;
-        $this->validarTurno($request);
-
-        $input = $request->all();
-        $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
-        $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
-
-        $this->emailAltaTurno(Turno::create($input));
-
-        Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa. Se ha enviado un email a '. Auth::user()->email);
-
         if(Auth::user()->hasRole('paciente')){
+            $request['paciente_id'] = Auth::user()->pacienteAsociado()->first()->id;
+            $this->validarTurno($request);
+
+            $input = $request->all();
+            $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
+            $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
+
+            $this->emailAltaTurno(Turno::create($input), Auth::user()->email);
+
+            Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa. Se ha enviado un email a '. Auth::user()->email);
             return redirect('/turnos.misturnos');
         }else{
+            $paciente = Paciente::findOrFail($request->get('paciente_id'));
+            $request['paciente_id'] = $paciente->id;
+            $this->validarTurno($request);
+
+            $input = $request->all();
+            $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
+            $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
+            $input['sobre_turno'] = ($input['sobre_turno'] == '1');
+
+            $this->emailAltaTurno(Turno::create($input), $paciente->user->email);
+
+            Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa. Se ha enviado un email a '. $paciente->user->email);
             return redirect('turnos.listado');
         }
     }
 
-    private function emailAltaTurno($turno){
+    private function emailAltaTurno($turno, $email){
         $medico = Medico::findOrFail($turno->medico_id);
 
         $data['turno'] = $turno;
@@ -194,14 +206,14 @@ class TurnosController extends Controller
         $data['medico'] = $medico;
         $data['empresa'] = Empresa::findOrFail(1);
 
-        Mail::send('emails.altaturno', $data, function ($message) use($medico, $turno){
+        Mail::send('emails.altaturno', $data, function ($message) use($medico, $turno, $email){
             $message->subject(
                 Empresa::findOrFail(1)->nombre . ' - Turno: ' . $medico->apellido .
                 ', ' . $medico->nombre . ' - ' . $turno->fecha->format('d-m-Y') .
                 ' a las ' . $turno->hora->format('H:i')
             );
 
-            $message->to(Auth::user()->email);
+            $message->to($email);
         });
     }
 

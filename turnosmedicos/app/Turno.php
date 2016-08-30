@@ -16,7 +16,8 @@ class Turno extends Model
         'fecha',
         'hora',
         'tipo',
-        'cancelado'
+        'cancelado',
+        'sobre_turno'
     ];
 
     protected $dates = ['fecha', 'hora'];

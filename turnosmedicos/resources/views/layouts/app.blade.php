@@ -96,7 +96,15 @@
                                 </ul>
                             </li>
                             <li><a href="{{ url('/mensajes') }}" id=mensajes>Mensajes</a></li>
-                            <li><a href="{{ url('/turnos.listado') }}">Listado de Turnos de Cada M&eacute;dico</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Turnos <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ url('/turnos.listado') }}">Listado Por M&eacute;dico</a></li>
+                                    <li><a href="{{ url('/turnos.create') }}">Dar un turno</a></li>
+                                </ul>
+                            </li>
                             <li><a href="{{ url('/empresa.perfil') }}">Empresa</a></li>
                         @else
                             <li class="dropdown">

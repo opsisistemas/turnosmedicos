@@ -18,6 +18,16 @@
                 <!-- -->
                 {!! Form::open(['url' => 'turnos']) !!}
 
+                @if ((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner')))
+                    <div class="form-group">
+                        {!! Form::select('paciente_id', $pacientes, null, ['class' => 'form-control', 'id' => 'paciente_id']) !!}
+                    </div>
+                @endif
+
+                <div class="form-group">
+                    {!! Form::hidden('sobre_turno', 0, ['class' => 'form-control', 'id' => 'sobreturno']) !!}
+                </div>
+
                 <div class="form-group">
                     {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
                     {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}

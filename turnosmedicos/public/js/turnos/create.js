@@ -93,15 +93,21 @@ function calendarClick(){
 			$("#hour-picker").attr('class', '')
 			//ocultamos el panel de botones de aceptar/cancelar
 			$("#buttons").attr('class', 'hidden');
+			//averigüamos el rol del usuario
+			esPaciente = ($('#paciente_id').val() == null);
 
 			//armamos los horarios
 			var opciones = "";
 			$.each(horarios, function(key,value) {
 				if(value){
-					attrEnabled = '';
+					attrEnabled = "class='turno'";
 					label = "<label>"+key.substring(0, 5)+"&nbsp;&nbsp;&nbsp;&nbsp;</label>";
 				}else{
-					attrEnabled = 'disabled=true';
+					if(esPaciente){
+						attrEnabled = "class='turno' 'disabled=true";
+					}else{
+						attrEnabled = "class='sobreturno'";
+					}
 					label = "<label class='noDisp'>"+key.substring(0, 5)+"&nbsp;&nbsp;&nbsp;&nbsp;</label>";
 				}
 				opciones = opciones + label + ("<input type='radio' onclick='horarioSeleccionado()' name='hora' "+attrEnabled+"value="+key.substring(0, 5)+"></input><br>");
@@ -113,6 +119,15 @@ function calendarClick(){
 }
 
 function horarioSeleccionado(){
+	//diferenciamos los sobreturnos con las clases de los radiobuttons,
+	//así se lo pasamos al controlador en el campo hidden 'sobreturno'
+	if($("input[name='hora']:checked").attr('class') == 'sobreturno'){
+		$('#sobreturno').val('1');
+	}else{
+		$('#sobreturno').val('0');
+	}
+
+	//habilitamos los botones para aceptar
 	$("#buttons").attr('class', '');
 	$("#btn-modalconfirm").focus();
 }

@@ -40,7 +40,7 @@
                 <tbody>
                     @foreach ($turnos as $turno)
                         <tr>
-                            <td> {{ (new \Carbon\Carbon($turno->hora))->format('H:i') }} </td>
+                            <td>{{ (new \Carbon\Carbon($turno->hora))->format('H:i') }}</td>
                             <td> {{ $turno->paciente->nombre }} </td>
                             <td> {{ $turno->paciente->telefono }} </td>
                             <td> {{ $turno->paciente->obra_social['nombre'] }} </td>
