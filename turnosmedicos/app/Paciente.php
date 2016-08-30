@@ -21,7 +21,8 @@ class Paciente extends Model
         'obra_social_id',
         'plan_id',
         'nro_afiliado',
-        'user_id'
+        'user_id',
+        'confirmado'
     ];
     
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];
@@ -44,5 +45,10 @@ class Paciente extends Model
     public function getDates()
     {
         return array('created_at', 'updated_at', 'deleted_at', 'fechaNacimiento');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 }

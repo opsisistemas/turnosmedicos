@@ -1,32 +1,44 @@
 +--------+-----------+--------------------------------------+------------------------+-------------------------------------------------------------------+--------------------------+
 | Domain | Method    | URI                                  | Name                   | Action                                                            | Middleware               |
 +--------+-----------+--------------------------------------+------------------------+-------------------------------------------------------------------+--------------------------+
-|        | GET|HEAD  | /                                    |                        | Closure                                                           | web                      |
+|        | GET|HEAD  | /                                    |                        | App\Http\Controllers\EmpresaController@index                      | web                      |
+|        | GET|HEAD  | asuntos                              | asuntos.index          | App\Http\Controllers\AsuntosController@index                      | web,rolesExcept:paciente |
+|        | POST      | asuntos                              | asuntos.store          | App\Http\Controllers\AsuntosController@store                      | web,rolesExcept:paciente |
+|        | GET|HEAD  | asuntos/create                       | asuntos.create         | App\Http\Controllers\AsuntosController@create                     | web,rolesExcept:paciente |
+|        | DELETE    | asuntos/{asuntos}                    | asuntos.destroy        | App\Http\Controllers\AsuntosController@destroy                    | web,rolesExcept:paciente |
+|        | GET|HEAD  | asuntos/{asuntos}                    | asuntos.show           | App\Http\Controllers\AsuntosController@show                       | web,rolesExcept:paciente |
+|        | PUT|PATCH | asuntos/{asuntos}                    | asuntos.update         | App\Http\Controllers\AsuntosController@update                     | web,rolesExcept:paciente |
+|        | GET|HEAD  | asuntos/{asuntos}/edit               | asuntos.edit           | App\Http\Controllers\AsuntosController@edit                       | web,rolesExcept:paciente |
+|        | GET|HEAD  | cantMensajes                         |                        | App\Http\Controllers\MensajesController@cantMensajes              | web                      |
 |        | GET|HEAD  | captcha/{config?}                    |                        | \Mews\Captcha\CaptchaController@getCaptcha                        | web                      |
 |        | GET|HEAD  | diaDisponible                        |                        | App\Http\Controllers\TurnosController@diaDisponible               | web                      |
 |        | GET|HEAD  | diasAtencion                         |                        | App\Http\Controllers\MedicosController@diasAtencion               | web                      |
 |        | GET|HEAD  | diasAtencion_esp                     |                        | App\Http\Controllers\EspecialidadesController@diasAtencion        | web                      |
-|        | POST      | empresa                              | empresa.store          | App\Http\Controllers\EmpresaController@store                      | web,rolesExcept:paciente |
 |        | GET|HEAD  | empresa                              | empresa.index          | App\Http\Controllers\EmpresaController@index                      | web,rolesExcept:paciente |
+|        | POST      | empresa                              | empresa.store          | App\Http\Controllers\EmpresaController@store                      | web,rolesExcept:paciente |
 |        | GET|HEAD  | empresa.perfil                       |                        | App\Http\Controllers\EmpresaController@perfil                     | web,rolesExcept:paciente |
 |        | GET|HEAD  | empresa/create                       | empresa.create         | App\Http\Controllers\EmpresaController@create                     | web,rolesExcept:paciente |
+|        | PUT|PATCH | empresa/{empresa}                    | empresa.update         | App\Http\Controllers\EmpresaController@update                     | web,rolesExcept:paciente |
 |        | DELETE    | empresa/{empresa}                    | empresa.destroy        | App\Http\Controllers\EmpresaController@destroy                    | web,rolesExcept:paciente |
 |        | GET|HEAD  | empresa/{empresa}                    | empresa.show           | App\Http\Controllers\EmpresaController@show                       | web,rolesExcept:paciente |
-|        | PUT|PATCH | empresa/{empresa}                    | empresa.update         | App\Http\Controllers\EmpresaController@update                     | web,rolesExcept:paciente |
 |        | GET|HEAD  | empresa/{empresa}/edit               | empresa.edit           | App\Http\Controllers\EmpresaController@edit                       | web,rolesExcept:paciente |
 |        | GET|HEAD  | especialidades                       | especialidades.index   | App\Http\Controllers\EspecialidadesController@index               | web,rolesExcept:paciente |
 |        | POST      | especialidades                       | especialidades.store   | App\Http\Controllers\EspecialidadesController@store               | web,rolesExcept:paciente |
 |        | GET|HEAD  | especialidades/create                | especialidades.create  | App\Http\Controllers\EspecialidadesController@create              | web,rolesExcept:paciente |
-|        | DELETE    | especialidades/{especialidades}      | especialidades.destroy | App\Http\Controllers\EspecialidadesController@destroy             | web,rolesExcept:paciente |
 |        | GET|HEAD  | especialidades/{especialidades}      | especialidades.show    | App\Http\Controllers\EspecialidadesController@show                | web,rolesExcept:paciente |
+|        | DELETE    | especialidades/{especialidades}      | especialidades.destroy | App\Http\Controllers\EspecialidadesController@destroy             | web,rolesExcept:paciente |
 |        | PUT|PATCH | especialidades/{especialidades}      | especialidades.update  | App\Http\Controllers\EspecialidadesController@update              | web,rolesExcept:paciente |
 |        | GET|HEAD  | especialidades/{especialidades}/edit | especialidades.edit    | App\Http\Controllers\EspecialidadesController@edit                | web,rolesExcept:paciente |
 |        | GET|HEAD  | especialidadesMedico                 |                        | App\Http\Controllers\MedicosController@especialidadesMedico       | web                      |
+|        | GET|HEAD  | getAsunto                            |                        | App\Http\Controllers\AsuntosController@getAsunto                  | web                      |
+|        | GET|HEAD  | getCaptcha                           |                        | App\Http\Controllers\Controller@getCaptcha                        | web                      |
 |        | GET|HEAD  | getCategorias                        |                        | App\Http\Controllers\CategoriasController@getCategorias           | web                      |
+|        | GET|HEAD  | getEmpresa                           |                        | App\Http\Controllers\EmpresaController@getDatos                   | web                      |
 |        | GET|HEAD  | getEspecialidad                      |                        | App\Http\Controllers\EspecialidadesController@getEspecialidad     | web,rolesExcept:paciente |
 |        | GET|HEAD  | getEspecialidades                    |                        | App\Http\Controllers\EspecialidadesController@getEspecialidades   | web                      |
 |        | GET|HEAD  | getLocalidad                         |                        | App\Http\Controllers\LocalidadesController@getLocalidad           | web,rolesExcept:paciente |
 |        | GET|HEAD  | getMedico                            |                        | App\Http\Controllers\MedicosController@getMedico                  | web,rolesExcept:paciente |
+|        | GET|HEAD  | getMensaje                           |                        | App\Http\Controllers\MensajesController@getMensaje                | web                      |
 |        | GET|HEAD  | getObraSocial                        |                        | App\Http\Controllers\ObrasSocialesController@getObraSocial        | web,rolesExcept:paciente |
 |        | GET|HEAD  | getObrasSociales                     |                        | App\Http\Controllers\ObrasSocialesController@getObrasSociales     | web                      |
 |        | GET|HEAD  | getPaciente                          |                        | App\Http\Controllers\PacientesController@getPaciente              | web,rolesExcept:paciente |
@@ -37,67 +49,76 @@
 |        | GET|HEAD  | localidades                          | localidades.index      | App\Http\Controllers\LocalidadesController@index                  | web,rolesExcept:paciente |
 |        | POST      | localidades                          | localidades.store      | App\Http\Controllers\LocalidadesController@store                  | web,rolesExcept:paciente |
 |        | GET|HEAD  | localidades/create                   | localidades.create     | App\Http\Controllers\LocalidadesController@create                 | web,rolesExcept:paciente |
-|        | DELETE    | localidades/{localidades}            | localidades.destroy    | App\Http\Controllers\LocalidadesController@destroy                | web,rolesExcept:paciente |
-|        | GET|HEAD  | localidades/{localidades}            | localidades.show       | App\Http\Controllers\LocalidadesController@show                   | web,rolesExcept:paciente |
 |        | PUT|PATCH | localidades/{localidades}            | localidades.update     | App\Http\Controllers\LocalidadesController@update                 | web,rolesExcept:paciente |
+|        | GET|HEAD  | localidades/{localidades}            | localidades.show       | App\Http\Controllers\LocalidadesController@show                   | web,rolesExcept:paciente |
+|        | DELETE    | localidades/{localidades}            | localidades.destroy    | App\Http\Controllers\LocalidadesController@destroy                | web,rolesExcept:paciente |
 |        | GET|HEAD  | localidades/{localidades}/edit       | localidades.edit       | App\Http\Controllers\LocalidadesController@edit                   | web,rolesExcept:paciente |
 |        | GET|HEAD  | localidadesProvincia                 |                        | App\Http\Controllers\LocalidadesController@localidadesProvincia   | web                      |
 |        | GET|HEAD  | login                                |                        | App\Http\Controllers\Auth\AuthController@showLoginForm            | web,guest                |
 |        | POST      | login                                |                        | App\Http\Controllers\Auth\AuthController@login                    | web,guest                |
 |        | GET|HEAD  | logout                               |                        | App\Http\Controllers\Auth\AuthController@logout                   | web                      |
-|        | POST      | medicos                              | medicos.store          | App\Http\Controllers\MedicosController@store                      | web,rolesExcept:paciente |
 |        | GET|HEAD  | medicos                              | medicos.index          | App\Http\Controllers\MedicosController@index                      | web,rolesExcept:paciente |
+|        | POST      | medicos                              | medicos.store          | App\Http\Controllers\MedicosController@store                      | web,rolesExcept:paciente |
 |        | GET|HEAD  | medicos/create                       | medicos.create         | App\Http\Controllers\MedicosController@create                     | web,rolesExcept:paciente |
+|        | GET|HEAD  | medicos/{medicos}                    | medicos.show           | App\Http\Controllers\MedicosController@show                       | web,rolesExcept:paciente |
 |        | PUT|PATCH | medicos/{medicos}                    | medicos.update         | App\Http\Controllers\MedicosController@update                     | web,rolesExcept:paciente |
 |        | DELETE    | medicos/{medicos}                    | medicos.destroy        | App\Http\Controllers\MedicosController@destroy                    | web,rolesExcept:paciente |
-|        | GET|HEAD  | medicos/{medicos}                    | medicos.show           | App\Http\Controllers\MedicosController@show                       | web,rolesExcept:paciente |
 |        | GET|HEAD  | medicos/{medicos}/edit               | medicos.edit           | App\Http\Controllers\MedicosController@edit                       | web,rolesExcept:paciente |
 |        | GET|HEAD  | medicosDia                           |                        | App\Http\Controllers\DiasController@medicosDia                    | web                      |
 |        | GET|HEAD  | medicosEspecialidad                  |                        | App\Http\Controllers\EspecialidadesController@medicosEspecialidad | web                      |
+|        | GET|HEAD  | mensajes                             | mensajes.index         | App\Http\Controllers\MensajesController@index                     | web                      |
+|        | POST      | mensajes                             | mensajes.store         | App\Http\Controllers\MensajesController@store                     | web                      |
+|        | GET|HEAD  | mensajes.create                      |                        | App\Http\Controllers\MensajesController@create                    | web                      |
+|        | GET|HEAD  | mensajes/create                      | mensajes.create        | App\Http\Controllers\MensajesController@create                    | web                      |
+|        | GET|HEAD  | mensajes/{mensajes}                  | mensajes.show          | App\Http\Controllers\MensajesController@show                      | web                      |
+|        | DELETE    | mensajes/{mensajes}                  | mensajes.destroy       | App\Http\Controllers\MensajesController@destroy                   | web                      |
+|        | PUT|PATCH | mensajes/{mensajes}                  | mensajes.update        | App\Http\Controllers\MensajesController@update                    | web                      |
+|        | GET|HEAD  | mensajes/{mensajes}/edit             | mensajes.edit          | App\Http\Controllers\MensajesController@edit                      | web                      |
 |        | GET|HEAD  | obras_sociales                       | obras_sociales.index   | App\Http\Controllers\ObrasSocialesController@index                | web,rolesExcept:paciente |
 |        | POST      | obras_sociales                       | obras_sociales.store   | App\Http\Controllers\ObrasSocialesController@store                | web,rolesExcept:paciente |
 |        | GET|HEAD  | obras_sociales/create                | obras_sociales.create  | App\Http\Controllers\ObrasSocialesController@create               | web,rolesExcept:paciente |
-|        | PUT|PATCH | obras_sociales/{obras_sociales}      | obras_sociales.update  | App\Http\Controllers\ObrasSocialesController@update               | web,rolesExcept:paciente |
 |        | DELETE    | obras_sociales/{obras_sociales}      | obras_sociales.destroy | App\Http\Controllers\ObrasSocialesController@destroy              | web,rolesExcept:paciente |
+|        | PUT|PATCH | obras_sociales/{obras_sociales}      | obras_sociales.update  | App\Http\Controllers\ObrasSocialesController@update               | web,rolesExcept:paciente |
 |        | GET|HEAD  | obras_sociales/{obras_sociales}      | obras_sociales.show    | App\Http\Controllers\ObrasSocialesController@show                 | web,rolesExcept:paciente |
 |        | GET|HEAD  | obras_sociales/{obras_sociales}/edit | obras_sociales.edit    | App\Http\Controllers\ObrasSocialesController@edit                 | web,rolesExcept:paciente |
-|        | POST      | pacientes                            | pacientes.store        | App\Http\Controllers\PacientesController@store                    | web                      |
 |        | GET|HEAD  | pacientes                            | pacientes.index        | App\Http\Controllers\PacientesController@index                    | web                      |
+|        | POST      | pacientes                            | pacientes.store        | App\Http\Controllers\PacientesController@store                    | web                      |
+|        | GET|HEAD  | pacientes.confirm                    |                        | App\Http\Controllers\PacientesController@confirm                  | web,rolesExcept:paciente |
 |        | GET|HEAD  | pacientes.perfil                     |                        | App\Http\Controllers\PacientesController@perfil                   | web                      |
 |        | GET|HEAD  | pacientes.persist                    |                        | App\Http\Controllers\PacientesController@persist                  | web,rolesExcept:paciente |
 |        | GET|HEAD  | pacientes/create                     | pacientes.create       | App\Http\Controllers\PacientesController@create                   | web                      |
-|        | DELETE    | pacientes/{pacientes}                | pacientes.destroy      | App\Http\Controllers\PacientesController@destroy                  | web                      |
-|        | GET|HEAD  | pacientes/{pacientes}                | pacientes.show         | App\Http\Controllers\PacientesController@show                     | web                      |
 |        | PUT|PATCH | pacientes/{pacientes}                | pacientes.update       | App\Http\Controllers\PacientesController@update                   | web                      |
+|        | GET|HEAD  | pacientes/{pacientes}                | pacientes.show         | App\Http\Controllers\PacientesController@show                     | web                      |
+|        | DELETE    | pacientes/{pacientes}                | pacientes.destroy      | App\Http\Controllers\PacientesController@destroy                  | web                      |
 |        | GET|HEAD  | pacientes/{pacientes}/edit           | pacientes.edit         | App\Http\Controllers\PacientesController@edit                     | web                      |
-|        | POST      | paises                               | paises.store           | App\Http\Controllers\PaisesController@store                       | web,rolesExcept:paciente |
 |        | GET|HEAD  | paises                               | paises.index           | App\Http\Controllers\PaisesController@index                       | web,rolesExcept:paciente |
+|        | POST      | paises                               | paises.store           | App\Http\Controllers\PaisesController@store                       | web,rolesExcept:paciente |
 |        | GET|HEAD  | paises/create                        | paises.create          | App\Http\Controllers\PaisesController@create                      | web,rolesExcept:paciente |
-|        | DELETE    | paises/{paises}                      | paises.destroy         | App\Http\Controllers\PaisesController@destroy                     | web,rolesExcept:paciente |
 |        | PUT|PATCH | paises/{paises}                      | paises.update          | App\Http\Controllers\PaisesController@update                      | web,rolesExcept:paciente |
+|        | DELETE    | paises/{paises}                      | paises.destroy         | App\Http\Controllers\PaisesController@destroy                     | web,rolesExcept:paciente |
 |        | GET|HEAD  | paises/{paises}                      | paises.show            | App\Http\Controllers\PaisesController@show                        | web,rolesExcept:paciente |
 |        | GET|HEAD  | paises/{paises}/edit                 | paises.edit            | App\Http\Controllers\PaisesController@edit                        | web,rolesExcept:paciente |
 |        | POST      | password/email                       |                        | App\Http\Controllers\Auth\PasswordController@sendResetLinkEmail   | web,guest                |
 |        | POST      | password/reset                       |                        | App\Http\Controllers\Auth\PasswordController@reset                | web,guest                |
 |        | GET|HEAD  | password/reset/{token?}              |                        | App\Http\Controllers\Auth\PasswordController@showResetForm        | web,guest                |
-|        | GET|HEAD  | planes                               | planes.index           | App\Http\Controllers\PlanesController@index                       | web,rolesExcept:paciente |
 |        | POST      | planes                               | planes.store           | App\Http\Controllers\PlanesController@store                       | web,rolesExcept:paciente |
+|        | GET|HEAD  | planes                               | planes.index           | App\Http\Controllers\PlanesController@index                       | web,rolesExcept:paciente |
 |        | GET|HEAD  | planes/create                        | planes.create          | App\Http\Controllers\PlanesController@create                      | web,rolesExcept:paciente |
-|        | PUT|PATCH | planes/{planes}                      | planes.update          | App\Http\Controllers\PlanesController@update                      | web,rolesExcept:paciente |
 |        | DELETE    | planes/{planes}                      | planes.destroy         | App\Http\Controllers\PlanesController@destroy                     | web,rolesExcept:paciente |
 |        | GET|HEAD  | planes/{planes}                      | planes.show            | App\Http\Controllers\PlanesController@show                        | web,rolesExcept:paciente |
+|        | PUT|PATCH | planes/{planes}                      | planes.update          | App\Http\Controllers\PlanesController@update                      | web,rolesExcept:paciente |
 |        | GET|HEAD  | planes/{planes}/edit                 | planes.edit            | App\Http\Controllers\PlanesController@edit                        | web,rolesExcept:paciente |
 |        | GET|HEAD  | planesObraSocial                     |                        | App\Http\Controllers\PlanesController@planesObraSocial            | web                      |
-|        | GET|HEAD  | provincias                           | provincias.index       | App\Http\Controllers\ProvinciaController@index                    | web,rolesExcept:paciente |
 |        | POST      | provincias                           | provincias.store       | App\Http\Controllers\ProvinciaController@store                    | web,rolesExcept:paciente |
+|        | GET|HEAD  | provincias                           | provincias.index       | App\Http\Controllers\ProvinciaController@index                    | web,rolesExcept:paciente |
 |        | GET|HEAD  | provincias/create                    | provincias.create      | App\Http\Controllers\ProvinciaController@create                   | web,rolesExcept:paciente |
 |        | GET|HEAD  | provincias/{provincias}              | provincias.show        | App\Http\Controllers\ProvinciaController@show                     | web,rolesExcept:paciente |
 |        | PUT|PATCH | provincias/{provincias}              | provincias.update      | App\Http\Controllers\ProvinciaController@update                   | web,rolesExcept:paciente |
 |        | DELETE    | provincias/{provincias}              | provincias.destroy     | App\Http\Controllers\ProvinciaController@destroy                  | web,rolesExcept:paciente |
 |        | GET|HEAD  | provincias/{provincias}/edit         | provincias.edit        | App\Http\Controllers\ProvinciaController@edit                     | web,rolesExcept:paciente |
 |        | GET|HEAD  | provinciasPais                       |                        | App\Http\Controllers\ProvinciaController@provinciasPais           | web                      |
-|        | GET|HEAD  | register                             |                        | App\Http\Controllers\Auth\AuthController@showRegistrationForm     | web,guest                |
 |        | POST      | register                             |                        | App\Http\Controllers\Auth\AuthController@register                 | web,guest                |
+|        | GET|HEAD  | register                             |                        | App\Http\Controllers\Auth\AuthController@showRegistrationForm     | web,guest                |
 |        | GET|HEAD  | turnos                               | turnos.index           | App\Http\Controllers\TurnosController@index                       | web                      |
 |        | POST      | turnos                               | turnos.store           | App\Http\Controllers\TurnosController@store                       | web                      |
 |        | POST      | turnos.cancel/{id}                   |                        | App\Http\Controllers\TurnosController@cancel                      | web                      |
@@ -107,8 +128,8 @@
 |        | GET|HEAD  | turnos.misturnos                     |                        | App\Http\Controllers\TurnosController@misTurnos                   | web                      |
 |        | GET|HEAD  | turnos/create                        | turnos.create          | App\Http\Controllers\TurnosController@create                      | web                      |
 |        | GET|HEAD  | turnos/{turnos}                      | turnos.show            | App\Http\Controllers\TurnosController@show                        | web                      |
-|        | DELETE    | turnos/{turnos}                      | turnos.destroy         | App\Http\Controllers\TurnosController@destroy                     | web                      |
 |        | PUT|PATCH | turnos/{turnos}                      | turnos.update          | App\Http\Controllers\TurnosController@update                      | web                      |
+|        | DELETE    | turnos/{turnos}                      | turnos.destroy         | App\Http\Controllers\TurnosController@destroy                     | web                      |
 |        | GET|HEAD  | turnos/{turnos}/edit                 | turnos.edit            | App\Http\Controllers\TurnosController@edit                        | web                      |
 |        | GET|HEAD  | turnosMedicoDia                      |                        | App\Http\Controllers\TurnosController@turnosMedicoDia             | web                      |
 +--------+-----------+--------------------------------------+------------------------+-------------------------------------------------------------------+--------------------------+

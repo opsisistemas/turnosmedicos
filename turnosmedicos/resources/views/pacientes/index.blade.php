@@ -41,6 +41,7 @@
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                         </thead>
                         <tbody>
                             @foreach ($pacientes as $paciente)
@@ -52,6 +53,12 @@
                                     <td class="table-text"><div>{{ $paciente->obra_social? $paciente->obra_social->nombre : '' }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->plan? $paciente->plan->nombre : '' }}</div></td>
                                     @if(Entrust::can('editar_usuarios'))
+                                        <td>
+                                            @if(! $paciente->confirmado)
+                                                <!-- TRIGGER THE MODAL WITH A BUTTON -->
+                                                {!! Form::button('Confirmar <i class="fa fa-check"></i>', ['class' => 'btn btn-default btn-confirm-paciente', 'type' => 'submit', 'data-id' => $paciente->id,  'data-toggle' => 'modal', 'data-target' => '#confirmModal']) !!}
+                                            @endif
+                                        </td>
                                         <td>
                                             <!-- TRIGGER THE MODAL WITH A BUTTON -->
                                             {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-paciente', 'type' => 'submit', 'data-id' => $paciente->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
@@ -84,11 +91,13 @@
         </div>    
     </div>
     @include('pacientes.edit')
+    @include('pacientes.confirm')
 @endsection
 
 @section('scripts')
     {!! Html::script('js/funciones/focus.js') !!}
     {!! Html::script('js/pacientes/edit.js') !!}
+    {!! Html::script('js/pacientes/confirm.js') !!}
     {!! Html::script('js/pacientes/create.js') !!}
     {!! Html::script('js/funciones/datepicker.js') !!}
 @endsection

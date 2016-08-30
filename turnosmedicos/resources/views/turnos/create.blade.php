@@ -65,6 +65,7 @@
                         <a href="{{ url ('/') }}" class="btn btn-danger"></i>Cancel</a>
                     </div>
                 </div>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 @include('turnos.modalconfirm')
                 {!! Form::close() !!}
             </div>    

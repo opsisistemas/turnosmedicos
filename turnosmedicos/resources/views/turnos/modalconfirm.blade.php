@@ -14,7 +14,7 @@
             </div>
             <!-- MODAL BODY-->
             <div class="modal-body">
-                <table class="table table-hover table-responsive">
+                <table class="table table-responsive">
                     <thead>
                         <!-- <th>&nbsp;</th>-->
                         <th>&nbsp;</th>

@@ -93,7 +93,11 @@ class TurnosController extends Controller
             $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
             //buscamos los turnos correspondientes al médico y fecha dados
-            $turnos = Turno::where('medico_id', '=', $medico->id)->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            $turnos = Turno::where('medico_id', '=', $medico->id)->whereIn('paciente_id', function($query){
+                $query->select(DB::raw('id'))
+                    ->from('pacientes')
+                    ->whereRaw('pacientes.confirmado = 1');
+            })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
 
             //preparamos el pdf con una vista separada (para evitar errores de markup validation)
             $pdf = \PDF::loadView('pdf.listado_turnos', ['medico' => $medico, 'turnos' => $turnos, 'fecha' => $fecha]);
@@ -110,7 +114,11 @@ class TurnosController extends Controller
             $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
             //buscamos los turnos correspondientes al médico y fecha dados
-            $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico_id)->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico_id)->whereIn('paciente_id', function($query){
+                $query->select(DB::raw('id'))
+                    ->from('pacientes')
+                    ->whereRaw('pacientes.confirmado = 1');
+            })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
 
             return view('turnos.listado', ['medicos' => $medicos, 'turnos' => $turnos, 'medico_id' => $medico_id, 'fecha' => $fecha]);
         }
@@ -169,7 +177,7 @@ class TurnosController extends Controller
 
         $this->emailAltaTurno(Turno::create($input));
 
-        Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa. \n Se ha enviado un email a '. Auth::user()->email);
+        Session::flash('flash_message', 'Se ha solicitado un turno de manera exitosa. Se ha enviado un email a '. Auth::user()->email);
 
         if(Auth::user()->hasRole('paciente')){
             return redirect('/turnos.misturnos');

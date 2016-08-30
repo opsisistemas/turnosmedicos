@@ -125,7 +125,7 @@ class PacientesController extends Controller
     {
         $data['empresa'] = Empresa::findOrFail(1);
 
-        Mail::send('emails.bienvenida', $data, function ($message) {
+        Mail::send('emails.bienvenida', $data, function ($message) use($user){
             $message->subject(Empresa::findOrFail(1)->nombre . ' - ' . 'Recepci&oacute;n de registro de usuario');
             $message->to($user->email);
         });
@@ -187,19 +187,40 @@ class PacientesController extends Controller
     {
         $paciente = Paciente::findOrFail($id);
 
-        $this->validarPaciente($request);
+        if($request->get('aceptar') == 'confirmar'){
+            $input['confirmado'] = true;
 
-        $input = $request->all();
+            $paciente->fill($input)->save();
 
-        $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            $this->emailConfirmado($paciente);
 
-        $paciente->fill($input)->save();
+            Session::flash('flash_message', 'Paciente confirmado con éxito!');
+        }else{
+            $this->validarPaciente($request);
 
-        $this->actualizarEmailUsuario($request->get('email'));
+            $input = $request->all();
 
-        Session::flash('flash_message', 'Perfil de Paciente editado con éxito!');
+            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+
+            $paciente->fill($input)->save();
+
+            $this->actualizarEmailUsuario($request->get('email'));
+
+            Session::flash('flash_message', 'Perfil de Paciente editado con éxito!');
+        }
 
         return redirect('/pacientes');
+
+    }
+
+    public function emailConfirmado($paciente)
+    {
+        $data['empresa'] = Empresa::findOrFail(1);
+
+        Mail::send('emails.confirmado', $data, function ($message) use($paciente){
+            $message->subject(Empresa::findOrFail(1)->nombre . ' - ' . 'Usted ha sido confirmado como paciente!');
+            $message->to($paciente->user->email);
+        });
     }
 
 

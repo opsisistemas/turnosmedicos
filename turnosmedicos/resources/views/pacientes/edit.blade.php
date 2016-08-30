@@ -89,8 +89,7 @@
                     {!! Form::text('nro_afiliado', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nro_afiliado_e']) !!}
                 </div>
 
-                {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
-
+                <button type="submit" class="btn btn-success" name="aceptar" value="editar">Aceptar<i class="fa fa-pencil"></i></button>
                 <div class="pull-right">
                     <a href="{{ route('pacientes.index') }}" class="btn btn-danger"></i>Cancel</a>
                 </div>

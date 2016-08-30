@@ -32,7 +32,7 @@
                             <td> {{ (new \Carbon\Carbon($turno->fecha))->format('d-m-Y') }} </td>
                             <td> {{ (new \Carbon\Carbon($turno->hora))->format('H:i') }} </td>
                             <td> {{ $turno->especialidad->descripcion }} </td>
-                            <td> {{ $turno->medico->apellido }} </td>
+                            <td> {{ $turno->medico->apellido . ' ' . $turno->medico->nombre }} </td>
                             <td>
                                 {!! Form::open([
                                     'method' => 'POST',
