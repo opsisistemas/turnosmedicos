@@ -28,11 +28,25 @@
                             <label class="col-md-4 control-label">Apellido</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control enfocar" name="surname" value="{{ old('surname') }}">
+                                <input type="text" class="form-control" name="surname" value="{{ old('surname') }}">
 
                                 @if ($errors->has('surname'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('surname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dni') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">DNI</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="dni" value="{{ old('dni') }}">
+
+                                @if ($errors->has('dni'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('dni') }}</strong>
                                     </span>
                                 @endif
                             </div>

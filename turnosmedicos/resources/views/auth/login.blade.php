@@ -10,15 +10,15 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail</label>
+                        <div class="form-group{{ $errors->has('dni') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">DNI</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                <input type="dni" class="form-control enfocar" name="dni" value="{{ old('dni') }}">
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('dni'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('dni') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -66,11 +66,5 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript">
-
-    $(document).ready(function(){
-        $("input[name='email']").focus();
-    });
-
-    </script>
+    {!! Html::script('js/funciones/focus.js') !!}
 @endsection

@@ -104,6 +104,7 @@ class PacientesController extends Controller
                 $input['nombre'] = $user->name;
                 $input['apellido'] = $user->surname;
                 $input['email'] = $user->email;
+                $input['nroDocumento'] = $user->dni;
 
                 Paciente::create($input);
 
@@ -114,7 +115,7 @@ class PacientesController extends Controller
                     $this->mailBienvenida($user);
                 }
 
-                Session::flash('flash_message', 'Bienvenido '.$user->name.'!');
+                Session::flash('flash_message', 'Bienvenido/a '.$user->name.'!');
             });
         }
 

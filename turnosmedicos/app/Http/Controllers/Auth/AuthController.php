@@ -52,7 +52,8 @@ class AuthController extends Controller
             'name' => 'required|max:100',
             'surname' => 'required|max:100',
             'captcha' => ['required', 'captcha'],
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'email|max:255|unique:users',
+            'dni'   => 'required|numeric|min:6',
             'password' => 'required|min:6|confirmed',
         ];
         $errors = [ 'captcha' => 'El captcha ingresado es incorrecto.' ];
@@ -71,6 +72,7 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
+            'dni' => $data['dni'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
