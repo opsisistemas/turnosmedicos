@@ -12,6 +12,9 @@ use App\Categoria_medico;
 use App\Especialidad;
 use App\Funciones;
 use App\ObraSocial;
+use App\User;
+use App\Role;
+use App\Permission;
 
 use Session;
 use Carbon\Carbon;
@@ -22,7 +25,8 @@ class MedicosController extends Controller
     private function validarMedico(Request $request){
         $this->validate($request, [
             'apellido' => 'required',
-            'nombre' => 'required'            
+            'nombre' => 'required',
+            'nroDocumento' => 'required'
         ]);
     }
 
@@ -111,10 +115,28 @@ class MedicosController extends Controller
                     $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
                 }
             }
+
+            $this->altaUsuario($input);
+
             Session::flash('flash_message', 'Alta de Medico exitosa!');
         });
 
         return redirect('/medicos');
+    }
+
+    public function altaUsuario($datos)
+    {
+        $user_data = [];
+        $user_data['name'] = $datos['nombre'];
+        $user_data['surname'] = $datos['apellido'];
+        $user_data['email'] = $datos['email'];
+        $user_data['dni'] = $datos['nroDocumento'];
+        $user_data['password'] = bcrypt('123456');
+
+        $user = User::create($user_data);
+
+        $role_medico = Role::where('name', '=', 'medico')->first();
+        $user->attachRole($role_medico);
     }
 
     /**

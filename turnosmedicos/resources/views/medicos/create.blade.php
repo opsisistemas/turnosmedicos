@@ -149,7 +149,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div> 
+                </div>
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
 
