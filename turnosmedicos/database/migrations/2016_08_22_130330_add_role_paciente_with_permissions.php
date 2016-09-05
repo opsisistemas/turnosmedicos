@@ -23,11 +23,6 @@ class AddRolePacienteWithPermissions extends Migration
                 $paciente->description  = '&Eacute;ste usuario es un paciente registrado'; // optional
                 $paciente->save();
 
-                $user = User::where('name', '=', 'florencia')->first();
-
-                // role attach alias
-                $user->attachRole($paciente); // parameter can be an Role object, array, or id
-
                 //Now just need to add permissions to those Roles:
 
                 $sacarTurno = new Permission();

@@ -1,0 +1,11 @@
+1)Crear BD con nombre "turnos"
+2)desde consola, hacr "composer update"
+3)desde consola, hacer "php artisan migrate" (dos veces si es necesario)
+4)En AuthenticatesUsers.php, cambiar la siguiente línea, para que funcione el login por dni
+
+protected function validateLogin(Request $request)
+{
+    $this->validate($request, [
+        /*$this->loginUsername()*/'dni' => 'required', 'password' => 'required',
+    ]);
+}

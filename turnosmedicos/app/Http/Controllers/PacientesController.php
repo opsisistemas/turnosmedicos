@@ -105,6 +105,8 @@ class PacientesController extends Controller
                 $input['apellido'] = $user->surname;
                 $input['email'] = $user->email;
                 $input['nroDocumento'] = $user->dni;
+                $input['obra_social_id'] = 1;
+                $input['plan_id'] = 1;
 
                 Paciente::create($input);
 

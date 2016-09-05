@@ -26,6 +26,7 @@ Route::group(['middleware' => 'rolesExcept:paciente'], function () {
 	Route::resource('planes', 'PlanesController');
 	Route::resource('medicos', 'MedicosController');
 	Route::resource('asuntos', 'AsuntosController');
+	Route::resource('feriados', 'FeriadosController');
 	Route::get('empresa.perfil', 'EmpresaController@perfil');
 	Route::resource('empresa', 'EmpresaController');
 
@@ -42,6 +43,7 @@ Route::group(['middleware' => 'rolesExcept:paciente'], function () {
 	Route::get('getPlan', 'PlanesController@getPlan');
 	Route::get('getPaciente', 'PacientesController@getPaciente');
 	Route::get('getMedico', 'MedicosController@getMedico');
+	Route::get('getFeriado', 'FeriadosController@getFeriado');
 });
 
 //rutas que deberían estar protegidas, pero se desportegieron para que el usuario pueda
