@@ -4,7 +4,7 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h1>Editar M&eacute;dico</h1>                       
+                <h1>Perfil de M&eacute;dico: {!! $medico->nombre . ' ' . $medico->apellido!!}</h1>
             </div>
 
             <div class="panel-body">
@@ -13,14 +13,24 @@
                     'route' => ['medicos.update', $medico->id]
                 ]) !!}
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('apellido') ? ' has-error' : '' }}">
                     {!! Form::label('apellido', 'Apellido:', ['class' => 'control-label']) !!}
                     {!! Form::text('apellido', null, ['class' => 'form-control']) !!}
+                    @if ($errors->has('apellido'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('apellido') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                     {!! Form::label('nombre', 'Nombre:', ['class' => 'control-label']) !!}
                     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+                    @if ($errors->has('nombre'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('nombre') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -28,9 +38,14 @@
                     {!! Form::select('tipoDocumento', ['1' => 'DNI', '2' => 'LE'], null, ['class' => 'form-control']) !!}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('nroDocumento') ? ' has-error' : '' }}">
                     {!! Form::label('nroDocumento', 'Nro Documento:', ['class' => 'control-label']) !!}
                     {!! Form::text('nroDocumento', null, ['class' => 'form-control']) !!}
+                    @if ($errors->has('nroDocumento'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('nroDocumento') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -68,12 +83,17 @@
                     {!! Form::text('email', null, ['class' => 'form-control']) !!}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('duracionTurno') ? ' has-error' : '' }}">
                     {!! Form::label('duracionTurno', 'Duraci&oacute;n del Turno:', ['class' => 'control-label']) !!}
                     {!! Form::text('duracionTurno', null, ['class' => 'cantHoras form-control']) !!}                     
+                    @if ($errors->has('duracionTurno'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('duracionTurno') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('especialidad') ? ' has-error' : '' }}">
                     <table class="table table-striped table-responsive task-table">
                         <thead>
                             <th><h3>Especialidad</h3></th>
@@ -91,6 +111,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($errors->has('especialidad'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('especialidad') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -113,7 +138,7 @@
                     </table>
                 </div> 
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('dia') ? ' has-error' : '' }}">
                     <h3>Horarios de Trabajo</h3>
                     <table class="table table-striped table-responsive task-table">
                         <thead>
@@ -144,6 +169,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($errors->has('dia'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('dia') }}</strong>
+                        </span>
+                    @endif
                 </div> 
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}

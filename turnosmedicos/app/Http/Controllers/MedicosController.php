@@ -19,6 +19,10 @@ use App\Permission;
 use Session;
 use Carbon\Carbon;
 use DB;
+use Validator;
+use Input;
+use Redirect;
+use Auth;
 
 class MedicosController extends Controller
 {
@@ -91,37 +95,54 @@ class MedicosController extends Controller
      */
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {        
-            $this->validarMedico($request);
+        $rules = array(
+            'nombre'       => 'required',
+            'apellido'      => 'required',
+            'nroDocumento' => 'required|numeric',
+            'especialidad' => 'required',
+            'duracionTurno' => 'required',
+            'email' => 'email',
+            'dia' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
 
-            $input = $request->all();        
-            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
-            $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
+        // process the errors
+        if ($validator->fails()) {
+            return Redirect::to('/medicos/create')
+                ->withErrors($validator)
+                ->withInput(Input::all());
+        } else {
+            DB::transaction(function () use ($request) {
+                $input = $request->all();
 
-            $medico=Medico::create($input); 
+                $user = $this->altaUsuario($input);
 
-            if(isset($input['especialidad'])){
-                $medico->especialidades()->sync($input['especialidad']);
-            }
-            if(isset($input['obras_sociales'])){
-                $medico->obras_sociales()->sync($input['obras_sociales']);
-            }
-            if(isset($input['dia'])){
-                $medico->dias()->detach();
-                foreach ($input['dia'] as $dia){
-                    $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
-                    $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
+                $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+                $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
+                $input['user_id'] = $user->id;
 
-                    $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                $medico=Medico::create($input); 
+
+                if(isset($input['especialidad'])){
+                    $medico->especialidades()->sync($input['especialidad']);
                 }
-            }
+                if(isset($input['obras_sociales'])){
+                    $medico->obras_sociales()->sync($input['obras_sociales']);
+                }
+                if(isset($input['dia'])){
+                    $medico->dias()->detach();
+                    foreach ($input['dia'] as $dia){
+                        $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                        $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
 
-            $this->altaUsuario($input);
+                        $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                    }
+                }
+            });
+            Session::flash('flash_message', 'Alta de M&eacute;dico exitosa!');
 
-            Session::flash('flash_message', 'Alta de Medico exitosa!');
-        });
-
-        return redirect('/medicos');
+            return redirect('/medicos');
+        }
     }
 
     public function altaUsuario($datos)
@@ -137,6 +158,8 @@ class MedicosController extends Controller
 
         $role_medico = Role::where('name', '=', 'medico')->first();
         $user->attachRole($role_medico);
+
+        return $user;
     }
 
     /**
@@ -148,6 +171,18 @@ class MedicosController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function perfil()
+    {
+        $id=Auth::user()->medicoAsociado()->first()->id;
+        $medico = Medico::findOrFail($id);
+        $categorias = Funciones::getCategoriasSel();
+        $especialidades = Especialidad::orderBy('descripcion')->get();
+        $obras_sociales = ObraSocial::orderBy('nombre')->get();
+        $dias=Dia::all();
+
+        return view('medicos.edit', ['obras_sociales' => $obras_sociales, 'medico' => $medico, 'categorias' => $categorias, 'especialidades' => $especialidades, 'dias' => $dias]);
     }
 
     /**
@@ -176,37 +211,53 @@ class MedicosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::transaction(function () use ($request, $id) { 
-            $this->validarMedico($request);
+        $rules = array(
+            'nombre'       => 'required',
+            'apellido'      => 'required',
+            'nroDocumento' => 'required|numeric',
+            'duracionTurno' => 'required',
+            'especialidad' => 'required',
+            'email' => 'email',
+            'dia' => 'required'
+        );
+        $validator = Validator::make(Input::all(), $rules);
 
-            $medico = Medico::findOrFail($id);
-            
-            $input = $request->all();
-            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
-            $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
+        // process the errors
+        if ($validator->fails()) {
+            return Redirect::to('/medicos.perfil')
+                ->withErrors($validator)
+                ->withInput(Input::all());
+        } else {
+            DB::transaction(function () use ($request, $id) { 
+                $medico = Medico::findOrFail($id);
+                
+                $input = $request->all();
+                $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+                $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
 
-            $medico->fill($input)->save();
+                $medico->fill($input)->save();
 
-            if(isset($input['especialidad'])){
-                $medico->especialidades()->sync($input['especialidad']);
-            }
-            if(isset($input['obras_sociales'])){
-                $medico->obras_sociales()->sync($input['obras_sociales']);
-            }
-
-            if(isset($input['dia'])){
-                $medico->dias()->detach();
-                foreach ($input['dia'] as $dia){
-                    $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
-                    $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
-
-                    $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                if(isset($input['especialidad'])){
+                    $medico->especialidades()->sync($input['especialidad']);
                 }
-            }
-            Session::flash('flash_message', 'Medico editado con éxito!');
-        });
+                if(isset($input['obras_sociales'])){
+                    $medico->obras_sociales()->sync($input['obras_sociales']);
+                }
 
-        return redirect('/medicos');
+                if(isset($input['dia'])){
+                    $medico->dias()->detach();
+                    foreach ($input['dia'] as $dia){
+                        $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                        $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
+
+                        $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                    }
+                }
+                Session::flash('flash_message', 'Medico editado con éxito!');
+            });
+
+            return redirect('/medicos');
+        }
     }
 
     /**

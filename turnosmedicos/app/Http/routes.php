@@ -51,6 +51,7 @@ Route::get('pacientes.perfil', 'PacientesController@perfil');
 Route::resource('pacientes', 'PacientesController');
 Route::resource('mensajes', 'MensajesController');
 Route::get('mensajes.create', 'MensajesController@create');
+Route::get('medicos.perfil', 'MedicosController@perfil');
 
 //rutas tipo get (agregados a recursos -para sacar turno-)
 Route::get('turnos.create', 'TurnosController@create');

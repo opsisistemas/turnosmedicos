@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use App\Paciente;
+use App\Medico;
 
 class User extends Authenticatable
 {
@@ -30,5 +31,10 @@ class User extends Authenticatable
     public function scopePacienteAsociado()
     {
         return Paciente::where('user_id', '=', $this->id)->get();
+    }
+
+    public function scopeMedicoAsociado()
+    {
+        return Medico::where('user_id', '=', $this->id)->get();
     }
 }
