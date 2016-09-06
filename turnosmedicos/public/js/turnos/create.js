@@ -1,3 +1,28 @@
+$().ready( function(){
+	//Al cargar la página, cargamos los feriados de la BD
+	$.ajax({
+		url: 'getFeriados',
+		type: 'GET',
+
+		success: function (feriados)
+		{
+			//armamos los feriados
+			var a_feriados = [];
+			$.each(feriados, function(key,value) {
+				day = value.fecha.substring(8, 10);
+				month = value.fecha.substring(5, 7);
+				year = value.fecha.substring(0, 4);
+				
+				comp_fecha = day + '-' + month + '-' + year;
+
+				a_feriados.push(comp_fecha);
+			});
+
+			$('#feriados').html(a_feriados);
+		}
+	});
+});
+
 $("#medico_id").on('change', function (){
 	var id = $("#medico_id").val();
 
@@ -48,8 +73,20 @@ $("#medico_id").on('change', function (){
 	}
 
 	function configurarCalendario(dias){
+		var forbidden = $('#feriados').html();//['28-9-2016', '29-9-2016', '30-9-2016'];
+
 		$('#calpicker').datepicker({
-			daysOfWeekDisabled: setDiasDeshabilitados(dias), startDate: new Date()
+			daysOfWeekDisabled: setDiasDeshabilitados(dias),
+			startDate: new Date(),
+			beforeShowDay:function(Date){
+		        //
+		        var curr_day = Date.getDate();
+		        var curr_month = Date.getMonth()+1;
+		        var curr_year = Date.getFullYear();        
+		        var curr_date=curr_day+'-'+curr_month+'-'+curr_year;
+
+		        if (forbidden.indexOf(curr_date)>-1) return false;
+    		}
 		}).on("changeDate", function() {
 			$('#fecha_dp').val(
 				$('#calpicker').datepicker('getFormattedDate')

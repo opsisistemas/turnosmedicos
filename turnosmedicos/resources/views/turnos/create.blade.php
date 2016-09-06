@@ -29,6 +29,10 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::hidden('feriados', 0, ['class' => 'form-control', 'id' => 'feriados']) !!}
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
                     {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
                 </div>

@@ -20,6 +20,15 @@ class FeriadosController extends Controller
             $feriado->toArray()
         );
     }
+
+    public function getFeriados(Request $request)
+    {
+        $feriados = Feriado::all();
+
+        return response()->json(
+            $feriados->toArray()
+        );
+    }
     /**
      * Display a listing of the resource.
      *

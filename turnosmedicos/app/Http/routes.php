@@ -13,10 +13,11 @@
 Route::auth();
 
 Route::get('/', 'EmpresaController@index');
+Route::get('/home', 'EmpresaController@index');
 
 //antes de devolver el recurso, pasa por el middleware, que evalúa el rol del usuario
 //ésto evita que se acceda por url a alguna parte del sistema, sin estar autorizado
-Route::group(['middleware' => 'rolesExcept:paciente'], function () {
+Route::group(['middleware' => 'roles:admin'], function () {
 	//rutas tipo recurso
 	Route::resource('paises', 'PaisesController');
 	Route::resource('provincias', 'ProvinciaController');
@@ -60,6 +61,7 @@ Route::get('turnos.create', 'TurnosController@create');
 Route::get('turnos.create_por_especialidad', 'TurnosController@create_por_especialidad');
 Route::get('turnos.misturnos', 'TurnosController@misTurnos');
 Route::post('turnos.cancel/{id}', 'TurnosController@cancel');
+Route::get('getFeriados', 'FeriadosController@getFeriados');
 
 //ajax para sacar turno
 Route::get('diasAtencion', 'MedicosController@diasAtencion');

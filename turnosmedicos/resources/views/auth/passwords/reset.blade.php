@@ -14,7 +14,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail</label>
+                            <label class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
                                 <input type="email" class="form-control" name="email" value="{{ $email or old('email') }}">

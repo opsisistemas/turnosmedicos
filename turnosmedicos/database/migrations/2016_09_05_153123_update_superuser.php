@@ -28,7 +28,11 @@ class UpdateSuperuser extends Migration
         );
 
         $user = User::where('name', '=', 'sistemas')->first();
+
         $role = Role::where('name', '=', 'owner')->first();
+        $user->attachRole($role);
+
+        $role = Role::where('name', '=', 'admin')->first();
         $user->attachRole($role);
 
         DB::table('obras_sociales')->insert(
