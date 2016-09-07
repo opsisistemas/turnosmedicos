@@ -134,7 +134,6 @@
                                 @else
                                     <li><a href="{{ url('/pacientes.perfil') }}"><i class="fa fa-btn fa-user"></i>Perfil</a></li>
                                 @endif
-                                <li><a href="{{ url('/password/reset') }}"><i class="fa fa-btn fa-key"></i>Cambiar Clave</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Cerrar Sesi&oacute;n</a></li>
                             </ul>
                         </li>

@@ -145,6 +145,8 @@
                             <th>D&iacute;a</th>
                             <th>Desde</th>
                             <th>Hasta</th>
+                            <th>Desde</th>
+                            <th>Hasta</th>
                         </thead>
                         <tbody>
                            @foreach ($dias as $dia)                       
@@ -156,14 +158,24 @@
                                         </div>
                                     </td>
                                     <td class="table-text">
-                                        <div>
-                                            {!! Form::text($dia->id.'desde', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->find($dia->id)->pivot->desde))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!}
-                                        </div>
+                                        <span>
+                                            {!! Form::text($dia->id.'desde', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->where('id', $dia->id)->first()->pivot->desde))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!}
+                                        </span>
                                     </td>
                                     <td class="table-text">
-                                        <div>
-                                            {!! Form::text( $dia->id.'hasta', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->find($dia->id)->pivot->hasta))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!} 
-                                        </div>
+                                        <span>
+                                            {!! Form::text( $dia->id.'hasta', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->where('id', $dia->id)->first()->pivot->hasta))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!} 
+                                        </span>
+                                    </td>
+                                    <td class="table-text">
+                                        <span>
+                                            {!! Form::text($dia->id.'desde1', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->where('id', $dia->id)->last()->pivot->desde))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!}
+                                        </span>
+                                    </td>
+                                    <td class="table-text">
+                                        <span>
+                                            {!! Form::text( $dia->id.'hasta1', ($medico->dias->find($dia->id))? (new \Carbon\Carbon($medico->dias->where('id', $dia->id)->last()->pivot->hasta))->format('H:i'):'00:00', ['class' => 'desdeHasta']) !!} 
+                                        </span>
                                     </td>
                                 </tr>
                             @endforeach

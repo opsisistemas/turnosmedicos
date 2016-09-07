@@ -95,6 +95,7 @@ class MedicosController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = array(
             'nombre'       => 'required',
             'apellido'      => 'required',
@@ -132,10 +133,18 @@ class MedicosController extends Controller
                 if(isset($input['dia'])){
                     $medico->dias()->detach();
                     foreach ($input['dia'] as $dia){
-                        $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
-                        $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
+                        if(($input[$dia.'desde']) !== '00:00'){
+                            $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                            $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
 
-                        $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                            $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                        }
+                        if(($input[$dia.'desde1'])){
+                            $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde1']);
+                            $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta1']);
+
+                            $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                        }
                     }
                 }
             });
@@ -247,10 +256,18 @@ class MedicosController extends Controller
                 if(isset($input['dia'])){
                     $medico->dias()->detach();
                     foreach ($input['dia'] as $dia){
-                        $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
-                        $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
+                        if(($input[$dia.'desde']) !== '00:00'){
+                            $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde']);
+                            $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta']);
 
-                        $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                            $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                        }
+                        if(($input[$dia.'desde1'])){
+                            $desde = Carbon::createFromFormat('H:i', $input[$dia.'desde1']);
+                            $hasta = Carbon::createFromFormat('H:i', $input[$dia.'hasta1']);
+
+                            $medico->dias()->attach([$dia], array('desde' => $desde, 'hasta' => $hasta));
+                        }
                     }
                 }
                 Session::flash('flash_message', 'Medico editado con éxito!');

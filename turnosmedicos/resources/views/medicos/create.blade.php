@@ -149,6 +149,8 @@
                             <th>D&iacute;a</th>
                             <th>Desde</th>
                             <th>Hasta</th>
+                            <th>Desde</th>
+                            <th>Hasta</th>
                         </thead>
                         <tbody>
                            @foreach ($dias as $dia)                       
@@ -160,14 +162,24 @@
                                         </div>
                                     </td>
                                     <td class="table-text">
-                                        <div>
+                                        <span>
                                             {!! Form::text($dia->id.'desde', '08:00', ['class' => 'desdeHasta']) !!}
-                                        </div>
+                                        </span>
                                     </td>
                                     <td class="table-text">
-                                        <div>
+                                        <span>
                                             {!! Form::text($dia->id.'hasta', '14:00', ['class' => 'desdeHasta']) !!} 
-                                        </div>
+                                        </span>
+                                    </td>
+                                    <td class="table-text">
+                                        <span>
+                                            {!! Form::text($dia->id.'desde1', '00:00', ['class' => 'desdeHasta']) !!}
+                                        </span>
+                                    </td>
+                                    <td class="table-text">
+                                        <span>
+                                            {!! Form::text($dia->id.'hasta1', '00:00', ['class' => 'desdeHasta']) !!} 
+                                        </span>
                                     </td>
                                 </tr>
                             @endforeach

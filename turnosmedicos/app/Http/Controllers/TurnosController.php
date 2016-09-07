@@ -41,17 +41,30 @@ class TurnosController extends Controller
         $medico = Medico::findOrFail($medico_id);
         $horario = Medico::join('dia_medico', 'medicos.id', '=', 'dia_medico.medico_id')->where('medicos.id', '=', $medico_id)->where('dia_medico.dia_id', '=', $fecha->dayOfWeek)->get();
 
-        $minutosAtencion = (new Carbon($horario[0]->hasta))->diffInMinutes(new Carbon($horario[0]->desde));
+        //1º banda horaria del médico
+        $minutosAtencion1 = (new Carbon($horario[0]->hasta))->diffInMinutes(new Carbon($horario[0]->desde));
         $duracionTurno = (new Carbon($medico->duracionTurno))->minute;
-        $turnos_x_dia = $minutosAtencion / $duracionTurno;
-
+        $turnos_primera_banda = $minutosAtencion1 / $duracionTurno;
 
         $horarios = [];
         $hora = Carbon::createFromFormat('Y-m-d H:i:s', $horario[0]->desde);
-        for($i = 0; $i < $turnos_x_dia; $i++){
+        for($i = 0; $i < $turnos_primera_banda; $i++){
             $horarios[$hora->toTimeString()] = $this->verificarDisponibilidad($medico_id, $fecha, $hora);
 
             $hora = $hora->addMinutes($duracionTurno);
+        }
+
+        if (isset($horario[1])){
+            //2º banda horaria del médico (si existe)
+            $minutosAtencion2 = (new Carbon($horario[1]->hasta))->diffInMinutes(new Carbon($horario[1]->desde));
+            $turnos_segunda_banda = $minutosAtencion2 / $duracionTurno;
+
+            $hora = Carbon::createFromFormat('Y-m-d H:i:s', $horario[1]->desde);
+            for($i = 0; $i < $turnos_segunda_banda; $i++){
+                $horarios[$hora->toTimeString()] = $this->verificarDisponibilidad($medico_id, $fecha, $hora);
+
+                $hora = $hora->addMinutes($duracionTurno);
+            }
         }
 
         return $horarios;

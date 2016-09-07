@@ -14,18 +14,16 @@
         @endif 
     </div>
 
-    <footer class="footer">
-        <div class="panel panel-default"> 
-            <div class="panel-heading">
-                <h3>Contacto</h3>
-            </div>
-            <div class="panel-body">
-                <ul class="contact-details">
-                    <li><p><i class="fa fa-map-marker"></i> {{ $empresa->direccion }} </p></li>
-                    <li><p><i class="fa fa-phone"></i> {{ $empresa->telefono1 . ' / ' . $empresa->telefono2 }} </p></li>
-                    <li><p><i class="fa fa-envelope"></i> <a href=">openfg.soft@gmail.com"> {{ $empresa->email }} </a></p></li>
-                </ul>
-            </div>
+    <div class="panel panel-default"> 
+        <div class="panel-heading">
+            <h3>Contacto</h3>
         </div>
-    </footer>
+        <div class="panel-body">
+            <ul class="contact-details">
+                <li><p><i class="fa fa-map-marker"></i> {{ $empresa->direccion }} </p></li>
+                <li><p><i class="fa fa-phone"></i> {{ $empresa->telefono1 . ' / ' . $empresa->telefono2 }} </p></li>
+                <li><p><i class="fa fa-envelope"></i> <a href=">openfg.soft@gmail.com"> {{ $empresa->email }} </a></p></li>
+            </ul>
+        </div>
+    </div>
 @endsection
