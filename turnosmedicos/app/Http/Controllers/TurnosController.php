@@ -102,36 +102,52 @@ class TurnosController extends Controller
         //es decir, si quiero exportar a pdf
         if($request->get('aceptar') == 'pdf'){
             //seteamos el médico y la fecha para buscar los turnos
-            $request->get('medico_id')? $medico = Medico::findOrFail($request->get('medico_id')) : $medico = Medico::first();
+            $request->get('medico_id_sel')? $medico = Medico::findOrFail($request->get('medico_id_sel')) : $medico = Medico::first();
             $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
-            //buscamos los turnos correspondientes al médico y fecha dados
-            $turnos = Turno::where('medico_id', '=', $medico->id)->whereIn('paciente_id', function($query){
-                $query->select(DB::raw('id'))
-                    ->from('pacientes')
-                    ->whereRaw('pacientes.confirmado = 1');
-            })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            //buscamos los turnos correspondientes al médico y fecha dados (o todos)
+            if($request->get('medico_id_sel') != 0){
+                $turnos = Turno::where('medico_id', '=', $medico->id)->whereIn('paciente_id', function($query){
+                    $query->select(DB::raw('id'))
+                        ->from('pacientes')
+                        ->whereRaw('pacientes.confirmado = 1');
+                })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            }else{
+                $turnos = Turno::whereIn('paciente_id', function($query){
+                    $query->select(DB::raw('id'))
+                        ->from('pacientes')
+                        ->whereRaw('pacientes.confirmado = 1');
+                })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            }
 
             //preparamos el pdf con una vista separada (para evitar errores de markup validation)
-            $pdf = \PDF::loadView('pdf.listado_turnos', ['medico' => $medico, 'turnos' => $turnos, 'fecha' => $fecha]);
+            $pdf = \PDF::loadView('pdf.listado_turnos', ['medico' => $medico, 'turnos' => $turnos, 'fecha' => $fecha, 'medico_id' => $request->get('medico_id_sel')]);
 
             //iniciamos la descarga
             return $pdf->download('listado_turnos.pdf');
         //si el submit button es el que tiene el "value"='buscar'
         }else{
             //preparamos los médico en formato arreglo para el dropdown en la vista
-            $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');
+            $medicos = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Todos--', '0');
 
             //seteamos el medico_id y la fecha según los inputs e la vista o con valores por defecto
-            $request->get('medico_id')? $medico_id = $request->get('medico_id') : $medico_id = 0;
+            $request->get('medico_id_sel')? $medico_id = $request->get('medico_id_sel') : $medico_id = 0;
             $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
-            //buscamos los turnos correspondientes al médico y fecha dados
-            $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico_id)->whereIn('paciente_id', function($query){
-                $query->select(DB::raw('id'))
-                    ->from('pacientes')
-                    ->whereRaw('pacientes.confirmado = 1');
-            })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            //buscamos los turnos correspondientes al médico y fecha dados (o todos)
+            if($request->get('medico_id_sel') != 0){
+                $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico_id)->whereIn('paciente_id', function($query){
+                    $query->select(DB::raw('id'))
+                        ->from('pacientes')
+                        ->whereRaw('pacientes.confirmado = 1');
+                })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+            }else{
+                $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->whereIn('paciente_id', function($query){
+                    $query->select(DB::raw('id'))
+                        ->from('pacientes')
+                        ->whereRaw('pacientes.confirmado = 1');
+                })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();  
+            }
 
             return view('turnos.listado', ['medicos' => $medicos, 'turnos' => $turnos, 'medico_id' => $medico_id, 'fecha' => $fecha]);
         }
@@ -285,7 +301,21 @@ class TurnosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $paciente = Paciente::findOrFail($request->get('paciente_id'));
+        $request['paciente_id'] = $paciente->id;
+        $this->validarTurno($request);
+
+        $input = $request->all();
+        $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
+        $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
+        $input['sobre_turno'] = ($input['sobre_turno'] == '1');
+
+        $turno = Turno::findOrFail($id);
+
+        $this->emailAltaTurno($turno->fill($input)->save(), $paciente->user->email);
+
+        Session::flash('flash_message', 'Se ha editado un turno de manera exitosa. Se ha enviado un email a '. $paciente->user->email);
+        return redirect('turnos.listado');
     }
 
     /**

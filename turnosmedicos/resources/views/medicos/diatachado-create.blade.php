@@ -17,10 +17,6 @@
                 {!! Form::open(['url' => 'diastachados']) !!}
 
                 <div class="form-group">
-                    {!! Form::hidden('feriados', 0, ['class' => 'form-control', 'id' => 'feriados']) !!}
-                </div>
-
-                <div class="form-group">
                     {!! Form::hidden('origen', 'medicos.misdiastachados', ['class' => 'form-control']) !!}
                 </div>
 

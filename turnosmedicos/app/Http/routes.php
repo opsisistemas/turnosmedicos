@@ -77,6 +77,7 @@ Route::get('getFeriados', 'FeriadosController@getFeriados');
 
 //ajax para sacar turno
 Route::get('diasAtencion', 'MedicosController@diasAtencion');
+Route::get('getDiasTachados', 'MedicosController@getDiasTachados');
 Route::get('especialidadesMedico', 'MedicosController@especialidadesMedico');
 Route::get('diaDisponible', 'TurnosController@diaDisponible');
 Route::get('diasAtencion_esp', 'EspecialidadesController@diasAtencion');

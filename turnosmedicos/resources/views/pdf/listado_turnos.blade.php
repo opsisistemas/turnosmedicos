@@ -20,7 +20,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1>Listado de Turnos por M&eacute;dico</h1>
-            <h5>M&eacute;dico: {{ $medico->apellido }}, {{ $medico->nombre }} </h5>
+            <h5>M&eacute;dico: {{ ($medico_id != 0)? ($medico->apellido . ' ' . $medico->nombre) : 'Todos'}} </h5>
             <div class="pull-right">
                 <h5> D&iacute;a: {{ (new \Carbon\Carbon($fecha))->format('d-m-Y') }} </h5>
             </div>

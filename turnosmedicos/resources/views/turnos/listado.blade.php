@@ -28,8 +28,8 @@
                 {!! Form::text('fecha', $fecha->format('d-m-Y'), ['class' => 'datepicker form-control']) !!}
 
                  <!--selección de médico-->
-                {!! Form::label('medico_id', 'M&eacute;dico:', ['class' => 'control-label']) !!}
-                {!! Form::select('medico_id', $medicos, $medico_id, ['class' => 'form-control enfocar']) !!}
+                {!! Form::label('medico_id_sel', 'M&eacute;dico:', ['class' => 'control-label']) !!}
+                {!! Form::select('medico_id_sel', $medicos, $medico_id, ['class' => 'form-control enfocar']) !!}
 
                 <button type="submit" class="btn btn-default" name="aceptar" value="buscar"><i class="fa fa-search"></i></button>
 
@@ -49,6 +49,7 @@
                         <th>Obra Social</th>
                         <th>Nro Afiliado</th>
                         <th>Especialidad</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,14 +68,17 @@
                             <td> {{ $turno->paciente->obra_social['nombre'] }}</td>
                             <td> {{ $turno->paciente->nro_afiliado }}</td>
                             <td> {{ $turno->especialidad->descripcion }}</td>
+                            <td>
+                                <!-- TRIGGER THE MODAL WITH A BUTTON -->
+                                {!! Form::button('Mover <i class="fa fa-move"></i>', ['class' => 'btn btn-success btn-mover-turno', 'type' => 'submit', 'data-id' => $turno->id,  'data-toggle' => 'modal', 'data-target' => '#modal-mover-turno']) !!}                                            
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <div>
-            </div>
         </div>                
     </div>
+    @include('turnos.moverturno')
 </div>
 
 @endsection
@@ -82,4 +86,6 @@
 @section('scripts')
     {!!Html::script('js/funciones/focus.js')!!}
     {!!Html::script('js/funciones/datepicker.js')!!}
+    {!!Html::script('js/turnos/moverturno.js')!!}
+    <link rel="stylesheet" href="{{ asset('css/aditionals.css') }}">
 @endsection

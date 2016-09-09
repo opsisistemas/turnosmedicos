@@ -22,6 +22,10 @@
             </h1>
         </div>
         <div class="panel-body">
+            <div class="form-group">
+                {!! Form::hidden('dias_tachados', 0, ['class' => 'form-control', 'id' => 'dias_tachados']) !!}
+                {!! Form::hidden('feriados', 0, ['class' => 'form-control', 'id' => 'feriados']) !!}
+            </div>
             <table class="table table-striped task-table">
                 <thead>
                     <tr>
@@ -40,9 +44,17 @@
                                 }}
                             </td>
                             <td> {{ $diatachado->motivo }}</td>
+                            <!-- Task Delete Button -->
                             <td>
-                                <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                {!! Form::button('Editar <i class="fa fa-pencil"></i>', ['class' => 'btn btn-info btn-edit-dia-tachado', 'type' => 'submit', 'data-id' => $diatachado->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
+                                {!! Form::open([
+                                    'method' => 'DELETE',
+                                    'route' => ['diastachados.destroy', $diatachado->id],
+                                    'onsubmit' => 'return ConfirmDelete()'                  
+                                ]) !!}
+
+                                {!! Form::button('Eliminar <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+
+                                {!! Form::close() !!}                                           
                             </td>
                         </tr>
                     @endforeach
@@ -52,7 +64,6 @@
     </div>
 </div>
 @include('medicos.diatachado-create')
-@include('medicos.diatachado-edit')
 @endsection
 
 @section('scripts')

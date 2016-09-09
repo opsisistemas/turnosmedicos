@@ -54,6 +54,15 @@ class MedicosController extends Controller
         );
     }
 
+    public function getDiasTachados(Request $request)
+    {
+        $dias_tachados = DiaTachado::where('medico_id', '=', $request->get('id'))->whereDate('fecha', '>', Carbon::now())->get();
+
+        return response()->json(
+            $dias_tachados->toArray()
+        );
+    }
+
     public function especialidadesMedico(Request $request)
     {
         $especialidades = Especialidad::select('especialidades.id', 'especialidades.descripcion')->join('especialidad_medico', 'especialidades.id', '=', 'especialidad_medico.especialidad_id')->where('especialidad_medico.medico_id', '=', $request->get('id'))->get();

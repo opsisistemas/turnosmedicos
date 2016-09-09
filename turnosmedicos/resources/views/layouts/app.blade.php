@@ -102,7 +102,7 @@
                                     Turnos <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ url('/turnos.listado') }}">Listado Por M&eacute;dico</a></li>
+                                    <li><a href="{{ url('/turnos.listado') }}">Listado</a></li>
                                     <li><a href="{{ url('/turnos.create') }}">Dar un turno</a></li>
                                 </ul>
                             </li>

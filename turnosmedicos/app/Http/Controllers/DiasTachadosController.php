@@ -11,6 +11,9 @@ use App\DiaTachado;
 use Input, Redirect, Validator, Session;
 use Carbon\Carbon;
 
+use Mail;
+use App\Empresa;
+
 class DiasTachadosController extends Controller
 {
     /**
@@ -59,10 +62,25 @@ class DiasTachadosController extends Controller
 
             $dia_tachado=DiaTachado::create($input);
 
-            Session::flash('flash_message', 'Nueva inasistencia agregada de manera exitosa!');
+            $this->maildiatachado($dia_tachado);
+
+            Session::flash('flash_message', 'Nueva inasistencia informada de manera exitosa!');
 
             return redirect($request->get('origen'));
         }
+    }
+
+    private function maildiatachado($dia_tachado)
+    {
+        $data['dia_tachado'] = $dia_tachado;
+
+        Carbon::setLocale('es');
+        setlocale(LC_TIME, config('app.locale'));
+
+        Mail::send('emails.diatachado', $data, function ($message) use($dia_tachado){
+            $message->subject(Empresa::findOrFail(1)->nombre . ' - ' . 'Inasistencia informada por m&eacute;dico ' . $dia_tachado->medico->nombre . ' ' . $dia_tachado->medico->apellido . ' - ' . (new Carbon($dia_tachado->fecha))->formatLocalized('%A %d %B') );
+            $message->to(Empresa::findOrFail(1)->email);
+        });
     }
 
     /**
@@ -104,7 +122,7 @@ class DiasTachadosController extends Controller
 
         // process the errors
         if ($validator->fails()) {
-            return Redirect::to('/diastachados')
+            return Redirect::to($request->get('origen'))
                 ->withErrors($validator)
                 ->withInput(Input::all());
         } else {
@@ -118,7 +136,7 @@ class DiasTachadosController extends Controller
 
             Session::flash('flash_message', 'Nueva inasistencia agregada de manera exitosa!');
 
-            return redirect('/diastachados');
+            return redirect($request->get('origen'));
         }
     }
 
@@ -133,6 +151,21 @@ class DiasTachadosController extends Controller
         $dia_tachado = DiaTachado::findOrFail($id);
         $dia_tachado->delete();
 
-        return redirect('/diastachados');
+        $this->mailcanceldiatachado($dia_tachado);
+
+        return redirect('medicos.misdiastachados');
+    }
+
+    private function mailcanceldiatachado($dia_tachado)
+    {
+        $data['dia_tachado'] = $dia_tachado;
+
+        Carbon::setLocale('es');
+        setlocale(LC_TIME, config('app.locale'));
+
+        Mail::send('emails.canceldiatachado', $data, function ($message) use($dia_tachado){
+            $message->subject(Empresa::findOrFail(1)->nombre . ' - ' . 'Inasistencia dada de baja por m&eacute;dico ' . $dia_tachado->medico->nombre . ' ' . $dia_tachado->medico->apellido . ' - ' . (new Carbon($dia_tachado->fecha))->formatLocalized('%A %d %B') );
+            $message->to(Empresa::findOrFail(1)->email);
+        });
     }
 }

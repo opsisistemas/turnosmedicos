@@ -1,4 +1,4 @@
-$().ready( function(){
+$('btn-mover-turno').on('click', function(){
 	//Al cargar la página, cargamos los feriados de la BD
 	$.ajax({
 		url: 'getFeriados',

@@ -207,7 +207,7 @@ class PacientesController extends Controller
 
             $paciente->fill($input)->save();
 
-            $this->actualizarEmailUsuario($request->get('email'));
+            $this->actualizarDatosUsuario($input);
 
             Session::flash('flash_message', 'Perfil de Paciente editado con éxito!');
         }
@@ -227,14 +227,17 @@ class PacientesController extends Controller
     }
 
 
-    public function actualizarEmailUsuario($email)
+    public function actualizarDatosUsuario($input)
     {
         $user = User::findOrFail(Auth::user()->id);
 
-        $input=[];
-        $input['email'] = $email;
+        $datos=[];
+        $datos['email'] = $input['email'];
+        $datos['dni'] = $input['nroDocumento'];
+        $datos['name'] = $input['nombre'];
+        $datos['surname'] = $input['apellido'];
 
-        $user->fill($input)->save();
+        $user->fill($datos)->save();
     }
 
     /**
