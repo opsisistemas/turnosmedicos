@@ -98,7 +98,7 @@ $("#medico_id").on('change', function (){
 	function setDiasDeshabilitados(dias){
 		result=[];
 		days=[];
-		//agregamos a un arreglo los diçías de atención del médico en cuestión
+		//agregamos a un arreglo los días de atención del médico en cuestión
 		//lo hacemos de la forma (por ej., si atendiera lun y vie):
 		//dias[0] = 1; dias[1] = 5;
 		for (i = 0; i < dias.length; i++) {
@@ -111,6 +111,9 @@ $("#medico_id").on('change', function (){
 				result.push(j);
 			}
 		}
+		//agregamos sábados y domingos
+		result.push(0);
+		result.push(6);
 		//retornamos los días en un arreglo simple, el del ejemplo quedaría: [1, 5]
 		return result;
 	}

@@ -18,6 +18,10 @@ Route::get('/home', 'EmpresaController@index');
 //antes de devolver el recurso, pasa por el middleware, que evalúa el rol del usuario
 //ésto evita que se acceda por url a alguna parte del sistema, sin estar autorizado
 Route::group(['middleware' => 'roles:admin'], function () {
+	Route::get('usersnroles', 'Controller@usersnroles');
+});
+
+Route::group(['middleware' => 'roles:admin'], function () {
 	//rutas tipo recurso
 	Route::resource('paises', 'PaisesController');
 	Route::resource('provincias', 'ProvinciaController');
@@ -45,6 +49,14 @@ Route::group(['middleware' => 'roles:admin'], function () {
 	Route::get('getPaciente', 'PacientesController@getPaciente');
 	Route::get('getMedico', 'MedicosController@getMedico');
 	Route::get('getFeriado', 'FeriadosController@getFeriado');
+});
+
+Route::group(['middleware' => 'roles:medico'], function () {
+	Route::get('medicos.misturnos', 'MedicosController@misTurnos');
+	Route::get('medicos.mismensajes', 'MedicosController@misMensajes');
+	Route::get('medicos.misdiastachados', 'MedicosController@misDiasTachados');
+	Route::get('setVisto/{id}&{checked}', 'MensajesController@setVisto');
+	Route::resource('diastachados', 'DiasTachadosController');
 });
 
 //rutas que deberían estar protegidas, pero se desportegieron para que el usuario pueda

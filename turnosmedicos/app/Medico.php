@@ -54,4 +54,9 @@ class Medico extends Model
     {
         return $this->hasMany('App\Mensaje');
     }
+
+    public function diasTachados()
+    {
+        return $this->hasMany('App\DiaTachado');
+    }
 }

@@ -25,20 +25,24 @@
                     {!! Form::select('asunto_id', $asuntos, null, ['class' => 'form-control', 'id' => 'asunto_id']) !!}
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('destinatario', 'Para:', ['class' => 'control-label']) !!}
-                    {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
-                </div>
+                @if(Auth::user()->hasRole('admin'))
+                    <div class="form-group">
+                        {!! Form::label('destinatario', 'Para:', ['class' => 'control-label']) !!}
+                        {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
+                    </div>
+                @endif
 
                 <div class="form-group">
                     {!! Form::label('cuerpo', 'Mensaje:', ['class' => 'control-label']) !!}
                     {!! Form::textarea('cuerpo', null, ['class' => 'form-control', 'id' => 'cuerpo']) !!}
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('visto', 'Visto:', ['class' => 'control-label']) !!}
-                    {!! Form::checkbox('visto', null, false, ['class' => 'form-control', 'id' => 'visto_s']) !!}
-                </div>
+                @if(Auth::user()->hasRole('admin'))
+                    <div class="form-group">
+                        {!! Form::label('visto', 'Visto:', ['class' => 'control-label']) !!}
+                        {!! Form::checkbox('visto', null, false, ['class' => 'form-control', 'id' => 'visto_s']) !!}
+                    </div>
+                @endif
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
 

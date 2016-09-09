@@ -6,29 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use \Carbon\Carbon;
-use App\Feriado;
+use App\DiaTachado;
 
 use Input, Redirect, Validator, Session;
+use Carbon\Carbon;
 
-class FeriadosController extends Controller
+class DiasTachadosController extends Controller
 {
-    public function getFeriado(Request $request)
-    {
-        $feriado = Feriado::where('id', $request->get('id'))->get();
-        return response()->json(
-            $feriado->toArray()
-        );
-    }
-
-    public function getFeriados(Request $request)
-    {
-        $feriados = Feriado::all();
-
-        return response()->json(
-            $feriados->toArray()
-        );
-    }
     /**
      * Display a listing of the resource.
      *
@@ -36,15 +20,7 @@ class FeriadosController extends Controller
      */
     public function index(Request $request)
     {
-        $year = (null !== $request->get('year'))? $request->get('year') : Carbon::now()->year;
-
-        if(Null !== $request->get('description')){
-            $feriados = Feriado::whereYear('fecha', '=', $year)->where('descripcion', 'like', '%' . $request->get('description') . '%')->orderBy('fecha')->get();
-        }else{
-            $feriados = Feriado::whereYear('fecha', '=', $year)->orderBy('fecha')->get();
-        }
-
-        return view('feriados.index', ['feriados' => $feriados, 'year' => $year]);
+        //
     }
 
     /**
@@ -66,14 +42,14 @@ class FeriadosController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'descripcion' => 'required',
+            'medico_id' => 'required',
             'fecha' => 'required|date'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the errors
         if ($validator->fails()) {
-            return Redirect::to('/feriados')
+            return Redirect::to($request->get('origen'))
                 ->withErrors($validator)
                 ->withInput(Input::all());
         } else {
@@ -81,11 +57,11 @@ class FeriadosController extends Controller
 
             $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
 
-            $feriado=Feriado::create($input); 
+            $dia_tachado=DiaTachado::create($input);
 
-            Session::flash('flash_message', 'Nuevo feriado agregado de manera exitosa!');
+            Session::flash('flash_message', 'Nueva inasistencia agregada de manera exitosa!');
 
-            return redirect('/feriados');
+            return redirect($request->get('origen'));
         }
     }
 
@@ -121,14 +97,14 @@ class FeriadosController extends Controller
     public function update(Request $request, $id)
     {
         $rules = array(
-            'descripcion' => 'required',
+            'medico_id' => 'required',
             'fecha' => 'required|date'
         );
         $validator = Validator::make(Input::all(), $rules);
 
         // process the errors
         if ($validator->fails()) {
-            return Redirect::to('/feriados')
+            return Redirect::to('/diastachados')
                 ->withErrors($validator)
                 ->withInput(Input::all());
         } else {
@@ -136,13 +112,13 @@ class FeriadosController extends Controller
 
             $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
 
-            $feriado=Feriado::findOrFail($id); 
+            $dia_tachado=DiaTachado::findOrFail($id);
 
-            $feriado->fill($input)->save();
+            $dia_tachado->fill($input)->save();
 
-            Session::flash('flash_message', 'Feriado modificado de manera exitosa!');
+            Session::flash('flash_message', 'Nueva inasistencia agregada de manera exitosa!');
 
-            return redirect('/feriados');
+            return redirect('/diastachados');
         }
     }
 
@@ -154,9 +130,9 @@ class FeriadosController extends Controller
      */
     public function destroy($id)
     {
-        $feriado = Feriado::findOrFail($id);
-        $feriado->delete();
+        $dia_tachado = DiaTachado::findOrFail($id);
+        $dia_tachado->delete();
 
-        return redirect('/feriados');
+        return redirect('/diastachados');
     }
 }

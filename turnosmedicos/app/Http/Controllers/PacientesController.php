@@ -44,7 +44,7 @@ class PacientesController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->hasRole('paciente')){
+        if(! Auth::user()->hasRole('admin')){
             return redirect('/');
         }else{
             $pacientes = Paciente::with('localidad')->with('obra_social')->orderBy('nombre')->paginate(30);

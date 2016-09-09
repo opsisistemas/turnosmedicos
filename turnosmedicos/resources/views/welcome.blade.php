@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('partials.alerts.js_confirm')  
+    <!-- success messages -->
+    @if(Session::has('flash_message'))
+        <div class="alert alert-success">
+            {{ Session::get('flash_message') }}
+        </div>
+    @endif 
     <div class="panel panel-default"> 
         <div class="panel-heading">
             <img src="img\medicina.jpg" class="img-responsive center-block">
         </div>
-        @include('partials.alerts.js_confirm')  
-        <!-- success messages -->
-        @if(Session::has('flash_message'))
-            <div class="alert alert-success">
-                {{ Session::get('flash_message') }}
-            </div>
-        @endif 
     </div>
 
     <div class="panel panel-default"> 

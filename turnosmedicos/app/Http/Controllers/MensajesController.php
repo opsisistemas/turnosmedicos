@@ -40,6 +40,14 @@ class MensajesController extends Controller
         );
     }
 
+    public function setVisto($id, $checked){
+        $mensaje = Mensaje::findOrFail($id);
+        ($checked)? $mensaje['visto'] = 1 : $mensaje['visto'] = 0;
+        $mensaje->save();
+
+        return redirect('/mensajes');
+    }
+
     public function index(Request $request)
     {
         //nos aseguramos de que los parámetros estén seteados (sino lo haacemos con valores por defecto), para poder buscar en BD de manera correcta

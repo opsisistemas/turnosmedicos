@@ -107,6 +107,8 @@
                                 </ul>
                             </li>
                             <li><a href="{{ url('/empresa.perfil') }}">Empresa</a></li>
+
+                        <!--Exclusive menues (for paciente, medico or owner)-->
                         @elseif(Auth::user()->hasRole('paciente'))
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -122,6 +124,18 @@
                         @elseif(Auth::user()->hasRole('medico'))
                             <li><a href="{{ url('/medicos.misturnos') }}">Turnos</a></li>
                             <li><a href="{{ url('/medicos.mismensajes') }}" id=mensajes>Mensajes</a></li>
+                            <li><a href="{{ url('/medicos.misdiastachados') }}" id=mensajes>Inasistencias Informadas</a></li>
+                        @endif
+
+                        @if(Auth::user()->hasRole('owner'))
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                Men&uacute; SuperUser <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/usersnroles') }}"><i class="fa fa-btn fa-user"></i>Usuarios y Roles</a></li>
+                            </ul>
+                        </li>
                         @endif
 
                         <li class="dropdown">

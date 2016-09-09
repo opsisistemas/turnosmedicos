@@ -15,6 +15,9 @@ use App\ObraSocial;
 use App\User;
 use App\Role;
 use App\Permission;
+use App\Mensaje;
+use App\Asunto;
+use App\DiaTachado;
 
 use Session;
 use Carbon\Carbon;
@@ -58,6 +61,82 @@ class MedicosController extends Controller
         return response()->json(
             $especialidades->toArray()
         );
+    }
+
+    /*
+    *Funciones para menú médico (rol especial)
+    */
+    public function misMensajes(Request $request)
+    {
+        $medico = Auth::user()->medicoAsociado()->first();
+        $asuntos = Asunto::orderBy('nombre')->lists('nombre', 'id');
+        $query = Mensaje::where('medico_id', $medico->id)->orderBy('created_at', 'desc');
+
+        //aplico filtro de visto         
+        if ($request->get('visto') == 1){
+            $visto = 1;
+            $query = $query->where('visto','1');
+        }
+        else{        
+            if(is_null($request->get('visto')) or ($request->get('visto') == 2)) {
+               $visto = 2; 
+               $query = $query->where('visto','0');  
+            }
+            else{
+                $visto = 3;
+            }
+        }
+        $mensajes = $query->paginate(30);
+
+        return view('medicos.mismensajes', array('mensajes' => $mensajes, 'visto' => $visto, 'asuntos' => $asuntos));
+    }
+
+    public function misTurnos(Request $request)
+    {
+        //si el submit button es el que tiene "value"='pdf' 
+        //es decir, si quiero exportar a pdf
+        if($request->get('aceptar') == 'pdf'){
+            //seteamos el médico y la fecha para buscar los turnos
+            $medico = Auth::user()->medicoAsociado()->first();
+            $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
+
+            //buscamos los turnos correspondientes al médico y fecha dados
+            $turnos = Turno::where('medico_id', '=', $medico->id)->whereIn('paciente_id', function($query){
+                $query->select(DB::raw('id'))
+                    ->from('pacientes')
+                    ->whereRaw('pacientes.confirmado = 1');
+            })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+
+            //preparamos el pdf con una vista separada (para evitar errores de markup validation)
+            $pdf = \PDF::loadView('pdf.listado_turnos', ['medico' => $medico, 'turnos' => $turnos, 'fecha' => $fecha]);
+
+            //iniciamos la descarga
+            return $pdf->download('listado_turnos.pdf');
+        //si el submit button es el que tiene el "value"='buscar'
+        }else{
+            //seteamos el médico y la fecha para buscar los turnos
+            $medico = Auth::user()->medicoAsociado()->first();
+            $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
+
+            //buscamos los turnos correspondientes al médico y fecha dados
+            $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico->id)->whereIn('paciente_id', function($query){
+                $query->select(DB::raw('id'))
+                    ->from('pacientes')
+                    ->whereRaw('pacientes.confirmado = 1');
+            })->whereDate('fecha', '=', $fecha->startOfDay())->orderBy('hora')->get();
+
+            return view('medicos.misturnos', ['turnos' => $turnos, 'fecha' => $fecha]);
+        }
+    }
+
+    public function misDiasTachados()
+    {
+        //seteamos el médico para buscar los días tachados
+        $medico = Auth::user()->medicoAsociado()->first();
+        $dias_tachados = DiaTachado::where('medico_id', $medico->id)->get();
+        Carbon::setLocale('es');
+        setlocale(LC_TIME, config('app.locale'));
+        return view('medicos.misdiastachados', ['dias_tachados' => $dias_tachados]);
     }
     /**
      * Display a listing of the resource.

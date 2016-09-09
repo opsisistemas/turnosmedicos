@@ -33,7 +33,7 @@
                     &Eacute;sto har&aacute; que el paciente puede sacar turno normalmente. Las operaciones que el paciente haga a partir de ahora, se verán normalmente en los listados.
                 </p><br>
 
-                <button type="submit" class="btn btn-success" name="aceptar" value="confirmar">Aceptar<i class="fa fa-check"></i></button>
+                <button type="submit" class="btn btn-success" name="aceptar" value="confirmar">Aceptar</button>
                 <div class="pull-right">
                     <a href="{{ route('pacientes.index') }}" class="btn btn-danger"></i>Cancel</a>
                 </div>
