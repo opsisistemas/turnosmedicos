@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Turno extends Model
 {
-	public $timestamps = false;
     protected $primaryKey = 'id';
     protected $fillable = [
         'paciente_id',

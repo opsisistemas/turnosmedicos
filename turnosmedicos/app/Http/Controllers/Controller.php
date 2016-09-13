@@ -8,9 +8,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 
+use App\Http\Requests;
+
 use Auth;
 use Session;
-use App\User;
+
 
 class Controller extends BaseController
 {
@@ -19,12 +21,5 @@ class Controller extends BaseController
     public function getCaptcha()
     {
         return \Captcha::img('inverse');
-    }
-
-    public function usersnroles()
-    {
-    	$users = User::orderBy('name')->get();
-
-    	dd('Se vería cada usuario con sus roles');
     }
 }

@@ -32,12 +32,12 @@ class Medico extends Model
 
     public function especialidades()
     {
-    	return $this->belongsToMany('App\Especialidad');
+    	return $this->hasMany('App\Especialidad');
     }
 
     public function dias()
     {
-        return $this->belongsToMany('App\Dia')->withPivot('desde', 'hasta');
+        return $this->hasMany('App\Dia')->withPivot('desde', 'hasta');
     }
 
     public function obras_sociales()
@@ -58,5 +58,15 @@ class Medico extends Model
     public function diasTachados()
     {
         return $this->hasMany('App\DiaTachado');
+    }
+
+    public function delete()
+    {
+        foreach($this->especialidades as $especialidad)
+        {
+            $especialidad->delete(); // call the File delete()
+        }
+        
+        parent::delete();
     }
 }

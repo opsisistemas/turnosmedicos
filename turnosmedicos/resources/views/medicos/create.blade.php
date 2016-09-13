@@ -120,6 +120,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @if ($errors->has('especialidad'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('especialidad') }}</strong>
+                        </span>
+                    @endif
                 </div> 
 
                 <div class="form-group">

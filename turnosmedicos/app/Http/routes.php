@@ -17,8 +17,9 @@ Route::get('/home', 'EmpresaController@index');
 
 //antes de devolver el recurso, pasa por el middleware, que evalúa el rol del usuario
 //ésto evita que se acceda por url a alguna parte del sistema, sin estar autorizado
-Route::group(['middleware' => 'roles:admin'], function () {
-	Route::get('usersnroles', 'Controller@usersnroles');
+Route::group(['middleware' => 'roles:owner'], function () {
+	Route::get('usersnroles', 'UsersController@usersnroles');
+	Route::resource('users', 'UsersController');
 });
 
 Route::group(['middleware' => 'roles:admin'], function () {
@@ -37,7 +38,6 @@ Route::group(['middleware' => 'roles:admin'], function () {
 
 	//rutas tipo get (agregados a recursos)
 	Route::get('turnos.listado', 'TurnosController@listado');
-	Route::get('pacientes.persist', 'PacientesController@persist');
 
 	//ajax edit/create --sirven para llenar select's en los abm's
 	Route::get('getPais', 'PaisesController@getPais');
@@ -63,6 +63,7 @@ Route::group(['middleware' => 'roles:medico'], function () {
 //sacar turno y ver sus datos
 Route::resource('turnos', 'TurnosController');
 Route::get('pacientes.perfil', 'PacientesController@perfil');
+Route::get('pacientes.persist', 'PacientesController@persist');
 Route::resource('pacientes', 'PacientesController');
 Route::resource('mensajes', 'MensajesController');
 Route::get('mensajes.create', 'MensajesController@create');

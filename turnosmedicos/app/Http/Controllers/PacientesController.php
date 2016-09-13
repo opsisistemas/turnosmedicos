@@ -97,6 +97,7 @@ class PacientesController extends Controller
     public function persist(Request $request)
     {
         $user = Auth::user();
+
         if(($user->pacienteAsociado()->isEmpty())&&(! $user->hasRole('medico'))){
             DB::transaction(function () use ($request, $user) {
                 $input = [];

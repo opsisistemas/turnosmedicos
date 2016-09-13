@@ -20,6 +20,10 @@ $().ready( function(){
 			$('#feriados').html(a_feriados);
 		}
 	});
+	cant_medicos = $('#medico_id').length;
+	if(cant_medicos < 2){
+		$('#medico_id').change();
+	}
 });
 
 $("#medico_id").on('change', function (){

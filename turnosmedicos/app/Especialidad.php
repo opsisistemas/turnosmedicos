@@ -15,6 +15,6 @@ class Especialidad extends Model
 
     public function medicos()
     {
-    	return $this->belongsToMany('App/Medico');
+    	return $this->hasMany('App/Medico');
     }
 }

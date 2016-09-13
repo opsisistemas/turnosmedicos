@@ -167,7 +167,7 @@ class MedicosController extends Controller
      */
     public function create()
     {
-        $categorias = Funciones::getCategoriasSel();
+        $categorias = Categoria_medico::lists('descripcion', 'id');
         $especialidades = Especialidad::orderBy('descripcion')->get();
         $obras_sociales = ObraSocial::orderBy('nombre')->get();
         $dias=Dia::all();

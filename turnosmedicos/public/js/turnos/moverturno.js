@@ -1,4 +1,8 @@
-$('btn-mover-turno').on('click', function(){
+$('.btn-mover-turno').on('click', function(){
+	var turno_id = $(this).data('id');
+	$("#formEdit").attr("action", "turnos/"+turno_id);
+
+
 	//Al cargar la página, cargamos los feriados de la BD
 	$.ajax({
 		url: 'getFeriados',

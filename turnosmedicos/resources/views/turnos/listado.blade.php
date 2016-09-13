@@ -40,6 +40,10 @@
             </div>
 		</div>
         <div class="panel-body">
+        @if($turnos->count() == 0)
+            <h2>No se encontraron turnos para el m&eacute;dico y el d&iacute;a solicitado</h2>
+            <p>(Revisar si los pacientes est&aacute;n confirmados)</p>
+        @else
             <table class="table table-striped task-table">
                 <thead>
                     <tr>
@@ -76,6 +80,7 @@
                     @endforeach
                 </tbody>
             </table>
+        @endif
         </div>                
     </div>
     @include('turnos.moverturno')

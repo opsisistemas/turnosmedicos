@@ -134,6 +134,7 @@ class TurnosController extends Controller
             $request->get('medico_id_sel')? $medico_id = $request->get('medico_id_sel') : $medico_id = 0;
             $request->get('fecha')? $fecha = Carbon::createFromFormat('d-m-Y', $request->get('fecha')) : $fecha = new Carbon();
 
+
             //buscamos los turnos correspondientes al médico y fecha dados (o todos)
             if($request->get('medico_id_sel') != 0){
                 $turnos = Turno::with('paciente')->with('especialidad')->with('medico')->where('medico_id', '=', $medico_id)->whereIn('paciente_id', function($query){
@@ -301,20 +302,23 @@ class TurnosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $paciente = Paciente::findOrFail($request->get('paciente_id'));
-        $request['paciente_id'] = $paciente->id;
-        $this->validarTurno($request);
+        //como update es "moverTurno", lo único que cambia es fecha, hora y sobreturno
+        //lo demás lo buscamos y dejamos como estaba
+        $turno = Turno::findOrFail($id);
 
         $input = $request->all();
         $input['fecha'] = Carbon::createFromFormat('d-m-Y', $input['fecha'])->startOfDay();
         $input['hora'] = Carbon::createFromFormat('H:i', $input['hora']);
         $input['sobre_turno'] = ($input['sobre_turno'] == '1');
+        $input['paciente_id'] = $turno->paciente_id;
+        $input['medico_id'] = $turno->medico_id;
+        $input['especialidad_id'] = $turno->especialidad_id;
 
-        $turno = Turno::findOrFail($id);
+        $turno->fill($input)->save();
 
-        $this->emailAltaTurno($turno->fill($input)->save(), $paciente->user->email);
+        $this->emailAltaTurno($turno, $turno->paciente->user->email);
 
-        Session::flash('flash_message', 'Se ha editado un turno de manera exitosa. Se ha enviado un email a '. $paciente->user->email);
+        Session::flash('flash_message', 'Se ha editado un turno de manera exitosa. Se ha enviado un email a '. $turno->paciente->user->email);
         return redirect('turnos.listado');
     }
 
