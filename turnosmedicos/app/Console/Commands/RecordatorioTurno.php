@@ -45,7 +45,10 @@ class RecordatorioTurno extends Command
      */
     public function handle()
     {
+        //obtengo los turnos posteriores a hoy
         $turnos = Turno::with('paciente')->whereDate('fecha', '>', Carbon::now())->get();
+
+        //por cada turno, me fijo si falta menos de 24 hs, entonces, mando un mail
         foreach ($turnos as $turno) {
             $fechaHoraTurno = ($turno->fecha->addHours($turno->hora->hour)->addMinutes($turno->hora->minute));
 

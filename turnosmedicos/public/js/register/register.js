@@ -35,3 +35,14 @@ $('#reload-captcha').on('click', function(){
         }
     });
 });
+
+$(function() {
+    $('#dni').on('keypress', function(e) {
+        //#48 = 0, #57 = 9, ## < 32 = Caracteres de control
+        if (((e.which >= 48)&&(e.which <=57))||(e.which < 32)){
+            return true;
+        }else{
+            return false;
+        }
+    });
+});

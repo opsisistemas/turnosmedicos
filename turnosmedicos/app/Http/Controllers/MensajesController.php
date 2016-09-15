@@ -53,7 +53,7 @@ class MensajesController extends Controller
         //nos aseguramos de que los parámetros estén seteados (sino lo haacemos con valores por defecto), para poder buscar en BD de manera correcta
         $request->get('vistos')? $vistos = $request->get('vistos') : $vistos = 0;
         $request->get('desde')? $desde = Carbon::createFromFormat('d-m-Y', $request->get('desde')) : $desde = Carbon::now()->startOfDay()->subMonth();
-        $request->get('hasta')? $hasta = Carbon::createFromFormat('d-m-Y', $request->get('hasta')) : $hasta = Carbon::now()->startOfDay();
+        $request->get('hasta')? $hasta = Carbon::createFromFormat('d-m-Y', $request->get('hasta')) : $hasta = Carbon::now()->addDays(1)->startOfDay();
 
         $asuntos = Asunto::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
         $medicos_list = Medico::select('id', DB::raw('concat(apellido, ", ", nombre) as apellido'))->orderBy('apellido')->lists('apellido', 'id')->prepend('--Seleccionar--', '0');

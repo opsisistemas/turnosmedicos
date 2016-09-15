@@ -199,7 +199,7 @@ class TurnosController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->hasRole('paciente')){
+        if(! Auth::user()->hasRole('admin')){
             $request['paciente_id'] = Auth::user()->pacienteAsociado()->first()->id;
             $this->validarTurno($request);
 
@@ -214,6 +214,7 @@ class TurnosController extends Controller
         }else{
             $paciente = Paciente::findOrFail($request->get('paciente_id'));
             $request['paciente_id'] = $paciente->id;
+
             $this->validarTurno($request);
 
             $input = $request->all();

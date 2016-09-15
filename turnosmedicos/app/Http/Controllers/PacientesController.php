@@ -106,8 +106,6 @@ class PacientesController extends Controller
                 $input['apellido'] = $user->surname;
                 $input['email'] = $user->email;
                 $input['nroDocumento'] = $user->dni;
-                $input['obra_social_id'] = 1;
-                $input['plan_id'] = 1;
 
                 Paciente::create($input);
 
@@ -173,8 +171,8 @@ class PacientesController extends Controller
     {
         $id=Auth::user()->pacienteAsociado()->first()->id;
         $paciente = Paciente::findOrFail($id);
-        $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
-        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
+        $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', 0);
+        $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', 0);
         $email = Auth::user()->email;
 
         return view('pacientes.edit_completo', ['paciente' => $paciente, 'obras_sociales' => $obras_sociales, 'paises' => $paises, 'email' => $email]);
@@ -250,7 +248,11 @@ class PacientesController extends Controller
     public function destroy($id)
     {
         $paciente = Paciente::findOrFail($id);
+        $user = $paciente->user()->first();
+
         $paciente->delete();
+        $user->delete();
+
         return redirect('/pacientes');
     }
 }

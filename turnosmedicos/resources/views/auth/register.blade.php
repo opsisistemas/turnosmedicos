@@ -42,7 +42,7 @@
                             <label class="col-md-4 control-label">DNI</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="dni" value="{{ old('dni') }}">
+                                <input type="text" class="form-control" name="dni" id="dni" value="{{ old('dni') }}">
 
                                 @if ($errors->has('dni'))
                                     <span class="help-block">

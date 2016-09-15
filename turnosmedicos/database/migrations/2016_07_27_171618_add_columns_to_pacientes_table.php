@@ -14,7 +14,7 @@ class AddColumnsToPacientesTable extends Migration
     {
         Schema::table('pacientes', function (Blueprint $table) {
             $table->integer('obra_social_id')->unsigned();
-            $table->foreign('obra_social_id')->references('id')->on('obras_sociales')->onDelete('cascade');
+//            $table->foreign('obra_social_id')->references('id')->on('obras_sociales')->onDelete('cascade');
 
             $table->integer('plan_id')->unsigned();
             $table->foreign('plan_id')->references('id')->on('planes')->onDelete('cascade');

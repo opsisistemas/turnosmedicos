@@ -16,9 +16,10 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
-        if($request->user()->hasRole($role)){
+        if(($request->user() !== null)&&($request->user()->hasRole($role))){
             return $next($request);
         }
+
         return redirect('/');
     }
 }

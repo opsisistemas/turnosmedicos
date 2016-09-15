@@ -27,12 +27,6 @@ class AddDiasToDiasTable extends Migration
         DB::table('dias')->insert([
             'nombre' => 'viernes',
         ]);
-        DB::table('dias')->insert([
-            'nombre' => 'sabado',
-        ]);
-        DB::table('dias')->insert([
-            'nombre' => 'domingo',
-        ]);
     }
 
     /**

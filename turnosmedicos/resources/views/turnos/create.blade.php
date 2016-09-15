@@ -18,7 +18,7 @@
                 <!-- -->
                 {!! Form::open(['url' => 'turnos']) !!}
 
-                @if ((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner')))
+                @if ((Auth::user() !== null)&&((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner'))))
                     <div class="form-group">
                         {!! Form::select('paciente_id', $pacientes, null, ['class' => 'form-control', 'id' => 'paciente_id']) !!}
                     </div>

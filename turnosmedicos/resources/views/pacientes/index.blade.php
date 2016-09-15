@@ -45,6 +45,7 @@
                         </thead>
                         <tbody>
                             @foreach ($pacientes as $paciente)
+                                @if (!(($paciente->user()->first()->hasRole('admin')) || ($paciente->user()->first()->hasRole('owner'))))
                                 <tr>
                                     <td class="table-text"><div>{{ $paciente->apellido }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->nombre }}</div></td>
@@ -52,7 +53,7 @@
                                     <td class="table-text"><div>{{ $paciente->localidad? $paciente->localidad->nombre : '' }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->obra_social? $paciente->obra_social->nombre : '' }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->plan? $paciente->plan->nombre : '' }}</div></td>
-                                    @if(Entrust::can('editar_usuarios'))
+                                    @if ((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner')))
                                         <td>
                                             @if(! $paciente->confirmado)
                                                 <!-- TRIGGER THE MODAL WITH A BUTTON -->
@@ -80,6 +81,7 @@
                                         <td>&nbsp;</td>
                                     @endif
                                 </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

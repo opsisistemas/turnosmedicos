@@ -10,7 +10,7 @@
             <!-- MODAL HEADER-->
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Verificaci&oacute;n de Datos del Turno</h4>
+                 <h4 class="modal-title">Son correctos los siguientes datos</h4>
             </div>
             <!-- MODAL BODY-->
             <div class="modal-body">

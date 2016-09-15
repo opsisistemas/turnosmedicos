@@ -10,7 +10,7 @@
             <!-- MODAL HEADER-->
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Verificaci&oacute;n de Datos del Turno</h4>
+                 <h4 class="modal-title">Son correctos los siguientes datos?</h4>
             </div>
             <!-- MODAL BODY-->
             <div class="modal-body">
@@ -38,7 +38,7 @@
 
                 {!! Form::submit('Accept', ['class' => 'btn btn-success']) !!}
                 <div class="pull-right">
-                    <a href="{{ route('localidades.index') }}" class="btn btn-danger"></i>Cancel</a>
+                    <a href="{{ url ('/turnos.create') }}" class="btn btn-danger" id="modalHide"></i>Cancel</a>
                 </div>
 
                 {!! Form::close() !!} 

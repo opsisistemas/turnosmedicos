@@ -206,7 +206,9 @@ class MedicosController extends Controller
 
                 $user = $this->altaUsuario($input);
 
-                $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+                if(($input['fechaNacimiento'] !== null)&&($input['fechaNacimiento'] !== '')){
+                    $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+                }
                 $input['duracionTurno'] = Carbon::createFromFormat('H:i', $input['duracionTurno']);
                 $input['user_id'] = $user->id;
 
@@ -291,7 +293,7 @@ class MedicosController extends Controller
     public function edit($id)
     {
         $medico=Medico::with('especialidades')->with('dias')->findOrFail($id);
-        $categorias = Funciones::getCategoriasSel();
+        $categorias = Categoria_medico::lists('descripcion', 'id');
         $especialidades = Especialidad::orderBy('descripcion')->get();
         $obras_sociales = ObraSocial::orderBy('nombre')->get();
         $dias=Dia::all();
@@ -374,7 +376,18 @@ class MedicosController extends Controller
     public function destroy($id)
     {
         $medico = Medico::findOrFail($id);
-        $medico->delete();
+
+        DB::transaction(function () use ($medico) { 
+            $user = User::findOrFail($medico->user_id);
+            $medico->dias()->detach();
+            $medico->especialidades()->detach();
+            $medico->obras_sociales()->detach();
+            $medico->mensajes()->delete();
+
+            $medico->delete();
+            $user->delete();
+        });
+
         return redirect('/medicos');
     }
 }

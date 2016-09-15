@@ -25,7 +25,7 @@
                     {!! Form::select('asunto_id', $asuntos, null, ['class' => 'form-control', 'id' => 'asunto_id']) !!}
                 </div>
 
-                @if(Auth::user()->hasRole('admin'))
+                @if((null !== Auth::user())&&(Auth::user()->hasRole('admin')))
                     <div class="form-group">
                         {!! Form::label('destinatario', 'Para:', ['class' => 'control-label']) !!}
                         {!! Form::select('medico_id', $medicos, null, ['class' => 'form-control', 'id' => 'medico_id']) !!}
@@ -37,7 +37,7 @@
                     {!! Form::textarea('cuerpo', null, ['class' => 'form-control', 'id' => 'cuerpo']) !!}
                 </div>
 
-                @if(Auth::user()->hasRole('admin'))
+                @if((null !== Auth::user())&&(Auth::user()->hasRole('admin')))
                     <div class="form-group">
                         {!! Form::label('visto', 'Visto:', ['class' => 'control-label']) !!}
                         {!! Form::checkbox('visto', null, false, ['class' => 'form-control', 'id' => 'visto_s']) !!}

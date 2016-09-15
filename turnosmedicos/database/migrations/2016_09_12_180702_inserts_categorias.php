@@ -44,6 +44,6 @@ class InsertsCategorias extends Migration
      */
     public function down()
     {
-        DB::table('categoria_medico')->truncate();
+        //DB::table('categoria_medico')->truncate();
     }
 }

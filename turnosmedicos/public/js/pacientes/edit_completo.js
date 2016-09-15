@@ -57,3 +57,15 @@ $("#obra_social_e").on('change', function (){
 		}
 	});
 });
+
+$().ready(function(){
+	value = $('#fechaNacimiento_e').val();
+
+	day = value.substring(8, 10);
+	month = value.substring(5, 7);
+	year = value.substring(0, 4);
+
+	comp_fecha = day + '-' + month + '-' + year;
+	
+	$('#fechaNacimiento_e').val(comp_fecha);
+});

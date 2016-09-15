@@ -56,7 +56,9 @@ class AuthController extends Controller
             'dni'   => 'required|numeric|min:6',
             'password' => 'required|min:6|confirmed',
         ];
-        $errors = [ 'captcha' => 'El captcha ingresado es incorrecto.' ];
+        $errors = [
+            'captcha' => 'El captcha ingresado es incorrecto'
+        ];
 
         return Validator::make($data, $rules, $errors);
     }

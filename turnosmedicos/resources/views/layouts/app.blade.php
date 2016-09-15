@@ -80,7 +80,6 @@
                                     <li><a href="{{ url('/paises') }}">Pa&iacute;ses</a></li>
                                     <li><a href="{{ url('/provincias') }}">Provincias</a></li>
                                     <li><a href="{{ url('/localidades') }}">Localidades</a></li>
-                                    <li><a href="{{ url('/feriados') }}">Feriados</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -93,7 +92,8 @@
                                     <li><a href="{{ url('/planes') }}">Planes</a></li>
                                     <li><a href="{{ url('/pacientes') }}">Pacientes</a></li>
                                     <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
-                                    <li><a href="{{ url('/asuntos') }}">Asuntos</a></li>
+                                    <li><a href="{{ url('/asuntos') }}">Asuntos de Mensajes</a></li>
+                                    <li><a href="{{ url('/feriados') }}">Feriados</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ url('/mensajes') }}" id=mensajes>Mensajes</a></li>
@@ -102,11 +102,10 @@
                                     Turnos <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ url('/turnos.listado') }}">Listado</a></li>
-                                    <li><a href="{{ url('/turnos.create') }}">Dar un turno</a></li>
+                                    <li><a href="{{ url('/turnos.listado') }}"><i class="fa fa-btn fa-list"></i>Listado</a></li>
+                                    <li><a href="{{ url('/turnos.create') }}"><i class="fa fa-btn fa-calendar-plus-o"></i>Dar un turno</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{ url('/empresa.perfil') }}">Empresa</a></li>
 
                         <!--Exclusive menues (for paciente, medico or owner)-->
                         @elseif(Auth::user()->hasRole('paciente'))
@@ -115,9 +114,9 @@
                                     Gesti&oacute;n de Turnos <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ url('/turnos.create') }}">Turno por M&eacute;dico</a></li>
-                                    <li><a href="{{ url('/turnos.create_por_especialidad') }}">Turno por Especialidad</a></li>
-                                    <li><a href="{{ url('/turnos.misturnos') }}">Mis Turnos</a></li>
+                                    <li><a href="{{ url('/turnos.create') }}"><i class="fa fa-btn fa-calendar-plus-o"></i>Turno por M&eacute;dico</a></li>
+                                    <li><a href="{{ url('/turnos.create_por_especialidad') }}"><i class="fa fa-btn fa-calendar-plus-o"></i>Turno por Especialidad</a></li>
+                                    <li><a href="{{ url('/turnos.misturnos') }}"><i class="fa fa-btn fa-calendar"></i>Mis Turnos</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ url('/mensajes.create') }}">Contacto</a></li>
@@ -130,10 +129,11 @@
                         @if(Auth::user()->hasRole('admin'))
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                Usuarios <span class="caret"></span>
+                                Configuraci&oacute;n <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/usersnroles') }}"><i class="fa fa-btn fa-user"></i>Usuarios y Roles</a></li>
+                                <li><a href="{{ url('/empresa.perfil') }}"><i class="fa fa-btn fa-building-o"></i>Empresa</a></li>
                             </ul>
                         </li>
                         @endif

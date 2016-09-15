@@ -17,7 +17,7 @@
                 {!! Form::open(['url' => 'diastachados']) !!}
 
                 <div class="form-group">
-                    {!! Form::hidden('origen', 'medicos.misdiastachados', ['class' => 'form-control']) !!}
+                    {!! Form::text('origen', 'medicos.misdiastachados', ['class' => 'form-control']) !!}
                 </div>
 
                 <div class="form-group">
@@ -44,7 +44,7 @@
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
 
                 <div class="pull-right">
-                    <a href="{{ route('diastachados.index') }}" class="btn btn-danger"></i>Cancel</a>
+                    <a href="{{ url('medicos.misdiastachados') }}" class="btn btn-danger"></i>Cancel</a>
                 </div>
 
                 {!! Form::close() !!} 

@@ -2,7 +2,7 @@
 <!--*****************************************************************************************-->
 
 <!-- MODAL -->
-<div class="modal fade" id="modal-mover-turno" role="dialog">
+<div class="modal fade" id="cancelModal" role="dialog">
     <div class="modal-dialog">
 
     <!-- MODAL CONTENT-->
@@ -10,21 +10,22 @@
             <!-- MODAL HEADER-->
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Mover Turno</h4>
+                 <h4 class="modal-title">Anular turno</h4>
             </div>
             <!-- MODAL BODY-->
             <div class="modal-body">
                 {!! Form::open([
-                    'method' => 'PATCH',
-                    'id' => 'formEdit',
-                    'route' => ['turnos.update', 1]
+                    'method' => 'POST',
+                    'id' => 'formCancel',
+                    'url' => ['turnos.cancel', 1]
                 ]) !!}
 
-                @include('turnos.controles_create_por_medico')
+                <h4>Confirma que desea anular el turno seleccionado?</h4>
 
-                {!! Form::submit('Accept', ['class' => 'btn btn-success']) !!}
+                {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}
+
                 <div class="pull-right">
-                    <a href="{{ url('turnos.listado') }}" class="btn btn-danger"></i>Cancel</a>
+                    <a href="{{ url('turnos.misturnos') }}" class="btn btn-danger"></i>Cancel</a>
                 </div>
 
                 {!! Form::close() !!} 

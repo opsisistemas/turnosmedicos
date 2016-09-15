@@ -34,24 +34,21 @@
                             <td> {{ $turno->especialidad->descripcion }} </td>
                             <td> {{ $turno->medico->apellido . ' ' . $turno->medico->nombre }} </td>
                             <td>
-                                {!! Form::open([
-                                    'method' => 'POST',
-                                    'url' => ['turnos.cancel', $turno->id],
-                                    'onsubmit' => 'return ConfirmDelete()'                  
-                                ]) !!}
-
-                                {!! Form::button('Anular Turno <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
-
-                                {!! Form::close() !!}                                           
+                                <!-- TRIGGER THE MODAL WITH A BUTTON -->
+                                {!! Form::button('Anular Turno <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger btn-cancel-turno', 'type' => 'submit', 'data-id' => $turno->id,  'data-toggle' => 'modal', 'data-target' => '#cancelModal']) !!}   
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <div>
-            </div>
         </div>                
     </div>
 </div>
 
+@include('turnos.modalcancel')
+
+@endsection
+
+@section('scripts')
+    {!! Html::script('js/turnos/misturnos.js') !!}
 @endsection

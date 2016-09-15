@@ -36,7 +36,7 @@
                 <div class="panel-body">
                     <table class="table table-striped task-table">
                         <thead>
-                            <th>C&oaucte;digo</th>
+                            <th>C&oacute;digo</th>
                             <th>Nombre</th>
                             <th>P&aacute;gina Web</th>
                             <th>Email</th>

@@ -79,7 +79,7 @@
 
                 <div class="form-group">
                     {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento:', ['class' => 'control-label']) !!}
-                    {!! Form::text('fechaNacimiento', \Carbon\Carbon::now()->format('d-m-Y'), ['class' => 'form-control datepicker', 'id' => 'fechaNacimiento_c']) !!}
+                    {!! Form::text('fechaNacimiento', null, ['class' => 'form-control datepicker', 'id' => 'fechaNacimiento_c']) !!}
                 </div>
 
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
