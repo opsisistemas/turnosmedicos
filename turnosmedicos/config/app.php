@@ -161,8 +161,7 @@ return [
         /*Para permisos y roles*/
         Zizaco\Entrust\EntrustServiceProvider::class,
         /*Para captcha*/
-        Mews\Captcha\CaptchaServiceProvider::class,
-
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
     ],
 
     /*
@@ -213,7 +212,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-        'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
     ],
 
 ];

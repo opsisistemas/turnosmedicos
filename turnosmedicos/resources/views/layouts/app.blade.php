@@ -33,7 +33,6 @@
             padding-top: 70px;
         }
     </style>
-
 </head>
 <body id="app-layout">
     <div class="container-fluid" style="text-align:center;height:80px;">

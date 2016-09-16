@@ -105,23 +105,8 @@
                             <label class="col-md-4 control-label">Captcha</label>                            
                             <div class="col-md-6">
                                 <span id="captcha">
-                                    {!! Captcha::img('inverse') !!}
+                                    {!! Recaptcha::render() !!}
                                 </span>
-                                {!! Form::button('<i class="fa fa-refresh"></i>', ['class' => 'btn btn-default', 'id' => 'reload-captcha']) !!}
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label"></label>
-
-                            <div class="col-md-6">
-                                {!! Form::text('captcha', null, ['class' => 'form-control']) !!}
-
-                                @if ($errors->has('captcha'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('captcha') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 

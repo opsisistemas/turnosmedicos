@@ -11,7 +11,7 @@
         "doctrine/dbal": "~2.4.",
         "barryvdh/laravel-dompdf": "0.6.*",
         "zizaco/entrust": "dev-laravel-5",
-        "mews/captcha": "~2.0"
+        "greggilbert/recaptcha": "dev-master"
     },
     "minimum-stability": "dev",
     "require-dev": {

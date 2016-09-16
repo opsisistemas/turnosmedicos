@@ -51,13 +51,13 @@ class AuthController extends Controller
         $rules = [
             'name' => 'required|max:100',
             'surname' => 'required|max:100',
-            'captcha' => ['required', 'captcha'],
+            'g-recaptcha-response' => 'required|recaptcha',
             'email' => 'email|max:255|unique:users',
             'dni'   => 'required|numeric|min:6',
             'password' => 'required|min:6|confirmed',
         ];
         $errors = [
-            'captcha' => 'El captcha ingresado es incorrecto'
+            'g-recaptcha-response' => 'El captcha ingresado es incorrecto'
         ];
 
         return Validator::make($data, $rules, $errors);

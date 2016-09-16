@@ -60,6 +60,7 @@ return [
     'not_in'               => 'El :attribute seleccionado es inv&aacute;lido.',
     'numeric'              => 'El :attribute debe ser un n&uacute;mero.',
     'present'              => 'El campo :attribute debe estar presente.',
+    'recaptcha'            => 'El :attribute no es correcto.',
     'regex'                => 'El formato del :attribute es inv&aacute;lido.',
     'required'             => 'El campo :attribute es requerido.',
     'required_if'          => 'El campo :attribute es requerido cuando :other es :value.',
