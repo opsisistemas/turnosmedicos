@@ -74,7 +74,7 @@
                         @if ((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner')))
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Datos Secundarios <span class="caret"></span>
+                                    Datos Generales <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ url('/paises') }}">Pa&iacute;ses</a></li>
@@ -84,13 +84,20 @@
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    Datos Generales <span class="caret"></span>
+                                    Pacientes <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ url('/especialidades') }}">Especialidades</a></li>
                                     <li><a href="{{ url('/obras_sociales') }}">Obras Sociales</a></li>
                                     <li><a href="{{ url('/planes') }}">Planes</a></li>
                                     <li><a href="{{ url('/pacientes') }}">Pacientes</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    M&eacute;dicos <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ url('/especialidades') }}">Especialidades</a></li>
                                     <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
                                     <li><a href="{{ url('/asuntos') }}">Asuntos de Mensajes</a></li>
                                     <li><a href="{{ url('/feriados') }}">Feriados</a></li>
