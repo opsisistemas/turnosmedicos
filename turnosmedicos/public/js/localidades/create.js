@@ -1,6 +1,8 @@
 $(document).on("click", ".btn-create-localidad", function () {
 	$("#nombre_c").val("");
 	$("#nombre_c").focus();
+
+	$('#pais_c').change();
 });
 
 $("#pais_c").on('change', function (){

@@ -36,6 +36,10 @@ class FeriadosController extends Controller
      */
     public function index(Request $request)
     {
+        //Para mosrar las fechas en castellano
+        Carbon::setLocale('es');
+        setlocale(LC_TIME, config('app.locale'));
+
         $year = (null !== $request->get('year'))? $request->get('year') : Carbon::now()->year;
 
         if(Null !== $request->get('description')){

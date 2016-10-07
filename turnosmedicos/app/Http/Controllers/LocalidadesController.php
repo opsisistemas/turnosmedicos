@@ -10,17 +10,10 @@ use App\Provincia;
 use App\Localidad;
 use App\Funciones;
 
-use Session;
+use Validator, Session, Redirect;
 
 class LocalidadesController extends Controller
 {
-    private function validarLocalidad(Request $request){
-        $this->validate($request, [
-             'nombre' => 'required',
-             'provincia_id' => 'required'
-        ]);
-    }
-
     public function getLocalidad(Request $request)
     {
         $localidad = Localidad::where('id', $request->get('id'))->get();
@@ -64,17 +57,33 @@ class LocalidadesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        $this->validarLocalidad($request);
+        $rules = [
+            'provincia_id' => 'required',
+            'nombre' => 'required'
+        ];
+        $errors = [
+            'provincia_id' => 'Debe completar la provincia asociada',
+            'nombre' => 'debe completar el nombre de la localidad'
+        ];
+        $validator = Validator::make($request->all(), $rules, $errors);
 
-        $input = $request->all();
+        if ($validator->fails()) {
+            return Redirect::to('/localidades')
+                ->withErrors($errors)
+                ->withInput($request->all());
+        } else {
+                // store
+            $input = $request->all();
 
-        Localidad::create($input);
+            Localidad::create($input);
 
-        Session::flash('flash_message', 'Alta de Localidad exitosa!');
+            Session::flash('flash_message', 'Alta de Localidad exitosa!');
 
-        return redirect('/localidades');
+            return redirect('/localidades');
+        }
     }
 
     /**
@@ -108,17 +117,31 @@ class LocalidadesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $localidad = Localidad::findOrFail($id);
+        $rules = [
+            'provincia_id' => 'required',
+            'nombre' => 'required'
+        ];
+        $errors = [
+            'provincia_id' => 'Debe completar la provincia asociada',
+            'nombre' => 'debe completar el nombre de la localidad'
+        ];
+        $validator = Validator::make($request->all(), $rules, $errors);
 
-        $this->validarLocalidad($request);
+        if ($validator->fails()) {
+            return Redirect::to('/localidades')
+                ->withErrors($errors)
+                ->withInput($request->all());
+        } else {
+            $localidad = Localidad::findOrFail($id);
 
-        $input = $request->all();
+            $input = $request->all();
 
-        $localidad->fill($input)->save();
+            $localidad->fill($input)->save();
 
-        Session::flash('flash_message', 'Localidad editada con éxito!');
+            Session::flash('flash_message', 'Localidad editada con éxito!');
 
-        return redirect('/localidades');
+            return redirect('/localidades');
+        }
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Http\Requests;
 
 use App\Asunto;
 
-use Validator;
+use Validator, Redirect;
 use Session;
 
 class AsuntosController extends Controller

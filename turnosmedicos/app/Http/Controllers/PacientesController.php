@@ -13,13 +13,8 @@ use App\User;
 use App\Role;
 use App\Empresa;
 
-use Session;
 use Carbon\Carbon;
-use DB;
-use Auth;
-use Validator;
-use Input;
-use Mail;
+use Session, DB, Auth, Validator, Input, Mail, Redirect;
 
 class PacientesController extends Controller
 {
@@ -44,14 +39,14 @@ class PacientesController extends Controller
      */
     public function index()
     {
-        if(! Auth::user()->hasRole('admin')){
-            return redirect('/');
-        }else{
+        if((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner'))){
             $pacientes = Paciente::with('localidad')->with('obra_social')->orderBy('nombre')->paginate(30);
             $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
             $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
 
             return view('pacientes.index', ['pacientes' => $pacientes, 'obras_sociales' => $obras_sociales, 'paises' => $paises]);
+        }else{
+            return redirect('/');
         }
     }
 
@@ -62,13 +57,13 @@ class PacientesController extends Controller
      */
     public function create()
     {
-        if(Auth::user()->hasRole('paciente')){
-            return redirect('/');
-        }else{
+        if((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner'))){
             $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
             $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
 
             return view('pacientes.create', ['paises' => $paises, 'obras_sociales' => $obras_sociales]);
+        }else{
+            return redirect('/');
         }
     }
 
@@ -80,20 +75,56 @@ class PacientesController extends Controller
      */ 
     public function store(Request $request)
     {
-        DB::transaction(function () use ($request) {
-            $this->validarPaciente($request);
-            $input = $request->all();
+        $rules = [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'nroDocumento' => 'required',
+            'telefono' => 'required',
+            'password' => 'required'
+        ];
+        $errors = [
+            'nombre' => 'Debe completar el nombre del paciente',
+            'apellido' => 'Debe completar el apellido del paciente',
+            'nroDocumento' => 'Debe completar el dni del paciente',
+            'telefono' => 'Debe completar el telefono del paciente',
+            'password' => 'Debe completar la clave de usuario para el paciente'
+        ];
+        $validator = Validator::make($request->all(), $rules, $errors);
+        // process the login
+        if ($validator->fails()) {
+            return Redirect::to('/pacientes/create')
+                ->withErrors($errors)
+                ->withInput($request->all());
+        } else {
+            //store
+            DB::transaction(function () use ($request) {
+                $input = $request->all();
 
-            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
-            $input['user_id'] = $usuario->id;
+                //alta de usuario asociado
+                $datosUser = [];
+                $datosUser['name'] = $input['nombre'];
+                $datosUser['surname'] = $input['apellido'];
+                $datosUser['dni'] = $input['nroDocumento'];
+                $datosUser['email'] = $input['email'];
+                $datosUser['password'] = bcrypt($input['password']);
 
-            Paciente::create($input);
+                $usuario = User::create($datosUser);
 
-            Session::flash('flash_message', 'Alta de Paciente exitosa!');
-        });
-        return redirect('/');
+                //alta de paciente con usuario asociado
+                if($input['fechaNacimiento']){
+                    $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+                }
+                $input['user_id'] = $usuario->id;
+
+                $paciente = Paciente::create($input);
+
+                Session::flash('flash_message', 'Alta de Paciente exitosa!');
+            });
+            return redirect('/pacientes');
+        }
     }
 
+    /*Aquí viene desde AutController, sirve para cuando el usuario se da de alta por su cuenta*/
     public function persist(Request $request)
     {
         $user = Auth::user();
@@ -194,7 +225,9 @@ class PacientesController extends Controller
 
             $paciente->fill($input)->save();
 
-            $this->emailConfirmado($paciente);
+            if($paciente->email){
+                $this->emailConfirmado($paciente);
+            }
 
             Session::flash('flash_message', 'Paciente confirmado con éxito!');
         }else{

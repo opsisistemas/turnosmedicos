@@ -98,6 +98,9 @@ class TurnosController extends Controller
 
     public function listado(Request $request)
     {
+        //Para mosrar las fechas en castellano
+        Carbon::setLocale('es');
+        setlocale(LC_TIME, config('app.locale'));
         //si el submit button es el que tiene "value"='pdf' 
         //es decir, si quiero exportar a pdf
         if($request->get('aceptar') == 'pdf'){

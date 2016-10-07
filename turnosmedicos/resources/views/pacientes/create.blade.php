@@ -8,7 +8,6 @@
             </div>
 
             <div class="panel-body">                
-                @include('partials.alerts.errors')
                 <!-- success messages -->
                 @if(Session::has('flash_message'))
                     <div class="alert alert-success">
@@ -18,14 +17,24 @@
                 <!-- -->
                 {!! Form::open(['url' => 'pacientes']) !!}
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('apellido') ? ' has-error' : '' }}">
                     {!! Form::label('apellido', 'Apellido:', ['class' => 'control-label enfocar']) !!}
                     {!! Form::text('apellido', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'apellido_c']) !!}
+                    @if ($errors->has('apellido'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('apellido') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
                     {!! Form::label('nombre', 'Nombre:', ['class' => 'control-label']) !!}
                     {!! Form::text('nombre', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nombre_c']) !!}
+                    @if ($errors->has('nombre'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('nombre') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -33,9 +42,14 @@
                     {!! Form::select('tipoDocumento', ['1' => 'DNI', '2' => 'LE'], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'tipoDocumento_c']) !!}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('nroDocumento') ? ' has-error' : '' }}">
                     {!! Form::label('nroDocumento', 'Nro Documento:', ['class' => 'control-label']) !!}
                     {!! Form::text('nroDocumento', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nroDocumento_c']) !!}
+                    @if ($errors->has('nroDocumento'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('nroDocumento') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -43,9 +57,14 @@
                     {!! Form::select('sexo', ['F' => 'Femenino', 'M' => 'Masculino'], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'sexo_c']) !!}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
                     {!! Form::label('telefono', 'Tel&eacute;fono:', ['class' => 'control-label']) !!}
                     {!! Form::text('telefono', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'telefono_c']) !!}
+                    @if ($errors->has('telefono'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('telefono') }}</strong>
+                        </span>
+                    @endif
                 </div>
 
                 <div class="form-group">
@@ -59,8 +78,8 @@
                     @endif
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('password', 'Password', ['class' => 'control-label']) !!}
+                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                    {!! Form::label('password', 'Clave de Usuario:', ['class' => 'control-label']) !!}
                     {!! Form::password('password', ['class' => 'form-control']) !!}
 
                     @if ($errors->has('password'))

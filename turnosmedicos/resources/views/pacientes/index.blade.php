@@ -14,6 +14,15 @@
                 <div class="panel-heading">
                      <h1>
                         Pacientes
+                        <div class="pull-right">
+                            {!! Form::open([
+                                'method' => 'GET',
+                                'route' => ['pacientes.create'],
+                                'class' => 'navbar-form navbar-left pull-left'                                                         
+                            ]) !!}
+                            {!! Form::submit('Nuevo Paciente', ['class' => 'btn btn-success']) !!}
+                            {!! Form::close() !!} 
+                        </div> 
                     </h1>
                 </div>
                 <div class="panel panel-info">

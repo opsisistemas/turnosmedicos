@@ -37,7 +37,7 @@
 </head>
 <body id="app-layout">
     <div class="container-fluid" style="text-align:center;height:80px;">
-      <h1 class="titulo"></h1>
+      <h1>Consultorios Elipse</h1>
     </div>
 
     <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
@@ -133,7 +133,7 @@
                             <li><a href="{{ url('/medicos.misdiastachados') }}" id=mensajes>Inasistencias Informadas</a></li>
                         @endif
 
-                        @if(Auth::user()->hasRole('admin'))
+                        @if(Auth::user()->hasRole('owner'))
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 Configuraci&oacute;n <span class="caret"></span>
