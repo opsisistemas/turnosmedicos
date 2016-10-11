@@ -9,8 +9,8 @@
         </div>
     @endif 
     <div class="panel panel-default"> 
-        <div class="panel-heading">
-            <img src="img\medicina.jpg" class="img-responsive center-block">
+        <div class="panel-heading" style="background-color: white;">
+            <img src="img\logo.png" class="img-responsive center-block" style="width: 20%;">
         </div>
     </div>
 
