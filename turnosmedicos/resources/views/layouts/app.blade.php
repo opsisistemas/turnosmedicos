@@ -37,7 +37,7 @@
 </head>
 <body id="app-layout">
     <div class="row-fluid" style="text-align:center;height:80px; background-color: white">
-        <img src="img\logosinletra.png" class="img-responsive" style="width: 5%; display: inline-block;">
+        <img src="..\img\logosinletra.png" class="img-responsive" style="width: 5%; display: inline-block;">
         <div style="display: inline-block; width: 90%">
             <h1>Consultorios Elipse</h1>
         </div>

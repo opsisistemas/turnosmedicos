@@ -47,7 +47,7 @@
                                     <td class="table-text"><div>{{ $asunto->nombre }}</div></td>
                                     <td>
                                         <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-asunto', 'type' => 'submit', 'data-id' => $asunto->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
+                                        {!! Form::button('Editar <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-asunto', 'type' => 'submit', 'data-id' => $asunto->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
                                     </td>
                                     <!-- Task Delete Button -->
                                     <td>
@@ -57,7 +57,7 @@
                                             'onsubmit' => 'return ConfirmDelete()'                  
                                         ]) !!}
 
-                                        {!! Form::button('Delete <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+                                        {!! Form::button('Eliminar <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
 
                                         {!! Form::close() !!}                                           
                                     </td>

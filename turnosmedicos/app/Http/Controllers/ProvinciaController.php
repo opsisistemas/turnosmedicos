@@ -31,7 +31,9 @@ class ProvinciaController extends Controller
 
     public function provinciasPais(Request $request)
     {
+        
         $provincias = Provincia::where('pais_id', '=', $request->get('id'))->get();
+        dd($provincias);
         return response()->json(
             $provincias->toArray()
         );

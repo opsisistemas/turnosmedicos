@@ -25,13 +25,13 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('nombre', 'Nombre:', ['class' => 'control-label']) !!}
-                    {!! Form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre_e']) !!}  
+                    {!! Form::label('obra_social_id', 'Obra Social:', ['class' => 'control-label']) !!}
+                    {!! Form::select('obra_social_id', $obras_sociales, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_e']) !!}
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('obra_social_id', 'Obra Social:', ['class' => 'control-label']) !!}
-                    {!! Form::select('obra_social_id', $obras_sociales, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_e']) !!}
+                    {!! Form::label('nombre', 'Plan:', ['class' => 'control-label']) !!}
+                    {!! Form::text('nombre', null, ['class' => 'form-control', 'id' => 'nombre_e']) !!}  
                 </div>
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}

@@ -9,11 +9,13 @@ $("#pais_c").on('change', function (){
 		success:  function (provincias)
 		{
 			var opciones = "<option value=-1>--Seleccionar--</option>";
+			//opciones = opciones + "<option value=0>--Otro--</option>";
 			$.each(provincias, function(key,value) {
 				opciones = opciones + ("<option value="+value.id+">"+value.nombre+"</option>");
 			});
 
 			$("#provincia_c").html(opciones).change();
+
 		}
 	});
 });

@@ -14,7 +14,7 @@ return [
     */
 
     'password' => 'Las contrase&ntilde;as deben tener al menos seis caracteres y coincidir con la confirmaci&oacute;n.',
-    'reset' => 'Su contrase&ntilde;a se ha restablecida!',
+    'reset' => 'Su contrase&ntilde;a se ha restablecido!',
     'sent' => 'Hemos enviado por correo electr&oacute;nico el enlace para restablecer su contrase&ntilde;a!',
     'token' => '&Eacute;sta se&ntilde;al de restablecimiento de contrase&ntilde;a no es v&aacute;lida.',
     'user' => "No encontramos un usuario con el e-mail informado.",

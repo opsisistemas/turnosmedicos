@@ -22,6 +22,7 @@ class PlanesController extends Controller
     public function getPlan(Request $request)
     {
         $plan = Plan::where('id', $request->get('id'))->get();
+ 
         return response()->json(
             $plan->toArray()
         );

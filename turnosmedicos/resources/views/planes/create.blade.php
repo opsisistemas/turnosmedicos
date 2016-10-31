@@ -17,13 +17,13 @@
                 {!! Form::open(['url' => 'planes']) !!}
 
                 <div class="form-group">
-                    {!! Form::label('nombre', 'Nombre:', ['class' => 'control-label']) !!}
-                    {!! Form::text('nombre', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nombre_c']) !!}
+                    {!! Form::label('obra_social_id', 'Obra Social:', ['class' => 'control-label']) !!}
+                    {!! Form::select('obra_social_id', $obras_sociales, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_c']) !!}
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('obra_social_id', 'Obra Social:', ['class' => 'control-label']) !!}
-                    {!! Form::select('obra_social_id', $obras_sociales, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'obra_social_c']) !!}
+                    {!! Form::label('nombre', 'Plan:', ['class' => 'control-label']) !!}
+                    {!! Form::text('nombre', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nombre_c']) !!}
                 </div>
 
                 {!! Form::submit('Aceptar', ['class' => 'btn btn-success'])  !!}

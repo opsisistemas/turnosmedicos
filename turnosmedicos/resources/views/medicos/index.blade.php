@@ -61,7 +61,7 @@
                                             'method' => 'GET',
                                             'route' => ['medicos.edit', $medico->id]                                
                                         ]) !!}
-                                        {!! Form::button('Edit <i class="fa fa-pencil"></i>', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
+                                        {!! Form::button('Editar <i class="fa fa-pencil"></i>', ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
                                     {!! Form::close() !!}                                         
                                     </td>
                                     <!-- Task Delete Button -->
@@ -72,7 +72,7 @@
                                             'onsubmit' => 'return ConfirmDelete()'                  
                                         ]) !!}
 
-                                        {!! Form::button('Delete <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
+                                        {!! Form::button('Eliminar <i class="fa fa-trash"></i>', ['class' => 'btn btn-danger', 'type' => 'submit']) !!}
 
                                         {!! Form::close() !!}                                           
                                     </td>
