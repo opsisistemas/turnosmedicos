@@ -1,3 +1,4 @@
+
 <!--*****************************************************************************************-->
 <!--*****************************************************************************************-->
 
@@ -87,6 +88,21 @@
                 <div class="form-group">
                     {!! Form::label('nro_afiliado', 'Nro Afiliado:', ['class' => 'control-label']) !!}
                     {!! Form::text('nro_afiliado', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'nro_afiliado_e']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('tipo_pago_id', 'Tipo de Pago:', ['class' => 'control-label']) !!}
+                    {!! Form::select('tipo_pago_id', [], null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'tipo_pago_id_e']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('factura', 'Factura (Si - No):', ['class' => 'control-label']) !!}
+                    {!! Form::checkbox('factura', null, false, ['method' => 'GET', 'class' => 'form-control', 'id' => 'factura_e']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('observaciones', 'Observaciones:', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('observaciones', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'observaciones_e']) !!}
                 </div>
 
                 <button type="submit" class="btn btn-success" name="aceptar" value="editar">Aceptar<i class="fa fa-pencil"></i></button>

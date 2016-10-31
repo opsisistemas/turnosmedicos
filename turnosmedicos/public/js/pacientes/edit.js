@@ -37,6 +37,20 @@ $(document).on("click", ".btn-edit-paciente", function () {
 		}
 	});
 
+    $.ajax({
+		url:  'getTiposPago',
+        type: 'GET',
+
+		success:  function (tipos)
+		{
+			var opciones = "";
+			$.each(tipos, function(key,value) {
+				opciones = opciones + ("<option value="+value.id+">"+value.codigo+"</option>");
+			});
+			$("#tipo_pago_id_e").html(opciones).change();
+		}
+	});
+
 	//consulto para obtener los datos del paciente correspondiente en BD
     $.ajax({
 		url:  'getPaciente',
@@ -60,6 +74,9 @@ $(document).on("click", ".btn-edit-paciente", function () {
 			$("#obra_social_e").val(paciente[0].obra_social_id);
 			$("#plan_e").val(paciente[0].plan);
 			$("#nro_afiliado_e").val(paciente[0].nro_afiliado);
+			$("#tipo_pago_id_e").val(paciente[0].tipo_pago_id);
+			$("#factura_e").val(paciente[0].factura);
+			$("#observaciones_e").val(paciente[0].observaciones);
 		}
 	});
 });

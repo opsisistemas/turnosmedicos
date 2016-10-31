@@ -93,6 +93,7 @@
                                     <li><a href="{{ url('/obras_sociales') }}">Obras Sociales</a></li>
                                     <li><a href="{{ url('/planes') }}">Planes</a></li>
                                     <li><a href="{{ url('/pacientes') }}">Pacientes</a></li>
+                                    <li><a href="{{ url('/tipopago') }}">Tipos de Pago</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

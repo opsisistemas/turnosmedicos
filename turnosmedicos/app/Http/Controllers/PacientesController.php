@@ -12,6 +12,7 @@ use App\ObraSocial;
 use App\User;
 use App\Role;
 use App\Empresa;
+use App\TipoPago;
 
 use Carbon\Carbon;
 use Session, DB, Auth, Validator, Input, Mail, Redirect;
@@ -60,8 +61,9 @@ class PacientesController extends Controller
         if((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner'))){
             $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
             $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
+            $tipospago = TipoPago::orderBy('codigo')->lists('codigo', 'id');
 
-            return view('pacientes.create', ['paises' => $paises, 'obras_sociales' => $obras_sociales]);
+            return view('pacientes.create', ['paises' => $paises, 'obras_sociales' => $obras_sociales, 'tipospago' => $tipospago]);
         }else{
             return redirect('/');
         }
@@ -234,8 +236,15 @@ class PacientesController extends Controller
             $this->validarPaciente($request);
 
             $input = $request->all();
+            $input['user_id'] = $paciente->user()->get()->first()->id;
 
-            $input['fechaNacimiento'] = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            try {
+                $nueva_fechaNac = Carbon::createFromFormat('d-m-Y', $input['fechaNacimiento']);
+            } catch (\Exception $e) {
+                $nueva_fechaNac = $paciente->fechaNacimiento;
+            }
+
+            $input['fechaNacimiento'] = $nueva_fechaNac;
 
             $paciente->fill($input)->save();
 
@@ -261,10 +270,12 @@ class PacientesController extends Controller
 
     public function actualizarDatosUsuario($input)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail($input['user_id']);
 
         $datos=[];
-        $datos['email'] = $input['email'];
+        if(isset($datos['email'])){
+            $datos['email'] = $input['email'];
+        }
         $datos['dni'] = $input['nroDocumento'];
         $datos['name'] = $input['nombre'];
         $datos['surname'] = $input['apellido'];

@@ -22,7 +22,10 @@ class Paciente extends Model
         'plan_id',
         'nro_afiliado',
         'user_id',
-        'confirmado'
+        'confirmado',
+        'tipo_pago_id',
+        'factura',
+        'observaciones'
     ];
     
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];

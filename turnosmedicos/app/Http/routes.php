@@ -32,6 +32,7 @@ Route::group(['middleware' => 'roles:admin'], function () {
 	Route::resource('planes', 'PlanesController');
 	Route::resource('medicos', 'MedicosController');
 	Route::resource('asuntos', 'AsuntosController');
+	Route::resource('tipopago', 'TipoPagoController');
 	Route::resource('feriados', 'FeriadosController');
 	Route::get('empresa.perfil', 'EmpresaController@perfil');
 	Route::resource('empresa', 'EmpresaController');
@@ -49,6 +50,8 @@ Route::group(['middleware' => 'roles:admin'], function () {
 	Route::get('getPaciente', 'PacientesController@getPaciente');
 	Route::get('getMedico', 'MedicosController@getMedico');
 	Route::get('getFeriado', 'FeriadosController@getFeriado');
+	Route::get('getTipoPago', 'TipoPagoController@getTipoPago');
+	Route::get('getTiposPago', 'TipoPagoController@getTiposPago');
 });
 
 Route::group(['middleware' => 'roles:medico'], function () {
