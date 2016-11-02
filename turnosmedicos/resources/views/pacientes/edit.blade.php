@@ -97,7 +97,8 @@
 
                 <div class="form-group">
                     {!! Form::label('factura', 'Factura (Si - No):', ['class' => 'control-label']) !!}
-                    {!! Form::checkbox('factura', null, false, ['method' => 'GET', 'class' => 'form-control', 'id' => 'factura_e']) !!}
+                    
+                    {!! Form::checkbox('factura', null, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'factura_e']) !!}
                 </div>
 
                 <div class="form-group">

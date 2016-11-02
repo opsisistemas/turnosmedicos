@@ -40,7 +40,7 @@ class PacientesController extends Controller
      */
     public function index()
     {
-        if((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner'))){
+        if((Auth::user() !== null)&&((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner')))){
             $pacientes = Paciente::with('localidad')->with('obra_social')->orderBy('nombre')->paginate(30);
             $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id');
             $paises = Pais::orderBy('nombre')->lists('nombre', 'id');
@@ -58,7 +58,7 @@ class PacientesController extends Controller
      */
     public function create()
     {
-        if((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner'))){
+        if((Auth::user() !== null)&&((Auth::user()->hasRole('admin')) || (Auth::user()->hasRole('owner')))){
             $paises = Pais::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
             $obras_sociales = ObraSocial::orderBy('nombre')->lists('nombre', 'id')->prepend('--Seleccionar--', '0');
             $tipospago = TipoPago::orderBy('codigo')->lists('codigo', 'id');
@@ -245,6 +245,14 @@ class PacientesController extends Controller
             }
 
             $input['fechaNacimiento'] = $nueva_fechaNac;
+
+            if(isset($input['factura'])){
+                $input['factura'] = ($input['factura'] == 'on') ? true : false;
+            }else{
+                $input['factura']= false;
+            }
+
+            //dd($input);
 
             $paciente->fill($input)->save();
 

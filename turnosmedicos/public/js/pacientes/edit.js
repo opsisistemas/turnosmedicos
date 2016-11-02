@@ -67,7 +67,9 @@ $(document).on("click", ".btn-edit-paciente", function () {
 			$("#nroDocumento_e").val(paciente[0].nroDocumento);
 			$("#sexo_e").val(paciente[0].sexo);
 			$("#telefono_e").val(paciente[0].telefono);
-			$("#fechaNacimiento_e").val(paciente[0].fechaNacimiento.substring(8, 10)+paciente[0].fechaNacimiento.substring(4, 8)+paciente[0].fechaNacimiento.substring(0, 4));
+			if (paciente[0].fechaNacimiento !== null) {
+				$("#fechaNacimiento_e").val(paciente[0].fechaNacimiento.substring(8, 10)+paciente[0].fechaNacimiento.substring(4, 8)+paciente[0].fechaNacimiento.substring(0, 4));
+			}
 			$("#pais_e").val(paciente[0].pais_id);
 			$("#provincia_e").val(paciente[0].provincia_id);
 			$("#localidad_e").val(paciente[0].localidad_id);
@@ -75,7 +77,7 @@ $(document).on("click", ".btn-edit-paciente", function () {
 			$("#plan_e").val(paciente[0].plan);
 			$("#nro_afiliado_e").val(paciente[0].nro_afiliado);
 			$("#tipo_pago_id_e").val(paciente[0].tipo_pago_id);
-			$("#factura_e").val(paciente[0].factura);
+			$("#factura_e").attr('checked', (paciente[0].factura == 1));
 			$("#observaciones_e").val(paciente[0].observaciones);
 		}
 	});
