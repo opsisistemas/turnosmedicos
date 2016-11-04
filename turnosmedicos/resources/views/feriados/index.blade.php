@@ -37,7 +37,7 @@
                     <table class="table table-striped task-table">
                         <thead>
                             <th>Descripci&oacute;n</th>
-                            <th>Fecha</th>
+                            <th>Fecha</th>			  
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
@@ -46,10 +46,11 @@
                             @foreach ($feriados as $feriado)
                                 <tr>
                                     <td class="table-text"><div>{{ $feriado->descripcion }}</div></td>
-                                    <td class="table-text"><div>{{ (new \Carbon\Carbon($feriado->fecha))->formatLocalized('%A %d %B %Y') }}</div></td>
+                                    <td>{{ $dias[date("w", strtotime((string)$feriado->fecha))]." ".date("d",strtotime((string)$feriado->fecha))." de ".
+                                       $meses[date("n",strtotime((string)$feriado->fecha))-1]." de ".date("Y", strtotime((string)$feriado->fecha)) }}</td>
                                     <td>
                                         <!-- TRIGGER THE MODAL WITH A BUTTON -->
-                                        {!! Form::button('Editar <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-feriado', 'type' => 'submit', 'data-id' => $feriado->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
+                                        {!! Form::button('Modificar <i class="fa fa-pencil"></i>', ['class' => 'btn btn-success btn-edit-feriado', 'type' => 'submit', 'data-id' => $feriado->id,  'data-toggle' => 'modal', 'data-target' => '#editModal']) !!}                                            
                                     </td>
                                     <!-- Task Delete Button -->
                                     <td>

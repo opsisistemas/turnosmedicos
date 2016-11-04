@@ -11,6 +11,7 @@ use App\Feriado;
 
 use Input, Redirect, Validator, Session;
 
+
 class FeriadosController extends Controller
 {
     public function getFeriado(Request $request)
@@ -37,8 +38,10 @@ class FeriadosController extends Controller
     public function index(Request $request)
     {
         //Para mosrar las fechas en castellano
-        Carbon::setLocale('es');
-        setlocale(LC_TIME, config('app.locale'));
+        //Carbon::setLocale('es');
+       // setlocale(LC_TIME, config('app.locale'));
+	$dias=array("Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado");
+	$meses=array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 
         $year = (null !== $request->get('year'))? $request->get('year') : Carbon::now()->year;
 
@@ -48,7 +51,7 @@ class FeriadosController extends Controller
             $feriados = Feriado::whereYear('fecha', '=', $year)->orderBy('fecha')->get();
         }
 
-        return view('feriados.index', ['feriados' => $feriados, 'year' => $year]);
+        return view('feriados.index', ['feriados' => $feriados, 'year' => $year, 'dias'=>$dias, 'meses'=>$meses]);
     }
 
     /**
