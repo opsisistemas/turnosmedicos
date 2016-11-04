@@ -67,6 +67,7 @@ $(document).on("click", ".btn-edit-paciente", function () {
 			$("#nroDocumento_e").val(paciente[0].nroDocumento);
 			$("#sexo_e").val(paciente[0].sexo);
 			$("#telefono_e").val(paciente[0].telefono);
+			$("#celular_e").val(paciente[0].celular);
 			if (paciente[0].fechaNacimiento !== null) {
 				$("#fechaNacimiento_e").val(paciente[0].fechaNacimiento.substring(8, 10)+paciente[0].fechaNacimiento.substring(4, 8)+paciente[0].fechaNacimiento.substring(0, 4));
 			}

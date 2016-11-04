@@ -44,6 +44,7 @@
                             <th>Apellido</th>
                             <th>Nombre</th>
                             <th>Tel&eacute;fono</th>
+                            <th>Celular</th>
                             <th>Email</th>
                             <!-- <th>&nbsp;</th>-->
                             <th>&nbsp;</th>
@@ -55,6 +56,7 @@
                                     <td class="table-text"><div>{{ $medico->apellido }}</div></td>
                                     <td class="table-text"><div>{{ $medico->nombre }}</div></td>
                                     <td class="table-text"><div>{{ $medico->telefono }}</div></td>
+                                    <td class="table-text"><div>{{ $medico->celular }}</div></td>
                                     <td class="table-text"><div>{{ $medico->email }}</div></td>
                                     <td>
                                         {!! Form::open([

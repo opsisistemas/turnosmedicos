@@ -68,6 +68,11 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('celular', 'Celular:', ['class' => 'control-label']) !!}
+                    {!! Form::text('celular', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'celular_c']) !!}
+                </div>
+
+                <div class="form-group">
                     {!! Form::label('email', 'E-Mail', ['class' => 'control-label']) !!}
                     {!! Form::email('email', old('email'), ['method' => 'GET', 'class' => 'form-control']) !!}
 
@@ -90,7 +95,7 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento:', ['class' => 'control-label']) !!}
+                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                     {!! Form::text('fechaNacimiento', \Carbon\Carbon::now()->format('d-m-Y'), ['class' => 'form-control datepicker', 'id' => 'fechaNacimiento_c']) !!}
                 </div>
 

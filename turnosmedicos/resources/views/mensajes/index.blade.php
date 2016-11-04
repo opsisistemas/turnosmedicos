@@ -26,10 +26,10 @@
                         {!! Form::label('vistos', 'Vistos / No Vistos', ['class' => 'control-label']) !!}
                         {!! Form::select('vistos', ['0' => 'No Vistos', '1' => 'Vistos'], $vistos, ['class' => 'form-control']) !!}
 
-                        {!! Form::label('desde', 'Desde:', ['class' => 'control-label']) !!}
+                        {!! Form::label('desde', 'Desde: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                         {!! Form::text('desde', $desde->format('d-m-Y'), ['class' => 'form-control datepicker']) !!}
 
-                        {!! Form::label('hasta', 'hasta:', ['class' => 'control-label']) !!}
+                        {!! Form::label('hasta', 'hasta: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                         {!! Form::text('hasta', $hasta->format('d-m-Y'), ['class' => 'form-control datepicker']) !!}
 
                         {!! Form::label('medico_id', 'Para:', ['class' => 'control-label']) !!}

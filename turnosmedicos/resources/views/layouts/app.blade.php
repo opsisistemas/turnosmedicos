@@ -92,8 +92,8 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ url('/obras_sociales') }}">Obras Sociales</a></li>
                                     <li><a href="{{ url('/planes') }}">Planes</a></li>
-                                    <li><a href="{{ url('/pacientes') }}">Pacientes</a></li>
                                     <li><a href="{{ url('/tipopago') }}">Tipos de Pago</a></li>
+                                    <li><a href="{{ url('/pacientes') }}"><i class="fa fa-heartbeat"></i> Pacientes</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -102,9 +102,9 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ url('/especialidades') }}">Especialidades</a></li>
-                                    <li><a href="{{ url('/medicos') }}">M&eacute;dicos</a></li>
                                     <li><a href="{{ url('/asuntos') }}">Asuntos de Mensajes</a></li>
                                     <li><a href="{{ url('/feriados') }}">Feriados</a></li>
+                                    <li><a href="{{ url('/medicos') }}"><i class="fa fa-user-md"></i> M&eacute;dicos</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ url('/mensajes') }}" id=mensajes>Mensajes</a></li>

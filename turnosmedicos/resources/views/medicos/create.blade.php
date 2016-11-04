@@ -54,7 +54,12 @@
 
                 <div class="form-group">
                     {!! Form::label('categoria_id', 'Categor&iacute;a:', ['class' => 'control-label']) !!}
-                    {!! Form::select('categoria_id', $categorias, null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'categoria_id_c']) !!}
+                    {!! Form::select('categoria_id', $categorias, null, ['method' => 'GET', 'class' => 'form-control categoria', 'id' => 'categoria_id_c']) !!}
+                </div>
+
+                <div id="importe" class="hidden form-group">
+                    {!! Form::label('importe', 'Importe:', ['class' => 'control-label']) !!}
+                    {!! Form::text('importe', 0.00, ['method' => 'GET', 'class' => 'form-control', 'id' => 'importe_c']) !!}
                 </div>
 
                 <div class="form-group">
@@ -78,7 +83,12 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento:', ['class' => 'control-label']) !!}
+                    {!! Form::label('celular', 'Celular:', ['class' => 'control-label']) !!}
+                    {!! Form::text('celular', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'celular_c']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                     {!! Form::text('fechaNacimiento', null, ['class' => 'form-control datepicker', 'id' => 'fechaNacimiento_c']) !!}
                 </div>
 
@@ -213,4 +223,5 @@
     {!! Html::script('js/funciones/focus.js') !!}
     {!! Html::script('js/funciones/datepicker.js') !!}
     {!! Html::script('js/funciones/timepicker.js') !!}
+    {!! Html::script('js/medicos/importe.js') !!}
 @endsection

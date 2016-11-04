@@ -21,7 +21,9 @@ class Medico extends Model
         'categoria_id',
         'tipo_matricula',
         'nro_matricula',
-        'user_id'
+        'user_id',
+        'importe',
+        'celular'
     ];
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];
 

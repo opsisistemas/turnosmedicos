@@ -252,8 +252,6 @@ class PacientesController extends Controller
                 $input['factura']= false;
             }
 
-            //dd($input);
-
             $paciente->fill($input)->save();
 
             $this->actualizarDatosUsuario($input);

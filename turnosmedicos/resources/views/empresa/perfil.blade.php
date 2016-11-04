@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('inicio_actividades', 'Fecha de Inicio de Actividades:', ['class' => 'control-label']) !!}
+                    {!! Form::label('inicio_actividades', 'Fecha de Inicio de Actividades (usar formato -> dd-mm-aaaa'), ['class' => 'control-label']) !!}
                     {!! Form::text('inicio_actividades', null, ['class' => 'form-control datepicker']) !!}
                 </div>
 

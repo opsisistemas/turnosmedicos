@@ -183,7 +183,6 @@ class MedicosController extends Controller
      */
     public function store(Request $request)
     {
-
         $rules = array(
             'nombre'       => 'required',
             'apellido'      => 'required',

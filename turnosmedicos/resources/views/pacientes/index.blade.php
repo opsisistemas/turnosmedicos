@@ -44,6 +44,7 @@
                             <th>Apellido</th>
                             <th>Nombre</th>
                             <th>Tel&eacute;fono</th>
+                            <th>Celular</th>
                             <th>Localidad</th>
                             <th>Obra Social</th>
                             <th>Plan</th>
@@ -59,6 +60,7 @@
                                     <td class="table-text"><div>{{ $paciente->apellido }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->nombre }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->telefono }}</div></td>
+                                    <td class="table-text"><div>{{ $paciente->celular }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->localidad? $paciente->localidad->nombre : '' }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->obra_social? $paciente->obra_social->nombre : '' }}</div></td>
                                     <td class="table-text"><div>{{ $paciente->plan? $paciente->plan->nombre : '' }}</div></td>

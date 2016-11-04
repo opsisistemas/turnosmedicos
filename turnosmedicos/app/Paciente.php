@@ -25,7 +25,8 @@ class Paciente extends Model
         'confirmado',
         'tipo_pago_id',
         'factura',
-        'observaciones'
+        'observaciones',
+        'celular'
     ];
     
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'fechaNacimiento'];

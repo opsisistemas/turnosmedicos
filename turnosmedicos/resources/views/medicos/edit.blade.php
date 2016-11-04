@@ -50,7 +50,12 @@
 
                 <div class="form-group">
                     {!! Form::label('categoria', 'Categor&iacute;a', ['class' => 'control-label']) !!}
-                    {!! Form::select('categoria', $categorias, null, ['class' => 'form-control']) !!}
+                    {!! Form::select('categoria_id', $categorias, $medico->categoria_id, ['class' => 'form-control categoria']) !!}
+                </div>
+
+                <div id="importe" class="{{ ($medico->categoria_id == 4) ? '' : 'hidden ' }}form-group">
+                    {!! Form::label('importe', 'Importe:', ['class' => 'control-label']) !!}
+                    {!! Form::text('importe', 0.00, ['method' => 'GET', 'class' => 'form-control', 'id' => 'importe_c']) !!}
                 </div>
 
                 <div class="form-group">
@@ -70,11 +75,16 @@
 
                 <div class="form-group">
                     {!! Form::label('telefono', 'Tel&eacute;fono:', ['class' => 'control-label']) !!}
-                    {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('telefono', null, ['class' => 'form-control', 'id' => 'telefono_c']) !!}
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento:', ['class' => 'control-label']) !!}
+                    {!! Form::label('celular', 'Celular:', ['class' => 'control-label']) !!}
+                    {!! Form::text('celular', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'celular_c']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                     {!! Form::text('fechaNacimiento', null, ['class' => 'form-control datepicker']) !!}
                 </div>
 
@@ -205,4 +215,5 @@
     {!! Html::script('js/medicos/edit.js') !!}
     {!! Html::script('js/funciones/datepicker.js') !!}
     {!! Html::script('js/funciones/timepicker.js') !!}
+    {!! Html::script('js/medicos/importe.js') !!}   
 @endsection

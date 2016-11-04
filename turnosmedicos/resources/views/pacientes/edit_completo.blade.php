@@ -44,7 +44,12 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento:', ['class' => 'control-label']) !!}
+                    {!! Form::label('celular', 'Celular:', ['class' => 'control-label']) !!}
+                    {!! Form::text('celular', null, ['method' => 'GET', 'class' => 'form-control', 'id' => 'celular_e']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('fechaNacimiento', 'Fecha de Nacimiento: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                     {!! Form::text('fechaNacimiento', null, ['class' => 'form-control datepicker', 'id' => 'fechaNacimiento_e']) !!}
                 </div>
 

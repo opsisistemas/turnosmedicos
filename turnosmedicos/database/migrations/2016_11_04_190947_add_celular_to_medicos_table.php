@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddImporteFieldToMedicosTable extends Migration
+class AddCelularToMedicosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddImporteFieldToMedicosTable extends Migration
     public function up()
     {
         Schema::table('medicos', function (Blueprint $table) {
-            $table->decimal('importe', 5, 2);
+            $table->string('celular', 25);
         });
     }
 
@@ -25,7 +25,7 @@ class AddImporteFieldToMedicosTable extends Migration
     public function down()
     {
         Schema::table('medicos', function (Blueprint $table) {
-            $table->dropColumn('importe');
+            $table->dropColumn('celular');
         });
     }
 }

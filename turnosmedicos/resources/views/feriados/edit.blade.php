@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('fecha', 'Fecha:', ['class' => 'control-label']) !!}
+                    {!! Form::label('fecha', 'Fecha: (usar formato -> dd-mm-aaaa)', ['class' => 'control-label']) !!}
                     {!! Form::text('fecha', null, ['class' => 'form-control datepicker', 'id' => 'fecha_e']) !!}
                 </div>
 
